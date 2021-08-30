@@ -1,0 +1,55 @@
+{
+  "name": "Usuario",
+  "fields": [
+    {
+      "fieldName": "birthdate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "user",
+      "otherEntityField": "login",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "input",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "input"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "workspace",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "workspace",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "proyect",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "proyect",
+      "otherEntityField": "name",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "usuario",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210830163909"
+}

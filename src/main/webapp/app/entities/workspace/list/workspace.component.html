@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="WorkspaceHeading">
+    <span jhiTranslate="javanikoCalendarApp.workspace.home.title">Workspaces</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.workspace.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-workspace"
+        [routerLink]="['/workspace/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.workspace.home.createLabel"> Create a new Workspace </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="workspaces?.length === 0">
+    <span jhiTranslate="javanikoCalendarApp.workspace.home.notFound">No workspaces found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="workspaces && workspaces.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.name">Name</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.isPrivate">Is Private</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let workspace of workspaces; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/workspace', workspace.id, 'view']">{{ workspace.id }}</a>
+          </td>
+          <td>{{ workspace.name }}</td>
+          <td>{{ workspace.description }}</td>
+          <td>{{ workspace.isPrivate }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/workspace', workspace.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/workspace', workspace.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(workspace)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

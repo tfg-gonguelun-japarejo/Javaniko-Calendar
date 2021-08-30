@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Usuario.
+    -->
+    <changeSet id="20210830163909-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="usuario"
+                                 constraintName="fk_usuario__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                                 baseTableName="rel_usuario__workspace"
+                                 constraintName="fk_rel_usuario__workspace__usuario_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+
+        <addForeignKeyConstraint baseColumnNames="workspace_id"
+                                 baseTableName="rel_usuario__workspace"
+                                 constraintName="fk_rel_usuario__workspace__workspace_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workspace"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                                 baseTableName="rel_usuario__proyect"
+                                 constraintName="fk_rel_usuario__proyect__usuario_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+
+        <addForeignKeyConstraint baseColumnNames="proyect_id"
+                                 baseTableName="rel_usuario__proyect"
+                                 constraintName="fk_rel_usuario__proyect__proyect_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="proyect"/>
+    </changeSet>
+</databaseChangeLog>

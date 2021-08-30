@@ -1,19 +1,33 @@
 {
   "home": {
-    "title": "¡Bienvenido, Java Hipster!",
-    "subtitle": "Esta es su página de inicio",
+    "title": "¡Bienvenido a Javaniko Calendar!",
+    "subtitle": "¿Quieres expresar cómo te ha ido en tu duro día de trabajo, pero no sabes cómo? ¡Javaniko Calendar es tu solución!",
     "logged": {
       "message": "Está conectado como \"{{username}}\"."
     },
-    "question": "Si tiene preguntas sobre JHipster:",
-    "link": {
-      "homepage": "Página de inicio de JHipster",
-      "stackoverflow": "JHipster en Stack Overflow",
-      "bugtracker": "JHipster seguimiento de errores",
-      "chat": "Sala de chat pública de JHipster",
-      "follow": "contacto @jhipster en Twitter"
+    "introduccion": {
+      "title": "¿Qué es Javaniko Calendar?",
+      "text": "Javaniko Calendar es una plataforma donde podrás crear tus proyectos utilizando la metodología ágil Scrum, con un workspace para alojar proyectos, los respectivos sprints por proyecto, y la opción que destaca en la plataforma, obtener un calendario Niko Niko por sprint para controlar la satisfacción del equipo con el trabajo realizado. También estará disponible la opción de poder ver las estadísticas de workspaces, proyectos y sprints para poder realizar un análisis del contenido."
     },
-    "like": "Si te gusta JHipster, danos una estrella en",
-    "github": "GitHub"
+    "workspaces": {
+      "title": "Establece tu trabajo",
+      "text": "Empieza tu trabajo iniciando el workspace para ti y todo tu equipo."
+    },
+    "proyectos": {
+      "title": "Crea proyectos fácilmente",
+      "text": "Crea proyectos desde cero a partir de tu entorno de trabajo y tu workspace asociado."
+    },
+    "sprints": {
+      "title": "Ve el progreso gracias a los sprints",
+      "text": "Usa los sprints para tener un seguimiento completo de tareas y una gráfica Burn-Down para ver los puntos de historia restantes."
+    },
+    "estadisticas": {
+      "title": "Analiza todo el contenido",
+      "text": "Monitoriza tu trabajo gracias a nuestras gráficas para workspaces, proyectos, sprints y gráficas personalizadas por cada usuario."
+    },
+    "calendario": {
+      "title": "Define cómo te sientes",
+      "text": "Gracias a la funcionalidad estrella de la aplicación, podrás indicar cómo ha sido tu día de trabajo mediante el uso de emojis en nuestros Calendarios Niko Niko."
+    }
   }
 }

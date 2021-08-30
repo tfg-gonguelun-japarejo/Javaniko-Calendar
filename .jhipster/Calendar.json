@@ -1,0 +1,38 @@
+{
+  "name": "Calendar",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "holidays",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "input",
+      "otherEntityRelationshipName": "calendar",
+      "relationshipName": "input"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "sprint",
+      "otherEntityRelationshipName": "calendar",
+      "relationshipName": "sprint",
+      "otherEntityField": "sprint"
+    }
+  ],
+  "entityTableName": "calendar",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210830163913"
+}

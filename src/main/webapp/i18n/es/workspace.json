@@ -1,0 +1,28 @@
+{
+  "javanikoCalendarApp": {
+    "workspace": {
+      "home": {
+        "title": "Workspaces",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Workspace",
+        "createOrEditLabel": "Crear o editar Workspace",
+        "notFound": "Ningún Workspaces encontrado"
+      },
+      "created": "Un nuevo Workspace ha sido creado con el identificador {{ param }}",
+      "updated": "Un Workspace ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Workspace ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Workspace {{ id }}?"
+      },
+      "detail": {
+        "title": "Workspace"
+      },
+      "id": "ID",
+      "name": "Nombre",
+      "description": "Descripción",
+      "isPrivate": "Es privado",
+      "proyect": "Proyect",
+      "usuario": "Usuario"
+    }
+  }
+}

@@ -41,6 +41,8 @@
     "jwtSecretKey": "OTQ1YjIwMzI4YmM4Zjc3YjBkN2Q3ODJlY2JhM2Q0MTY0Nzg4NGYzZDkxMzk4YWFkMzQwZmFmYjJjNWJiNzc4OWIzMGM0YTE5ZDBjM2U0Y2U3ZTQzMTc4NzQxMWFjNTI5NGNiYzEwNTdmZTk5MDM2YjA4MWRhMDRlMTVlZmY5YTE=",
     "clientPackageManager": "npm",
     "clientThemeVariant": "",
-    "languages": ["es", "en"]
+    "languages": ["es", "en"],
+    "entities": ["Usuario", "Workspace", "Proyect", "Sprint", "Calendar", "Input"],
+    "lastLiquibaseTimestamp": 1630341554000
   }
 }

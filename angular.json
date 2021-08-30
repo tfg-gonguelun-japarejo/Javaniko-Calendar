@@ -95,6 +95,7 @@
   },
   "defaultProject": "javaniko-calendar",
   "cli": {
+    "analytics": false,
     "packageManager": "npm"
   }
 }

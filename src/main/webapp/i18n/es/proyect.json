@@ -1,0 +1,30 @@
+{
+  "javanikoCalendarApp": {
+    "proyect": {
+      "home": {
+        "title": "Proyects",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Proyect",
+        "createOrEditLabel": "Crear o editar Proyect",
+        "notFound": "Ningún Proyects encontrado"
+      },
+      "created": "Un nuevo Proyect ha sido creado con el identificador {{ param }}",
+      "updated": "Un Proyect ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Proyect ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Proyect {{ id }}?"
+      },
+      "detail": {
+        "title": "Proyect"
+      },
+      "id": "ID",
+      "name": "Nombre",
+      "description": "Descripción",
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de fin",
+      "sprint": "Sprint",
+      "workspace": "Workspace",
+      "usuario": "Usuario"
+    }
+  }
+}

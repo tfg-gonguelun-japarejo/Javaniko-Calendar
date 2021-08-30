@@ -1,0 +1,108 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-sprint-heading" data-cy="SprintCreateUpdateHeading" jhiTranslate="javanikoCalendarApp.sprint.home.createOrEditLabel">
+        Create or edit a Sprint
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.sprint" for="field_sprint">Sprint</label>
+          <input type="number" class="form-control" name="sprint" id="field_sprint" data-cy="sprint" formControlName="sprint" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.startDate" for="field_startDate">Start Date</label>
+          <div class="input-group">
+            <input
+              id="field_startDate"
+              data-cy="startDate"
+              type="text"
+              class="form-control"
+              name="startDate"
+              ngbDatepicker
+              #startDateDp="ngbDatepicker"
+              formControlName="startDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.endDate" for="field_endDate">End Date</label>
+          <div class="input-group">
+            <input
+              id="field_endDate"
+              data-cy="endDate"
+              type="text"
+              class="form-control"
+              name="endDate"
+              ngbDatepicker
+              #endDateDp="ngbDatepicker"
+              formControlName="endDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.status" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'javanikoCalendarApp.Status.null' | translate }}</option>
+            <option value="ON_GOING">{{ 'javanikoCalendarApp.Status.ON_GOING' | translate }}</option>
+            <option value="PENDING">{{ 'javanikoCalendarApp.Status.PENDING' | translate }}</option>
+            <option value="SUCCESS">{{ 'javanikoCalendarApp.Status.SUCCESS' | translate }}</option>
+            <option value="FAIL">{{ 'javanikoCalendarApp.Status.FAIL' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.goal" for="field_goal">Goal</label>
+          <input type="text" class="form-control" name="goal" id="field_goal" data-cy="goal" formControlName="goal" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.proyect" for="field_proyect">Proyect</label>
+          <select class="form-control" id="field_proyect" data-cy="proyect" name="proyect" formControlName="proyect">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="proyectOption.id === editForm.get('proyect')!.value?.id ? editForm.get('proyect')!.value : proyectOption"
+              *ngFor="let proyectOption of proyectsSharedCollection; trackBy: trackProyectById"
+            >
+              {{ proyectOption.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

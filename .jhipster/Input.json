@@ -1,0 +1,44 @@
+{
+  "name": "Input",
+  "fields": [
+    {
+      "fieldName": "comment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "feelings",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inputDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "input",
+      "relationshipName": "usuario"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "calendar",
+      "otherEntityRelationshipName": "input",
+      "relationshipName": "calendar",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "input",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210830163914"
+}

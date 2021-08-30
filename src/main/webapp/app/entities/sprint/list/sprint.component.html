@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="SprintHeading">
+    <span jhiTranslate="javanikoCalendarApp.sprint.home.title">Sprints</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.sprint.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-sprint"
+        [routerLink]="['/sprint/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.sprint.home.createLabel"> Create a new Sprint </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="sprints?.length === 0">
+    <span jhiTranslate="javanikoCalendarApp.sprint.home.notFound">No sprints found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="sprints && sprints.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.sprint">Sprint</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.startDate">Start Date</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.endDate">End Date</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.status">Status</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.goal">Goal</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.proyect">Proyect</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sprint of sprints; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/sprint', sprint.id, 'view']">{{ sprint.id }}</a>
+          </td>
+          <td>{{ sprint.sprint }}</td>
+          <td>{{ sprint.startDate | formatMediumDate }}</td>
+          <td>{{ sprint.endDate | formatMediumDate }}</td>
+          <td jhiTranslate="{{ 'javanikoCalendarApp.Status.' + sprint.status }}">{{ sprint.status }}</td>
+          <td>{{ sprint.goal }}</td>
+          <td>
+            <div *ngIf="sprint.proyect">
+              <a [routerLink]="['/proyect', sprint.proyect?.id, 'view']">{{ sprint.proyect?.name }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/sprint', sprint.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/sprint', sprint.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(sprint)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

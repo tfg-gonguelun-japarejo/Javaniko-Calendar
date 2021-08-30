@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="input">
+      <h2 data-cy="inputDetailsHeading"><span jhiTranslate="javanikoCalendarApp.input.detail.title">Input</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ input.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.comment">Comment</span></dt>
+        <dd>
+          <span>{{ input.comment }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.feelings">Feelings</span></dt>
+        <dd>
+          <span>{{ input.feelings }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.inputDate">Input Date</span></dt>
+        <dd>
+          <span>{{ input.inputDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.usuario">Usuario</span></dt>
+        <dd>
+          <div *ngIf="input.usuario">
+            <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.calendar">Calendar</span></dt>
+        <dd>
+          <div *ngIf="input.calendar">
+            <a [routerLink]="['/calendar', input.calendar?.id, 'view']">{{ input.calendar?.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/input', input.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

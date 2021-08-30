@@ -1,0 +1,116 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-input-heading" data-cy="InputCreateUpdateHeading" jhiTranslate="javanikoCalendarApp.input.home.createOrEditLabel">
+        Create or edit a Input
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.comment" for="field_comment">Comment</label>
+          <input type="text" class="form-control" name="comment" id="field_comment" data-cy="comment" formControlName="comment" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.feelings" for="field_feelings">Feelings</label>
+          <input type="number" class="form-control" name="feelings" id="field_feelings" data-cy="feelings" formControlName="feelings" />
+          <div *ngIf="editForm.get('feelings')!.invalid && (editForm.get('feelings')!.dirty || editForm.get('feelings')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('feelings')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('feelings')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.inputDate" for="field_inputDate">Input Date</label>
+          <div class="input-group">
+            <input
+              id="field_inputDate"
+              data-cy="inputDate"
+              type="text"
+              class="form-control"
+              name="inputDate"
+              ngbDatepicker
+              #inputDateDp="ngbDatepicker"
+              formControlName="inputDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="inputDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div *ngIf="editForm.get('inputDate')!.invalid && (editForm.get('inputDate')!.dirty || editForm.get('inputDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('inputDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.usuario" for="field_usuario">Usuario</label>
+          <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+            >
+              {{ usuarioOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.calendar" for="field_calendar">Calendar</label>
+          <select class="form-control" id="field_calendar" data-cy="calendar" name="calendar" formControlName="calendar">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="calendarOption.id === editForm.get('calendar')!.value?.id ? editForm.get('calendar')!.value : calendarOption"
+              *ngFor="let calendarOption of calendarsSharedCollection; trackBy: trackCalendarById"
+            >
+              {{ calendarOption.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

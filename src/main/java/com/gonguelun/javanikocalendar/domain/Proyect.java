@@ -1,0 +1,222 @@
+package com.gonguelun.javanikocalendar.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+/**
+ * A Proyect.
+ */
+@Entity
+@Table(name = "proyect")
+public class Proyect implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @NotNull
+    @Size(min = 20)
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @OneToMany(mappedBy = "proyect")
+    @JsonIgnoreProperties(value = { "calendars", "proyect" }, allowSetters = true)
+    private Set<Sprint> sprints = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "proyects", "usuarios" }, allowSetters = true)
+    private Workspace workspace;
+
+    @ManyToMany(mappedBy = "proyects")
+    @JsonIgnoreProperties(value = { "user", "inputs", "workspaces", "proyects" }, allowSetters = true)
+    private Set<Usuario> usuarios = new HashSet<>();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Proyect id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public Proyect name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Proyect description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getStartDate() {
+        return this.startDate;
+    }
+
+    public Proyect startDate(LocalDate startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return this.endDate;
+    }
+
+    public Proyect endDate(LocalDate endDate) {
+        this.endDate = endDate;
+        return this;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public Set<Sprint> getSprints() {
+        return this.sprints;
+    }
+
+    public Proyect sprints(Set<Sprint> sprints) {
+        this.setSprints(sprints);
+        return this;
+    }
+
+    public Proyect addSprint(Sprint sprint) {
+        this.sprints.add(sprint);
+        sprint.setProyect(this);
+        return this;
+    }
+
+    public Proyect removeSprint(Sprint sprint) {
+        this.sprints.remove(sprint);
+        sprint.setProyect(null);
+        return this;
+    }
+
+    public void setSprints(Set<Sprint> sprints) {
+        if (this.sprints != null) {
+            this.sprints.forEach(i -> i.setProyect(null));
+        }
+        if (sprints != null) {
+            sprints.forEach(i -> i.setProyect(this));
+        }
+        this.sprints = sprints;
+    }
+
+    public Workspace getWorkspace() {
+        return this.workspace;
+    }
+
+    public Proyect workspace(Workspace workspace) {
+        this.setWorkspace(workspace);
+        return this;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
+    }
+
+    public Proyect usuarios(Set<Usuario> usuarios) {
+        this.setUsuarios(usuarios);
+        return this;
+    }
+
+    public Proyect addUsuario(Usuario usuario) {
+        this.usuarios.add(usuario);
+        usuario.getProyects().add(this);
+        return this;
+    }
+
+    public Proyect removeUsuario(Usuario usuario) {
+        this.usuarios.remove(usuario);
+        usuario.getProyects().remove(this);
+        return this;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        if (this.usuarios != null) {
+            this.usuarios.forEach(i -> i.removeProyect(this));
+        }
+        if (usuarios != null) {
+            usuarios.forEach(i -> i.addProyect(this));
+        }
+        this.usuarios = usuarios;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Proyect)) {
+            return false;
+        }
+        return id != null && id.equals(((Proyect) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "Proyect{" +
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", startDate='" + getStartDate() + "'" +
+            ", endDate='" + getEndDate() + "'" +
+            "}";
+    }
+}

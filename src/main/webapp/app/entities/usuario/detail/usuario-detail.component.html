@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="usuario">
+      <h2 data-cy="usuarioDetailsHeading"><span jhiTranslate="javanikoCalendarApp.usuario.detail.title">Usuario</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ usuario.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.usuario.birthdate">Birthdate</span></dt>
+        <dd>
+          <span>{{ usuario.birthdate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.usuario.phone">Phone</span></dt>
+        <dd>
+          <span>{{ usuario.phone }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.usuario.user">User</span></dt>
+        <dd>
+          <span>{{ usuario.user?.login }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.usuario.workspace">Workspace</span></dt>
+        <dd>
+          <span *ngFor="let workspace of usuario.workspaces; let last = last">
+            <a [routerLink]="['/workspace', workspace?.id, 'view']">{{ workspace.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.usuario.proyect">Proyect</span></dt>
+        <dd>
+          <span *ngFor="let proyect of usuario.proyects; let last = last">
+            <a [routerLink]="['/proyect', proyect?.id, 'view']">{{ proyect.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/usuario', usuario.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

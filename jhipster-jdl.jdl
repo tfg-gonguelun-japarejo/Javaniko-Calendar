@@ -1,0 +1,62 @@
+
+entity Usuario {
+    birthdate LocalDate,
+    phone Integer
+}
+
+entity Workspace {
+	name String required,
+	description String required minlength(20),
+    isPrivate Boolean required
+}
+
+entity Proyect {
+	name String required,
+	description String required minlength(20),
+	startDate LocalDate,
+	endDate LocalDate
+}
+
+entity Sprint {
+	sprint Integer,
+	startDate LocalDate,
+	endDate LocalDate,
+    status Status,
+    goal String
+}
+
+enum Status {
+	ON_GOING, PENDING, SUCCESS, FAIL
+}
+
+entity Calendar {
+	name String,
+    holidays Integer
+}
+
+entity Input {
+	comment String,
+    feelings Integer required,
+    inputDate LocalDate required
+}
+
+relationship ManyToMany {
+	Usuario{workspace(name)} to Workspace{usuario}
+    Usuario{proyect(name)} to Proyect{usuario}
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Workspace{proyect(name)} to Proyect{workspace(name)},
+    Proyect{sprint(sprint)} to Sprint{proyect(name)},
+    Sprint{calendar(name)} to Calendar{sprint(sprint)},
+    Usuario{input} to Input{usuario},
+    Calendar{input} to Input{calendar(name)}
+}
+
+relationship OneToOne {
+	Usuario{user(login)} to User{usuario}
+}
+
+// Set service options to all except few
+service all with serviceImpl

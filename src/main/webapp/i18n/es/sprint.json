@@ -1,0 +1,30 @@
+{
+  "javanikoCalendarApp": {
+    "sprint": {
+      "home": {
+        "title": "Sprints",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Sprint",
+        "createOrEditLabel": "Crear o editar Sprint",
+        "notFound": "Ningún Sprints encontrado"
+      },
+      "created": "Un nuevo Sprint ha sido creado con el identificador {{ param }}",
+      "updated": "Un Sprint ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Sprint ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Sprint {{ id }}?"
+      },
+      "detail": {
+        "title": "Sprint"
+      },
+      "id": "ID",
+      "sprint": "Sprint",
+      "startDate": "Fecha de inicio",
+      "endDate": "Fecha de fin",
+      "status": "Estado",
+      "goal": "Objetivo",
+      "calendar": "Calendar",
+      "proyect": "Proyect"
+    }
+  }
+}

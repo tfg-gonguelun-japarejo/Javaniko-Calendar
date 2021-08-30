@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="workspace">
+      <h2 data-cy="workspaceDetailsHeading"><span jhiTranslate="javanikoCalendarApp.workspace.detail.title">Workspace</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ workspace.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.workspace.name">Name</span></dt>
+        <dd>
+          <span>{{ workspace.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.workspace.description">Description</span></dt>
+        <dd>
+          <span>{{ workspace.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.workspace.isPrivate">Is Private</span></dt>
+        <dd>
+          <span>{{ workspace.isPrivate }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/workspace', workspace.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

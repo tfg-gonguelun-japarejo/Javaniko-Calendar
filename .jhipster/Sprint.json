@@ -1,0 +1,52 @@
+{
+  "name": "Sprint",
+  "fields": [
+    {
+      "fieldName": "sprint",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "ON_GOING,PENDING,SUCCESS,FAIL"
+    },
+    {
+      "fieldName": "goal",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "calendar",
+      "otherEntityRelationshipName": "sprint",
+      "relationshipName": "calendar",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "proyect",
+      "otherEntityRelationshipName": "sprint",
+      "relationshipName": "proyect",
+      "otherEntityField": "name"
+    }
+  ],
+  "entityTableName": "sprint",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210830163912"
+}

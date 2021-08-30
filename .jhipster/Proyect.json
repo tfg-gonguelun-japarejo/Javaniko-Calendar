@@ -1,0 +1,57 @@
+{
+  "name": "Proyect",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength"],
+      "fieldValidateRulesMinlength": "20"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "sprint",
+      "otherEntityRelationshipName": "proyect",
+      "relationshipName": "sprint",
+      "otherEntityField": "sprint"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "workspace",
+      "otherEntityRelationshipName": "proyect",
+      "relationshipName": "workspace",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "proyect",
+      "relationshipName": "usuario",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "proyect",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210830163911"
+}

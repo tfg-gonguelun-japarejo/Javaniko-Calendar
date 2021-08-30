@@ -1,0 +1,28 @@
+{
+  "javanikoCalendarApp": {
+    "input": {
+      "home": {
+        "title": "Inputs",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Input",
+        "createOrEditLabel": "Crear o editar Input",
+        "notFound": "Ningún Inputs encontrado"
+      },
+      "created": "Un nuevo Input ha sido creado con el identificador {{ param }}",
+      "updated": "Un Input ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Input ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Input {{ id }}?"
+      },
+      "detail": {
+        "title": "Input"
+      },
+      "id": "ID",
+      "comment": "Comentario",
+      "feelings": "Estado de ánimo",
+      "inputDate": "Fecha de inputación",
+      "usuario": "Usuario",
+      "calendar": "Calendar"
+    }
+  }
+}

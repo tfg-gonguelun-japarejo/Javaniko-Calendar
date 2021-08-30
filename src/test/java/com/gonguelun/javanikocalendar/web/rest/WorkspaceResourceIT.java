@@ -1,0 +1,437 @@
+package com.gonguelun.javanikocalendar.web.rest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.gonguelun.javanikocalendar.IntegrationTest;
+import com.gonguelun.javanikocalendar.domain.Workspace;
+import com.gonguelun.javanikocalendar.repository.WorkspaceRepository;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Integration tests for the {@link WorkspaceResource} REST controller.
+ */
+@IntegrationTest
+@AutoConfigureMockMvc
+@WithMockUser
+class WorkspaceResourceIT {
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAAAAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBBBBBBBBBBBB";
+
+    private static final Boolean DEFAULT_IS_PRIVATE = false;
+    private static final Boolean UPDATED_IS_PRIVATE = true;
+
+    private static final String ENTITY_API_URL = "/api/workspaces";
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
+
+    private static Random random = new Random();
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
+
+    @Autowired
+    private EntityManager em;
+
+    @Autowired
+    private MockMvc restWorkspaceMockMvc;
+
+    private Workspace workspace;
+
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Workspace createEntity(EntityManager em) {
+        Workspace workspace = new Workspace().name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION).isPrivate(DEFAULT_IS_PRIVATE);
+        return workspace;
+    }
+
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Workspace createUpdatedEntity(EntityManager em) {
+        Workspace workspace = new Workspace().name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+        return workspace;
+    }
+
+    @BeforeEach
+    public void initTest() {
+        workspace = createEntity(em);
+    }
+
+    @Test
+    @Transactional
+    void createWorkspace() throws Exception {
+        int databaseSizeBeforeCreate = workspaceRepository.findAll().size();
+        // Create the Workspace
+        restWorkspaceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isCreated());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeCreate + 1);
+        Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
+        assertThat(testWorkspace.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testWorkspace.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testWorkspace.getIsPrivate()).isEqualTo(DEFAULT_IS_PRIVATE);
+    }
+
+    @Test
+    @Transactional
+    void createWorkspaceWithExistingId() throws Exception {
+        // Create the Workspace with an existing ID
+        workspace.setId(1L);
+
+        int databaseSizeBeforeCreate = workspaceRepository.findAll().size();
+
+        // An entity with an existing ID cannot be created, so this API call must fail
+        restWorkspaceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isBadRequest());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = workspaceRepository.findAll().size();
+        // set the field null
+        workspace.setName(null);
+
+        // Create the Workspace, which fails.
+
+        restWorkspaceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isBadRequest());
+
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDescriptionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = workspaceRepository.findAll().size();
+        // set the field null
+        workspace.setDescription(null);
+
+        // Create the Workspace, which fails.
+
+        restWorkspaceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isBadRequest());
+
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkIsPrivateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = workspaceRepository.findAll().size();
+        // set the field null
+        workspace.setIsPrivate(null);
+
+        // Create the Workspace, which fails.
+
+        restWorkspaceMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isBadRequest());
+
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void getAllWorkspaces() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        // Get all the workspaceList
+        restWorkspaceMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(workspace.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
+            .andExpect(jsonPath("$.[*].isPrivate").value(hasItem(DEFAULT_IS_PRIVATE.booleanValue())));
+    }
+
+    @Test
+    @Transactional
+    void getWorkspace() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        // Get the workspace
+        restWorkspaceMockMvc
+            .perform(get(ENTITY_API_URL_ID, workspace.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.id").value(workspace.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
+            .andExpect(jsonPath("$.isPrivate").value(DEFAULT_IS_PRIVATE.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    void getNonExistingWorkspace() throws Exception {
+        // Get the workspace
+        restWorkspaceMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    void putNewWorkspace() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+
+        // Update the workspace
+        Workspace updatedWorkspace = workspaceRepository.findById(workspace.getId()).get();
+        // Disconnect from session so that the updates on updatedWorkspace are not directly saved in db
+        em.detach(updatedWorkspace);
+        updatedWorkspace.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+
+        restWorkspaceMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, updatedWorkspace.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(updatedWorkspace))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+        Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
+        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testWorkspace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
+    }
+
+    @Test
+    @Transactional
+    void putNonExistingWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, workspace.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(workspace))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithIdMismatchWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(TestUtil.convertObjectToJsonBytes(workspace))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void putWithMissingIdPathParamWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
+            .andExpect(status().isMethodNotAllowed());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void partialUpdateWorkspaceWithPatch() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+
+        // Update the workspace using partial update
+        Workspace partialUpdatedWorkspace = new Workspace();
+        partialUpdatedWorkspace.setId(workspace.getId());
+
+        partialUpdatedWorkspace.name(UPDATED_NAME).isPrivate(UPDATED_IS_PRIVATE);
+
+        restWorkspaceMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, partialUpdatedWorkspace.getId())
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedWorkspace))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+        Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
+        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testWorkspace.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
+    }
+
+    @Test
+    @Transactional
+    void fullUpdateWorkspaceWithPatch() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+
+        // Update the workspace using partial update
+        Workspace partialUpdatedWorkspace = new Workspace();
+        partialUpdatedWorkspace.setId(workspace.getId());
+
+        partialUpdatedWorkspace.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+
+        restWorkspaceMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, partialUpdatedWorkspace.getId())
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(partialUpdatedWorkspace))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+        Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
+        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testWorkspace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
+    }
+
+    @Test
+    @Transactional
+    void patchNonExistingWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, workspace.getId())
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(workspace))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void patchWithIdMismatchWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                    .contentType("application/merge-patch+json")
+                    .content(TestUtil.convertObjectToJsonBytes(workspace))
+            )
+            .andExpect(status().isBadRequest());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void patchWithMissingIdPathParamWorkspace() throws Exception {
+        int databaseSizeBeforeUpdate = workspaceRepository.findAll().size();
+        workspace.setId(count.incrementAndGet());
+
+        // If url ID doesn't match entity ID, it will throw BadRequestAlertException
+        restWorkspaceMockMvc
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(workspace))
+            )
+            .andExpect(status().isMethodNotAllowed());
+
+        // Validate the Workspace in the database
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
+    }
+
+    @Test
+    @Transactional
+    void deleteWorkspace() throws Exception {
+        // Initialize the database
+        workspaceRepository.saveAndFlush(workspace);
+
+        int databaseSizeBeforeDelete = workspaceRepository.findAll().size();
+
+        // Delete the workspace
+        restWorkspaceMockMvc
+            .perform(delete(ENTITY_API_URL_ID, workspace.getId()).accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNoContent());
+
+        // Validate the database contains one less item
+        List<Workspace> workspaceList = workspaceRepository.findAll();
+        assertThat(workspaceList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+}
