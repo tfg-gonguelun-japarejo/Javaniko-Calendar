@@ -214,3 +214,12 @@ ui bootstrap tweaks
 .fc-day-today {
   background: #ffffff !important;
 }
+
+button.calendar,
+button.calendar:active {
+  width: 2.75rem !important;
+  background-image: url('../images/calendar.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 2em !important;
+  background-position: center !important;
+}

@@ -4,15 +4,17 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IInput } from '../input.model';
 import { InputService } from '../service/input.service';
 import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { HttpClient } from '@angular/common/http';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl } from '@angular/forms';
+import { InputUpdateComponent } from '../update/input-update.component';
 
 @Component({
   selector: 'jhi-input',
@@ -51,7 +53,12 @@ export class InputComponent implements OnInit {
   };
 
   inputs?: IInput[];
+  closeResult = '';
   isLoading = false;
+
+  inputDate?: Date;
+  feelings?: number;
+  comment?: string;
 
   constructor(protected inputService: InputService, protected modalService: NgbModal, private httpClient: HttpClient) {}
 
@@ -107,5 +114,33 @@ export class InputComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       return (createElement = { html: '<div class="imageCalendar">' + innerHtml + '</div>' });
     }
+  }
+
+  open(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      return `with: ${reason}`;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  onSubmit(data) {
+    console.log(data);
   }
 }

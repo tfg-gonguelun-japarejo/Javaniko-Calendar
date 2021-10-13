@@ -12,10 +12,13 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+
 FullCalendarModule.registerPlugins([interactionPlugin, dayGridPlugin]);
 
 @NgModule({
-  imports: [SharedModule, InputRoutingModule, FullCalendarModule, HttpClientModule],
+  imports: [SharedModule, InputRoutingModule, FullCalendarModule, HttpClientModule, NgbModule, FormsModule],
   declarations: [InputComponent, InputDetailComponent, InputUpdateComponent, InputDeleteDialogComponent],
   entryComponents: [InputDeleteDialogComponent],
 })

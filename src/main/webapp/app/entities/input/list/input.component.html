@@ -28,6 +28,81 @@
     <span jhiTranslate="javanikoCalendarApp.input.home.notFound">No inputs found</span>
   </div>
 
+  <button class="btn btn-lg btn-outline-primary" (click)="open(mymodal)">Add event</button>
+
+  <ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add event</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+        <div class="form-group">
+          <label for="inputDate">Input Date</label>
+          <div class="input-group">
+            <input
+              id="inputDate"
+              name="inputDate"
+              class="form-control"
+              [(ngModel)]="inputDate"
+              (ngModelChange)="inputDate = $event"
+              placeholder="yyyy-mm-dd"
+              name="dp"
+              ngbDatepicker
+              #dp="ngbDatepicker"
+            />
+            <div class="input-group-append">
+              <button
+                style="background: url(../../../content/images/happy_emoji.png)"
+                class="btn btn-outline-secondary calendar"
+                (click)="dp.toggle()"
+                type="button"
+              ></button>
+            </div>
+          </div>
+          <label for="inputFeeling">Feelings</label>
+          <div class="input-group">
+            <input
+              id="inputFeeling"
+              name="inputFeeling"
+              class="form-control"
+              [(ngModel)]="feelings"
+              type="number"
+              list="numbers"
+              min="0"
+              max="10"
+              step="5"
+            />
+            <datalist id="numbers">
+              <option value="0"></option>
+              <option value="5"></option>
+              <option value="10"></option>
+            </datalist>
+          </div>
+          <label for="inputComment">Comment</label>
+          <div class="input-group">
+            <input type="text" class="form-control" [(ngModel)]="comment" id="inputComment" name="inputComment" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save changes</button>
+    </div>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-xs-3">INPUTDATE</div>
+    <div class="col-xs-9">{{ inputDate }}</div>
+    <div class="col-xs-3">FEELINGS</div>
+    <div class="col-xs-9">{{ feelings }}</div>
+    <div class="col-xs-3">COMMENT</div>
+    <div class="col-xs-9">{{ comment }}</div>
+  </div>
+
   <full-calendar [options]="calendarOptions"></full-calendar>
 
   <div class="table-responsive" id="entities" *ngIf="inputs && inputs.length > 0">
