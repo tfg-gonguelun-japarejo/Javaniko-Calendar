@@ -60,7 +60,7 @@ export class InputComponent implements OnInit {
   feelings?: number;
   comment?: string;
 
-  constructor(protected inputService: InputService, protected modalService: NgbModal, private httpClient: HttpClient) {}
+  constructor(protected inputService: InputService, protected modalService: NgbModal, private httpClient: HttpClient) { }
 
   loadAll(): void {
     this.isLoading = true;
@@ -69,11 +69,28 @@ export class InputComponent implements OnInit {
       (res: HttpResponse<IInput[]>) => {
         this.isLoading = false;
         this.inputs = res.body ?? [];
+        this.calendarOptions.events = this.transformInputsInEvents();
       },
       () => {
         this.isLoading = false;
       }
     );
+  }
+  transformInputsInEvents(): any {
+    const result: any[] = [];
+    let obj: any;
+    if (this.inputs) {
+      for (const myinput of this.inputs) {
+        obj = {
+          "title": myinput.comment,
+          "start": myinput.inputDate?.format(),
+          "end": myinput.inputDate?.format(),
+          "imageUrl": '../../../content/images/happy_emoji.png'
+        };
+        result.push(obj);
+      }
+    }
+    return result;
   }
 
   ngOnInit(): void {
