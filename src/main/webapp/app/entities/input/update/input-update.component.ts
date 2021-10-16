@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -9,8 +10,6 @@ import { IInput, Input } from '../input.model';
 import { InputService } from '../service/input.service';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
-import { ICalendar } from 'app/entities/calendar/calendar.model';
-import { CalendarService } from 'app/entities/calendar/service/calendar.service';
 
 @Component({
   selector: 'jhi-input-update',
@@ -20,7 +19,6 @@ export class InputUpdateComponent implements OnInit {
   isSaving = false;
 
   usuariosSharedCollection: IUsuario[] = [];
-  calendarsSharedCollection: ICalendar[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -28,13 +26,11 @@ export class InputUpdateComponent implements OnInit {
     feelings: [null, [Validators.required]],
     inputDate: [null, [Validators.required]],
     usuario: [],
-    calendar: [],
   });
 
   constructor(
     protected inputService: InputService,
     protected usuarioService: UsuarioService,
-    protected calendarService: CalendarService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -65,10 +61,6 @@ export class InputUpdateComponent implements OnInit {
     return item.id!;
   }
 
-  trackCalendarById(index: number, item: ICalendar): number {
-    return item.id!;
-  }
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IInput>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -95,11 +87,9 @@ export class InputUpdateComponent implements OnInit {
       feelings: input.feelings,
       inputDate: input.inputDate,
       usuario: input.usuario,
-      calendar: input.calendar,
     });
 
     this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(this.usuariosSharedCollection, input.usuario);
-    this.calendarsSharedCollection = this.calendarService.addCalendarToCollectionIfMissing(this.calendarsSharedCollection, input.calendar);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -110,16 +100,6 @@ export class InputUpdateComponent implements OnInit {
         map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, this.editForm.get('usuario')!.value))
       )
       .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
-
-    this.calendarService
-      .query()
-      .pipe(map((res: HttpResponse<ICalendar[]>) => res.body ?? []))
-      .pipe(
-        map((calendars: ICalendar[]) =>
-          this.calendarService.addCalendarToCollectionIfMissing(calendars, this.editForm.get('calendar')!.value)
-        )
-      )
-      .subscribe((calendars: ICalendar[]) => (this.calendarsSharedCollection = calendars));
   }
 
   protected createFromForm(): IInput {
@@ -130,7 +110,6 @@ export class InputUpdateComponent implements OnInit {
       feelings: this.editForm.get(['feelings'])!.value,
       inputDate: this.editForm.get(['inputDate'])!.value,
       usuario: this.editForm.get(['usuario'])!.value,
-      calendar: this.editForm.get(['calendar'])!.value,
     };
   }
 }

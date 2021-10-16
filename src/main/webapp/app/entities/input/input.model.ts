@@ -1,6 +1,5 @@
 import * as dayjs from 'dayjs';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { ICalendar } from 'app/entities/calendar/calendar.model';
 
 export interface IInput {
   id?: number;
@@ -8,7 +7,6 @@ export interface IInput {
   feelings?: number;
   inputDate?: dayjs.Dayjs;
   usuario?: IUsuario | null;
-  calendar?: ICalendar | null;
 }
 
 export class Input implements IInput {
@@ -17,8 +15,7 @@ export class Input implements IInput {
     public comment?: string | null,
     public feelings?: number,
     public inputDate?: dayjs.Dayjs,
-    public usuario?: IUsuario | null,
-    public calendar?: ICalendar | null
+    public usuario?: IUsuario | null
   ) {}
 }
 

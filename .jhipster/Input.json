@@ -22,13 +22,6 @@
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "input",
       "relationshipName": "usuario"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "calendar",
-      "otherEntityRelationshipName": "input",
-      "relationshipName": "calendar",
-      "otherEntityField": "name"
     }
   ],
   "entityTableName": "input",

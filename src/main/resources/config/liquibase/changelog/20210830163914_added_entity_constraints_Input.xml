@@ -13,11 +13,5 @@
                                  constraintName="fk_input__usuario_id"
                                  referencedColumnNames="id"
                                  referencedTableName="usuario"/>
-
-        <addForeignKeyConstraint baseColumnNames="calendar_id"
-                                 baseTableName="input"
-                                 constraintName="fk_input__calendar_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="calendar"/>
     </changeSet>
 </databaseChangeLog>

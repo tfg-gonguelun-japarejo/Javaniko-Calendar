@@ -4,17 +4,13 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable object-shorthand */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
 import { IInput } from '../input.model';
 import { InputService } from '../service/input.service';
-import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { HttpClient } from '@angular/common/http';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl } from '@angular/forms';
-import { InputUpdateComponent } from '../update/input-update.component';
 
 @Component({
   selector: 'jhi-input',
@@ -56,11 +52,7 @@ export class InputComponent implements OnInit {
   closeResult = '';
   isLoading = false;
 
-  inputDate?: Date;
-  feelings?: number;
-  comment?: string;
-
-  constructor(protected inputService: InputService, protected modalService: NgbModal, private httpClient: HttpClient) { }
+  constructor(protected inputService: InputService, private httpClient: HttpClient) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -81,13 +73,31 @@ export class InputComponent implements OnInit {
     let obj: any;
     if (this.inputs) {
       for (const myinput of this.inputs) {
-        obj = {
-          "title": myinput.comment,
-          "start": myinput.inputDate?.format(),
-          "end": myinput.inputDate?.format(),
-          "imageUrl": '../../../content/images/happy_emoji.png'
-        };
-        result.push(obj);
+        if (myinput.feelings === 0) {
+          obj = {
+            title: myinput.comment,
+            start: myinput.inputDate?.format(),
+            end: myinput.inputDate?.format(),
+            imageUrl: '../../../content/images/sad.png',
+          };
+          result.push(obj);
+        } else if (myinput.feelings === 5) {
+          obj = {
+            title: myinput.comment,
+            start: myinput.inputDate?.format(),
+            end: myinput.inputDate?.format(),
+            imageUrl: '../../../content/images/serious_emoji.png',
+          };
+          result.push(obj);
+        } else {
+          obj = {
+            title: myinput.comment,
+            start: myinput.inputDate?.format(),
+            end: myinput.inputDate?.format(),
+            imageUrl: '../../../content/images/happy_emoji.png',
+          };
+          result.push(obj);
+        }
       }
     }
     return result;
@@ -99,17 +109,6 @@ export class InputComponent implements OnInit {
 
   trackId(index: number, item: IInput): number {
     return item.id!;
-  }
-
-  delete(input: IInput): void {
-    const modalRef = this.modalService.open(InputDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.input = input;
-    // unsubscribe not needed because closed completes on modal close
-    modalRef.closed.subscribe(reason => {
-      if (reason === 'deleted') {
-        this.loadAll();
-      }
-    });
   }
 
   renderEventContent(eventInfo, createElement) {
@@ -130,29 +129,6 @@ export class InputComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       return (createElement = { html: '<div class="imageCalendar">' + innerHtml + '</div>' });
-    }
-  }
-
-  open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        this.closeResult = `Closed with: ${result}`;
-      },
-      reason => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      return `with: ${reason}`;
     }
   }
 

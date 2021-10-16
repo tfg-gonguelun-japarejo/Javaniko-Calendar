@@ -1,5 +1,4 @@
 import * as dayjs from 'dayjs';
-import { ICalendar } from 'app/entities/calendar/calendar.model';
 import { IProyect } from 'app/entities/proyect/proyect.model';
 import { Status } from 'app/entities/enumerations/status.model';
 
@@ -10,7 +9,6 @@ export interface ISprint {
   endDate?: dayjs.Dayjs | null;
   status?: Status | null;
   goal?: string | null;
-  calendars?: ICalendar[] | null;
   proyect?: IProyect | null;
 }
 
@@ -22,7 +20,6 @@ export class Sprint implements ISprint {
     public endDate?: dayjs.Dayjs | null,
     public status?: Status | null,
     public goal?: string | null,
-    public calendars?: ICalendar[] | null,
     public proyect?: IProyect | null
   ) {}
 }

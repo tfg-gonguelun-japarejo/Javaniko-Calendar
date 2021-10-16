@@ -29,11 +29,6 @@ enum Status {
 	ON_GOING, PENDING, SUCCESS, FAIL
 }
 
-entity Calendar {
-	name String,
-    holidays Integer
-}
-
 entity Input {
 	comment String,
     feelings Integer required,
@@ -49,9 +44,7 @@ relationship ManyToMany {
 relationship OneToMany {
 	Workspace{proyect(name)} to Proyect{workspace(name)},
     Proyect{sprint(sprint)} to Sprint{proyect(name)},
-    Sprint{calendar(name)} to Calendar{sprint(sprint)},
     Usuario{input} to Input{usuario},
-    Calendar{input} to Input{calendar(name)}
 }
 
 relationship OneToOne {
