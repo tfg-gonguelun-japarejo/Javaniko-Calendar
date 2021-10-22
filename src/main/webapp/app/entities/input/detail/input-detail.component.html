@@ -32,12 +32,6 @@
             <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.input.calendar">Calendar</span></dt>
-        <dd>
-          <div *ngIf="input.calendar">
-            <a [routerLink]="['/calendar', input.calendar?.id, 'view']">{{ input.calendar?.name }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

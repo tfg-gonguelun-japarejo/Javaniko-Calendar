@@ -31,7 +31,7 @@ public class Usuario implements Serializable {
     private User user;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnoreProperties(value = { "usuario", "calendar" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "usuario" }, allowSetters = true)
     private Set<Input> inputs = new HashSet<>();
 
     @ManyToMany

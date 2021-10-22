@@ -25,11 +25,6 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./sprint/sprint.module').then(m => m.SprintModule),
       },
       {
-        path: 'calendar',
-        data: { pageTitle: 'javanikoCalendarApp.calendar.home.title' },
-        loadChildren: () => import('./calendar/calendar.module').then(m => m.CalendarModule),
-      },
-      {
         path: 'input',
         data: { pageTitle: 'javanikoCalendarApp.input.home.title' },
         loadChildren: () => import('./input/input.module').then(m => m.InputModule),

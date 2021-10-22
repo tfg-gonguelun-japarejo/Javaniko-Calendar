@@ -19,13 +19,11 @@
     <include file="config/liquibase/changelog/20210830163910_added_entity_Workspace.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163911_added_entity_Proyect.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163912_added_entity_Sprint.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210830163913_added_entity_Calendar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163914_added_entity_Input.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20210830163909_added_entity_constraints_Usuario.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163911_added_entity_constraints_Proyect.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163912_added_entity_constraints_Sprint.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210830163913_added_entity_constraints_Calendar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210830163914_added_entity_constraints_Input.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->

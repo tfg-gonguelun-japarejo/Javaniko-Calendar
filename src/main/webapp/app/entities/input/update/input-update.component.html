@@ -20,7 +20,11 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.feelings" for="field_feelings">Feelings</label>
-          <input type="number" class="form-control" name="feelings" id="field_feelings" data-cy="feelings" formControlName="feelings" />
+          <select class="form-control" id="field_feelings" name="feelings" formControlName="feelings" data-cy="feelings">
+            <option value="0"><p>☹</p></option>
+            <option value="5"><p>😐</p></option>
+            <option value="10"><p>😁</p></option>
+          </select>
           <div *ngIf="editForm.get('feelings')!.invalid && (editForm.get('feelings')!.dirty || editForm.get('feelings')!.touched)">
             <small
               class="form-text text-danger"
@@ -29,11 +33,7 @@
             >
               This field is required.
             </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('feelings')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
+            <small class="form-text text-danger" *ngIf="!editForm.get('feelings')?.errors?.number" jhiTranslate="entity.validation.number">
               This field should be a number.
             </small>
           </div>
@@ -66,6 +66,13 @@
             >
               This field is required.
             </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="!editForm.get('feelings')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date in 'YYYY-MM-dd' format.
+            </small>
           </div>
         </div>
 
@@ -78,19 +85,6 @@
               *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
             >
               {{ usuarioOption.id }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.calendar" for="field_calendar">Calendar</label>
-          <select class="form-control" id="field_calendar" data-cy="calendar" name="calendar" formControlName="calendar">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="calendarOption.id === editForm.get('calendar')!.value?.id ? editForm.get('calendar')!.value : calendarOption"
-              *ngFor="let calendarOption of calendarsSharedCollection; trackBy: trackCalendarById"
-            >
-              {{ calendarOption.name }}
             </option>
           </select>
         </div>
