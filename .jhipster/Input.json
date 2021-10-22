@@ -13,7 +13,7 @@
     {
       "fieldName": "inputDate",
       "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "unique"]
     }
   ],
   "relationships": [

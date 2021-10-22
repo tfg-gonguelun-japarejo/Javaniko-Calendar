@@ -12,47 +12,24 @@ import { InputService } from '../service/input.service';
 import { CalendarOptions } from '@fullcalendar/angular';
 import { HttpClient } from '@angular/common/http';
 
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { TemplateRef, ViewChild } from '@angular/core';
+import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
+
 @Component({
   selector: 'jhi-input',
   templateUrl: './input.component.html',
 })
 export class InputComponent implements OnInit {
-  calendarOptions: CalendarOptions = {
-    headerToolbar: {
-      left: '',
-      center: 'title',
-      right: 'prev,next today',
-    },
-    initialView: 'dayGridMonth',
-    eventContent: this.renderEventContent, // This will render the event with image
-    eventColor: '#ffffff',
-    contentHeight: 700,
-    locale: 'es',
-    editable: true,
-    firstDay: 1,
-    buttonText: {
-      today: 'Hoy',
-    },
-    eventClick: function (info) {
-      alert('Event: ' + info.event.title);
-      alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-      alert('View: ' + info.view.type);
-
-      // change the border color just for fun
-      info.el.style.borderColor = 'red';
-    },
-    events: [
-      { date: '2021-09-15', imageUrl: '../../../content/images/happy_emoji.png' },
-      { date: '2021-09-14', imageUrl: '../../../content/images/serious_emoji.png' },
-      { date: '2021-09-16', imageUrl: '../../../content/images/sad.png' },
-    ],
-  };
-
   inputs?: IInput[];
   closeResult = '';
   isLoading = false;
+  calendarOptions?: CalendarOptions;
 
-  constructor(protected inputService: InputService, private httpClient: HttpClient) {}
+  @ViewChild('content')
+  private content!: TemplateRef<any>;
+
+  constructor(protected inputService: InputService, private httpClient: HttpClient, private modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -61,6 +38,30 @@ export class InputComponent implements OnInit {
       (res: HttpResponse<IInput[]>) => {
         this.isLoading = false;
         this.inputs = res.body ?? [];
+        this.calendarOptions = {
+          headerToolbar: {
+            left: '',
+            center: 'title',
+            right: 'prev,next today',
+          },
+          initialView: 'dayGridMonth',
+          eventContent: this.renderEventContent, // This will render the event with image
+          eventColor: '#ffffff',
+          contentHeight: 700,
+          locale: 'es',
+          firstDay: 1,
+          buttonText: {
+            today: 'Hoy',
+          },
+          eventClick: function (info) {
+            alert('Event: ' + info.event.title);
+            alert('Start: ' + info.event.start);
+
+            // change the border color just for fun
+            info.el.style.borderColor = 'red';
+          },
+          dayMaxEvents: 1,
+        };
         this.calendarOptions.events = this.transformInputsInEvents();
       },
       () => {
@@ -72,6 +73,14 @@ export class InputComponent implements OnInit {
     const result: any[] = [];
     let obj: any;
     if (this.inputs) {
+      for (let i = 0; i < this.inputs.length; i++) {
+        for (let j = 0; j < this.inputs.length; j++) {
+          if (this.inputs[i].inputDate === this.inputs[j].inputDate && i !== j) {
+            this.inputs.splice(j, 1);
+            j = 0;
+          }
+        }
+      }
       for (const myinput of this.inputs) {
         if (myinput.feelings === 0) {
           obj = {
@@ -89,7 +98,7 @@ export class InputComponent implements OnInit {
             imageUrl: '../../../content/images/serious_emoji.png',
           };
           result.push(obj);
-        } else {
+        } else if (myinput.feelings === 10) {
           obj = {
             title: myinput.comment,
             start: myinput.inputDate?.format(),
@@ -97,6 +106,14 @@ export class InputComponent implements OnInit {
             imageUrl: '../../../content/images/happy_emoji.png',
           };
           result.push(obj);
+        }
+      }
+    }
+    for (let i = 0; i < result.length; i++) {
+      for (let j = 0; j < result.length; j++) {
+        if (result[i].start === result[j].start && i !== j) {
+          result.splice(j, 1);
+          j = 0;
         }
       }
     }
@@ -109,6 +126,17 @@ export class InputComponent implements OnInit {
 
   trackId(index: number, item: IInput): number {
     return item.id!;
+  }
+
+  delete(input: IInput): void {
+    const modalRef = this.modalService.open(InputDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.input = input;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe(reason => {
+      if (reason === 'deleted') {
+        this.loadAll();
+      }
+    });
   }
 
   renderEventContent(eventInfo, createElement) {
@@ -135,5 +163,28 @@ export class InputComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/member-ordering
   onSubmit(data) {
     console.log(data);
+  }
+
+  open(content): any {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      return `with: ${reason}`;
+    }
   }
 }

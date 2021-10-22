@@ -33,11 +33,7 @@
             >
               This field is required.
             </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('feelings')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
+            <small class="form-text text-danger" *ngIf="!editForm.get('feelings')?.errors?.number" jhiTranslate="entity.validation.number">
               This field should be a number.
             </small>
           </div>
@@ -69,6 +65,13 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="!editForm.get('feelings')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date in 'YYYY-MM-dd' format.
             </small>
           </div>
         </div>

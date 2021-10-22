@@ -27,7 +27,7 @@ public class Input implements Serializable {
     private Integer feelings;
 
     @NotNull
-    @Column(name = "input_date", nullable = false)
+    @Column(name = "input_date", nullable = false, unique = true)
     private LocalDate inputDate;
 
     @ManyToOne
