@@ -25,13 +25,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "calendar",
-      "otherEntityRelationshipName": "sprint",
-      "relationshipName": "calendar",
-      "otherEntityField": "name"
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "proyect",
       "otherEntityRelationshipName": "sprint",

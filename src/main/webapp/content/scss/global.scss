@@ -1,6 +1,7 @@
 @import 'bootstrap-variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '../../../../../node_modules/angular-calendar/css/angular-calendar.css';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -205,3 +206,20 @@ ui bootstrap tweaks
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+.fc-daygrid-day-events {
+  padding-left: 3em;
+}
+
+.fc-day-today {
+  background: #ffffff !important;
+}
+
+button.calendar,
+button.calendar:active {
+  width: 2.75rem !important;
+  background-image: url('../images/calendar.png') !important;
+  background-repeat: no-repeat !important;
+  background-size: 2em !important;
+  background-position: center !important;
+}

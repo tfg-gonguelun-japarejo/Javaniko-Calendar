@@ -96,8 +96,6 @@ describe('Input e2e test', () => {
 
     cy.setFieldSelectToLastOfEntity('usuario');
 
-    cy.setFieldSelectToLastOfEntity('calendar');
-
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });
     cy.get(entityCreateSaveButtonSelector).should('not.exist');

@@ -37,10 +37,6 @@ public class Sprint implements Serializable {
     @Column(name = "goal")
     private String goal;
 
-    @OneToMany(mappedBy = "sprint")
-    @JsonIgnoreProperties(value = { "inputs", "sprint" }, allowSetters = true)
-    private Set<Calendar> calendars = new HashSet<>();
-
     @ManyToOne
     @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
     private Proyect proyect;
@@ -122,37 +118,6 @@ public class Sprint implements Serializable {
 
     public void setGoal(String goal) {
         this.goal = goal;
-    }
-
-    public Set<Calendar> getCalendars() {
-        return this.calendars;
-    }
-
-    public Sprint calendars(Set<Calendar> calendars) {
-        this.setCalendars(calendars);
-        return this;
-    }
-
-    public Sprint addCalendar(Calendar calendar) {
-        this.calendars.add(calendar);
-        calendar.setSprint(this);
-        return this;
-    }
-
-    public Sprint removeCalendar(Calendar calendar) {
-        this.calendars.remove(calendar);
-        calendar.setSprint(null);
-        return this;
-    }
-
-    public void setCalendars(Set<Calendar> calendars) {
-        if (this.calendars != null) {
-            this.calendars.forEach(i -> i.setSprint(null));
-        }
-        if (calendars != null) {
-            calendars.forEach(i -> i.setSprint(this));
-        }
-        this.calendars = calendars;
     }
 
     public Proyect getProyect() {
