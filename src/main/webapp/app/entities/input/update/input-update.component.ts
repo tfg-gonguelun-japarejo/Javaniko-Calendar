@@ -4,12 +4,15 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { AbstractControl, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { debounceTime, filter, finalize, map } from 'rxjs/operators';
 
 import { IInput, Input } from '../input.model';
 import { InputService } from '../service/input.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
+import { IUsuario, Usuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { IUser } from 'app/admin/user-management/user-management.model';
+import { Account } from 'app/core/auth/account.model';
 
 @Component({
   selector: 'jhi-input-update',
@@ -19,6 +22,8 @@ export class InputUpdateComponent implements OnInit {
   isSaving = false;
 
   usuariosSharedCollection: IUsuario[] = [];
+
+  usuario?: Usuario | null;
 
   editForm = this.fb.group({
     id: [],
@@ -31,6 +36,7 @@ export class InputUpdateComponent implements OnInit {
   constructor(
     protected inputService: InputService,
     protected usuarioService: UsuarioService,
+    protected accountService: AccountService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -40,6 +46,18 @@ export class InputUpdateComponent implements OnInit {
       this.updateForm(input);
 
       this.loadRelationshipsOptions();
+
+      this.accountService.getAuthenticationState()
+      .subscribe(
+        account => {
+          if(account) {
+            this.usuarioService.findByUsername(account.login)
+            .subscribe(
+              usuario => this.usuario = usuario.body
+            );
+          }
+        }
+      );
     });
   }
 
@@ -51,14 +69,25 @@ export class InputUpdateComponent implements OnInit {
     this.isSaving = true;
     const input = this.createFromForm();
     if (input.id !== undefined) {
+      if(this.usuario!.username !== undefined && this.usuario!.username !== 'admin') {
+        input.usuario = this.usuario;
+      }
       this.subscribeToSaveResponse(this.inputService.update(input));
     } else {
+      if(this.usuario!.username !== undefined && this.usuario!.username !== 'admin') {
+        input.usuario = this.usuario;
+      }
       this.subscribeToSaveResponse(this.inputService.create(input));
     }
   }
 
   trackUsuarioById(index: number, item: IUsuario): number {
     return item.id!;
+  }
+
+  
+  hasAnyAuthority(authorities: string[] | string): boolean {
+    return this.accountService.hasAnyAuthority(authorities);
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IInput>>): void {

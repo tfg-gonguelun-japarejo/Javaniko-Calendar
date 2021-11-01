@@ -29,7 +29,7 @@
         <dt><span jhiTranslate="javanikoCalendarApp.input.usuario">Usuario</span></dt>
         <dd>
           <div *ngIf="input.usuario">
-            <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.id }}</a>
+            <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.username }}</a>
           </div>
         </dd>
       </dl>

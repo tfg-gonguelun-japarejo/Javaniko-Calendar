@@ -3,8 +3,10 @@ package com.gonguelun.javanikocalendar.service;
 import com.gonguelun.javanikocalendar.config.Constants;
 import com.gonguelun.javanikocalendar.domain.Authority;
 import com.gonguelun.javanikocalendar.domain.User;
+import com.gonguelun.javanikocalendar.domain.Usuario;
 import com.gonguelun.javanikocalendar.repository.AuthorityRepository;
 import com.gonguelun.javanikocalendar.repository.UserRepository;
+import com.gonguelun.javanikocalendar.repository.UsuarioRepository;
 import com.gonguelun.javanikocalendar.security.AuthoritiesConstants;
 import com.gonguelun.javanikocalendar.security.SecurityUtils;
 import com.gonguelun.javanikocalendar.service.dto.AdminUserDTO;
@@ -35,6 +37,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UsuarioRepository usuarioRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -43,6 +47,7 @@ public class UserService {
 
     public UserService(
         UserRepository userRepository,
+        UsuarioRepository usuarioRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager
@@ -51,6 +56,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -121,6 +127,7 @@ public class UserService {
                 }
             );
         User newUser = new User();
+        Usuario newUsuario = new Usuario();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
@@ -133,13 +140,22 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+
+        newUsuario.setUsername(userDTO.getLogin().toLowerCase());
+        newUsuario.setPassword(encryptedPassword);
+        if(userDTO.getEmail() != null) {
+            newUsuario.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        newUsuario.setUser(newUser);
+
         userRepository.save(newUser);
+        usuarioRepository.save(newUsuario);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -157,6 +173,7 @@ public class UserService {
 
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
+        Usuario usuario = new Usuario();
         user.setLogin(userDTO.getLogin().toLowerCase());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -184,7 +201,16 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
+
+        usuario.setUsername(userDTO.getLogin().toLowerCase());
+        usuario.setPassword(encryptedPassword);
+        if(userDTO.getEmail() != null) {
+            usuario.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        usuario.setUser(user);
+
         userRepository.save(user);
+        usuarioRepository.save(usuario);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -197,6 +223,10 @@ public class UserService {
      * @return updated user.
      */
     public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
+        String username = userRepository.findById(userDTO.getId()).get().getLogin();
+        Usuario usuarioUpdate = usuarioRepository.findUsuarioByUsername(username).orElse(null);
+        usuarioUpdate.setUsername(userDTO.getLogin().toLowerCase());
+        usuarioUpdate.setEmail(userDTO.getEmail().toLowerCase());
         return Optional
             .of(userRepository.findById(userDTO.getId()))
             .filter(Optional::isPresent)
@@ -252,6 +282,9 @@ public class UserService {
      * @param imageUrl  image URL of user.
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+        String username = SecurityUtils.getCurrentUserLogin().orElse(null);
+        Usuario usuarioUpdate = this.usuarioRepository.findUsuarioByUsername(username).orElse(null);
+        usuarioUpdate.setEmail(email.toLowerCase());
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)

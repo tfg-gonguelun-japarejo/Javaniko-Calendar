@@ -55,4 +55,6 @@ public interface UsuarioService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<Usuario> findUsuarioByUsername(String username);
 }

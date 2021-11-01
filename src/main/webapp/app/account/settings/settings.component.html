@@ -111,12 +111,12 @@
 
           <div *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
             <small
-              class="form-text text-danger"
-              *ngIf="settingsForm.get('email')?.errors?.required"
-              jhiTranslate="global.messages.validate.email.required"
-            >
-              Your email is required.
-            </small>
+            class="form-text text-danger"
+            *ngIf="settingsForm.get('email')?.errors?.required"
+            jhiTranslate="global.messages.validate.email.required"
+          >
+            Your email is required.
+          </small>
 
             <small
               class="form-text text-danger"
