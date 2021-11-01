@@ -1,11 +1,17 @@
 package com.gonguelun.javanikocalendar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.gonguelun.javanikocalendar.config.Constants;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * A Usuario.
@@ -19,6 +25,22 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
+    @Column(name="username", length = 50, unique = true, nullable = false)
+    private String username;
+
+    @NotNull
+    @Size(min = 5, max = 60)
+    @Column(name = "password", length = 60, nullable = false)
+    private String password;
+    
+    @Email
+    @Size(min = 5, max = 254)
+    @Column(length = 254, unique = true)
+    private String email;
 
     @Column(name = "birthdate")
     private LocalDate birthdate;
@@ -64,6 +86,45 @@ public class Usuario implements Serializable {
     public Usuario id(Long id) {
         this.id = id;
         return this;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public Usuario username(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public Usuario password(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public Usuario email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDate getBirthdate() {
@@ -210,6 +271,9 @@ public class Usuario implements Serializable {
     public String toString() {
         return "Usuario{" +
             "id=" + getId() +
+            ", username=" + getUsername() +
+            ", password=" + getPassword() +
+            ", email=" + getEmail() +
             ", birthdate='" + getBirthdate() + "'" +
             ", phone=" + getPhone() +
             "}";

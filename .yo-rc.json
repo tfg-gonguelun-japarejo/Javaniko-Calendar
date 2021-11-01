@@ -43,6 +43,9 @@
     "clientThemeVariant": "",
     "languages": ["es", "en"],
     "entities": ["Usuario", "Workspace", "Proyect", "Sprint", "Input"],
-    "lastLiquibaseTimestamp": 1630341554000
+    "lastLiquibaseTimestamp": 1630341554000,
+    "herokuAppName": "javanikocalendar-001",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11"
   }
 }

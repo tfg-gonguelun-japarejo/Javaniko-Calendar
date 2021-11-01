@@ -85,6 +85,10 @@ describe('Usuario e2e test', () => {
     cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('Usuario');
 
+    cy.get(`[data-cy="username"]`).type('Electrónica', { force: true }).invoke('val').should('match', new RegExp('Electrónica'));
+
+    cy.get(`[data-cy="password"]`).type('Herzegovina Rojo', { force: true }).invoke('val').should('match', new RegExp('Herzegovina Rojo'));
+
     cy.get(`[data-cy="birthdate"]`).type('2021-08-30').should('have.value', '2021-08-30');
 
     cy.get(`[data-cy="phone"]`).type('1517').should('have.value', '1517');

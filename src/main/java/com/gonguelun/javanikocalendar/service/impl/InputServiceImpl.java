@@ -74,4 +74,11 @@ public class InputServiceImpl implements InputService {
         log.debug("Request to delete Input : {}", id);
         inputRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Input> findAllInputsByUsername(String username) {
+        log.debug("Request to get all Inputs by User Id");
+        return inputRepository.findAllInputsByUsername(username);
+    }
 }

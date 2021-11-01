@@ -76,8 +76,20 @@
           <input type="email" class="form-control" name="email" formControlName="email" />
 
           <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
+            <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('email')?.errors?.required"
+            jhiTranslate="global.messages.validate.email.required"
+            >
+              Your email is required.
+            </small>
+
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('email')?.errors?.minlength"
+              jhiTranslate="global.messages.validate.email.minlength"
+            >
+              Your email is required to be at least 5 characters.
             </small>
 
             <small
@@ -86,16 +98,7 @@
               jhiTranslate="entity.validation.maxlength"
               [translateValues]="{ max: 100 }"
             >
-              This field cannot be longer than 100 characters.
-            </small>
-
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('email')?.errors?.minlength"
-              jhiTranslate="entity.validation.minlength"
-              [translateValues]="{ min: 5 }"
-            >
-              This field is required to be at least 5 characters.
+              This field cannot be longer than 254 characters.
             </small>
 
             <small
