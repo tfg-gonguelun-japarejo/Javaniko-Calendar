@@ -6,6 +6,9 @@ import { IProyect } from 'app/entities/proyect/proyect.model';
 
 export interface IUsuario {
   id?: number;
+  username?: string;
+  password?: string;
+  email?: string;
   birthdate?: dayjs.Dayjs | null;
   phone?: number | null;
   user?: IUser | null;
@@ -17,6 +20,9 @@ export interface IUsuario {
 export class Usuario implements IUsuario {
   constructor(
     public id?: number,
+    public username?: string,
+    public password?: string,
+    public email?: string,
     public birthdate?: dayjs.Dayjs | null,
     public phone?: number | null,
     public user?: IUser | null,

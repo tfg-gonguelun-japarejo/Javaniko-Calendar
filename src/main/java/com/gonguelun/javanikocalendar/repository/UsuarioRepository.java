@@ -25,4 +25,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("select usuario from Usuario usuario left join fetch usuario.workspaces left join fetch usuario.proyects where usuario.id =:id")
     Optional<Usuario> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query("select usuario from Usuario usuario where usuario.username = ?1")
+    Optional<Usuario> findUsuarioByUsername(String username);
 }

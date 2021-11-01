@@ -68,7 +68,7 @@
             </small>
             <small
               class="form-text text-danger"
-              *ngIf="!editForm.get('feelings')?.errors?.datetimelocal"
+              *ngIf="!editForm.get('inputDate')?.errors?.datetimelocal"
               jhiTranslate="entity.validation.datetimelocal"
             >
               This field should be a date in 'YYYY-MM-dd' format.
@@ -76,17 +76,22 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.usuario" for="field_usuario">Usuario</label>
-          <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
-              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
-            >
-              {{ usuarioOption.id }}
-            </option>
-          </select>
+        <div [ngSwitch]="hasAnyAuthority('ROLE_ADMIN')">
+          <div *ngSwitchCase="true">
+            <div class="form-group">
+              <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.usuario" for="field_usuario">Usuario</label>
+              <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
+                <option [ngValue]="null"></option>
+                <option
+                  [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
+                  *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+                >
+                  {{ usuarioOption.username }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div *ngSwitchCase="false"></div>
         </div>
       </div>
 

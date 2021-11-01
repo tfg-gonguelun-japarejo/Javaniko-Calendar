@@ -2,10 +2,12 @@ package com.gonguelun.javanikocalendar.web.rest;
 
 import com.gonguelun.javanikocalendar.domain.Input;
 import com.gonguelun.javanikocalendar.repository.InputRepository;
+import com.gonguelun.javanikocalendar.security.SecurityUtils;
 import com.gonguelun.javanikocalendar.service.InputService;
 import com.gonguelun.javanikocalendar.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -137,8 +139,17 @@ public class InputResource {
      */
     @GetMapping("/inputs")
     public List<Input> getAllInputs() {
+        String username = SecurityUtils.getCurrentUserLogin().orElse(null);
+        List<Input> res = new ArrayList<>();
         log.debug("REST request to get all Inputs");
-        return inputService.findAll();
+        if(!username.equals("admin")) {
+            res = inputService.findAllInputsByUsername(username);
+        } else {
+            res = inputService.findAll();
+        }
+
+        return res;
+        
     }
 
     /**

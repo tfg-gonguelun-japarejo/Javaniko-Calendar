@@ -40,6 +40,12 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class UsuarioResourceIT {
 
+    private static final String DEFAULT_USERNAME = "AAAAAAAAAA";
+    private static final String UPDATED_USERNAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PASSWORD = "AAAAAAAAAA";
+    private static final String UPDATED_PASSWORD = "BBBBBBBBBB";
+
     private static final LocalDate DEFAULT_BIRTHDATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_BIRTHDATE = LocalDate.now(ZoneId.systemDefault());
 
@@ -76,7 +82,11 @@ class UsuarioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Usuario createEntity(EntityManager em) {
-        Usuario usuario = new Usuario().birthdate(DEFAULT_BIRTHDATE).phone(DEFAULT_PHONE);
+        Usuario usuario = new Usuario()
+            .username(DEFAULT_USERNAME)
+            .password(DEFAULT_PASSWORD)
+            .birthdate(DEFAULT_BIRTHDATE)
+            .phone(DEFAULT_PHONE);
         return usuario;
     }
 
@@ -87,7 +97,11 @@ class UsuarioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Usuario createUpdatedEntity(EntityManager em) {
-        Usuario usuario = new Usuario().birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
+        Usuario usuario = new Usuario()
+            .username(UPDATED_USERNAME)
+            .password(UPDATED_PASSWORD)
+            .birthdate(UPDATED_BIRTHDATE)
+            .phone(UPDATED_PHONE);
         return usuario;
     }
 
@@ -109,6 +123,8 @@ class UsuarioResourceIT {
         List<Usuario> usuarioList = usuarioRepository.findAll();
         assertThat(usuarioList).hasSize(databaseSizeBeforeCreate + 1);
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
+        assertThat(testUsuario.getUsername()).isEqualTo(DEFAULT_USERNAME);
+        assertThat(testUsuario.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testUsuario.getBirthdate()).isEqualTo(DEFAULT_BIRTHDATE);
         assertThat(testUsuario.getPhone()).isEqualTo(DEFAULT_PHONE);
     }
@@ -143,6 +159,8 @@ class UsuarioResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(usuario.getId().intValue())))
+            .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME)))
+            .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD)))
             .andExpect(jsonPath("$.[*].birthdate").value(hasItem(DEFAULT_BIRTHDATE.toString())))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
     }
@@ -177,6 +195,8 @@ class UsuarioResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(usuario.getId().intValue()))
+            .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME))
+            .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD))
             .andExpect(jsonPath("$.birthdate").value(DEFAULT_BIRTHDATE.toString()))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE));
     }
@@ -200,7 +220,7 @@ class UsuarioResourceIT {
         Usuario updatedUsuario = usuarioRepository.findById(usuario.getId()).get();
         // Disconnect from session so that the updates on updatedUsuario are not directly saved in db
         em.detach(updatedUsuario);
-        updatedUsuario.birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
+        updatedUsuario.username(UPDATED_USERNAME).password(UPDATED_PASSWORD).birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
 
         restUsuarioMockMvc
             .perform(
@@ -214,6 +234,8 @@ class UsuarioResourceIT {
         List<Usuario> usuarioList = usuarioRepository.findAll();
         assertThat(usuarioList).hasSize(databaseSizeBeforeUpdate);
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
+        assertThat(testUsuario.getUsername()).isEqualTo(UPDATED_USERNAME);
+        assertThat(testUsuario.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testUsuario.getBirthdate()).isEqualTo(UPDATED_BIRTHDATE);
         assertThat(testUsuario.getPhone()).isEqualTo(UPDATED_PHONE);
     }
@@ -286,7 +308,7 @@ class UsuarioResourceIT {
         Usuario partialUpdatedUsuario = new Usuario();
         partialUpdatedUsuario.setId(usuario.getId());
 
-        partialUpdatedUsuario.birthdate(UPDATED_BIRTHDATE);
+        partialUpdatedUsuario.username(UPDATED_USERNAME).birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
 
         restUsuarioMockMvc
             .perform(
@@ -300,8 +322,10 @@ class UsuarioResourceIT {
         List<Usuario> usuarioList = usuarioRepository.findAll();
         assertThat(usuarioList).hasSize(databaseSizeBeforeUpdate);
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
+        assertThat(testUsuario.getUsername()).isEqualTo(UPDATED_USERNAME);
+        assertThat(testUsuario.getPassword()).isEqualTo(DEFAULT_PASSWORD);
         assertThat(testUsuario.getBirthdate()).isEqualTo(UPDATED_BIRTHDATE);
-        assertThat(testUsuario.getPhone()).isEqualTo(DEFAULT_PHONE);
+        assertThat(testUsuario.getPhone()).isEqualTo(UPDATED_PHONE);
     }
 
     @Test
@@ -316,7 +340,7 @@ class UsuarioResourceIT {
         Usuario partialUpdatedUsuario = new Usuario();
         partialUpdatedUsuario.setId(usuario.getId());
 
-        partialUpdatedUsuario.birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
+        partialUpdatedUsuario.username(UPDATED_USERNAME).password(UPDATED_PASSWORD).birthdate(UPDATED_BIRTHDATE).phone(UPDATED_PHONE);
 
         restUsuarioMockMvc
             .perform(
@@ -330,6 +354,8 @@ class UsuarioResourceIT {
         List<Usuario> usuarioList = usuarioRepository.findAll();
         assertThat(usuarioList).hasSize(databaseSizeBeforeUpdate);
         Usuario testUsuario = usuarioList.get(usuarioList.size() - 1);
+        assertThat(testUsuario.getUsername()).isEqualTo(UPDATED_USERNAME);
+        assertThat(testUsuario.getPassword()).isEqualTo(UPDATED_PASSWORD);
         assertThat(testUsuario.getBirthdate()).isEqualTo(UPDATED_BIRTHDATE);
         assertThat(testUsuario.getPhone()).isEqualTo(UPDATED_PHONE);
     }

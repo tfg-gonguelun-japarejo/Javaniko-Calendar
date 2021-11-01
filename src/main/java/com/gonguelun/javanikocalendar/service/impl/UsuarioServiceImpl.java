@@ -41,6 +41,15 @@ public class UsuarioServiceImpl implements UsuarioService {
             .findById(usuario.getId())
             .map(
                 existingUsuario -> {
+                    if (usuario.getUsername() != null) {
+                        existingUsuario.setUsername(usuario.getUsername());
+                    }
+                    if (usuario.getPassword() != null) {
+                        existingUsuario.setPassword(usuario.getPassword());
+                    }
+                    if (usuario.getEmail() != null) {
+                        existingUsuario.setEmail(usuario.getEmail());
+                    }
                     if (usuario.getBirthdate() != null) {
                         existingUsuario.setBirthdate(usuario.getBirthdate());
                     }
@@ -76,5 +85,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void delete(Long id) {
         log.debug("Request to delete Usuario : {}", id);
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Usuario> findUsuarioByUsername(String username) {
+        log.debug("Request to get Usuario : {}", username);
+        return usuarioRepository.findUsuarioByUsername(username);
     }
 }

@@ -2,6 +2,8 @@ package com.gonguelun.javanikocalendar.web.rest;
 
 import com.gonguelun.javanikocalendar.domain.Usuario;
 import com.gonguelun.javanikocalendar.repository.UsuarioRepository;
+import com.gonguelun.javanikocalendar.security.AuthoritiesConstants;
+import com.gonguelun.javanikocalendar.security.SecurityUtils;
 import com.gonguelun.javanikocalendar.service.UsuarioService;
 import com.gonguelun.javanikocalendar.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -48,6 +51,7 @@ public class UsuarioResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/usuarios")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) throws URISyntaxException {
         log.debug("REST request to save Usuario : {}", usuario);
         if (usuario.getId() != null) {
@@ -73,6 +77,7 @@ public class UsuarioResource {
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable(value = "id", required = false) final Long id, @RequestBody Usuario usuario)
         throws URISyntaxException {
+        String username = SecurityUtils.getCurrentUserLogin().orElse(null);
         log.debug("REST request to update Usuario : {}, {}", id, usuario);
         if (usuario.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -83,6 +88,10 @@ public class UsuarioResource {
 
         if (!usuarioRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        if(!usuario.getUsername().equals(username) && !username.equals("admin")) {
+            throw new BadRequestAlertException("Not owner", ENTITY_NAME, "notowner");
         }
 
         Usuario result = usuarioService.save(usuario);
@@ -108,6 +117,7 @@ public class UsuarioResource {
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Usuario usuario
     ) throws URISyntaxException {
+        String username = SecurityUtils.getCurrentUserLogin().orElse(null);
         log.debug("REST request to partial update Usuario partially : {}, {}", id, usuario);
         if (usuario.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -118,6 +128,10 @@ public class UsuarioResource {
 
         if (!usuarioRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        if(!usuario.getUsername().equals(username) && !username.equals("admin")) {
+            throw new BadRequestAlertException("Not owner", ENTITY_NAME, "notowner");
         }
 
         Optional<Usuario> result = usuarioService.partialUpdate(usuario);
@@ -160,6 +174,7 @@ public class UsuarioResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/usuarios/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         log.debug("REST request to delete Usuario : {}", id);
         usuarioService.delete(id);
@@ -167,5 +182,12 @@ public class UsuarioResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/usuarios/usuario")
+    public ResponseEntity<Usuario> getUsuarioByUsername(@RequestParam(value="username") String username) {
+        log.debug("REST request to get Usuario : {}", username);
+        Optional<Usuario> usuario = usuarioService.findUsuarioByUsername(username);
+        return ResponseUtil.wrapOrNotFound(usuario);
     }
 }

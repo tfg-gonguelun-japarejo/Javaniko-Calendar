@@ -7,16 +7,6 @@
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="javanikoCalendarApp.usuario.home.refreshListLabel">Refresh List</span>
       </button>
-
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-usuario"
-        [routerLink]="['/usuario/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="javanikoCalendarApp.usuario.home.createLabel"> Create a new Usuario </span>
-      </button>
     </div>
   </h2>
 
@@ -33,6 +23,8 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.username">Username</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.email">Email</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.birthdate">Birthdate</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.phone">Phone</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.user">User</span></th>
@@ -46,6 +38,8 @@
           <td>
             <a [routerLink]="['/usuario', usuario.id, 'view']">{{ usuario.id }}</a>
           </td>
+          <td>{{ usuario.username }}</td>
+          <td>{{ usuario.email }}</td>
           <td>{{ usuario.birthdate | formatMediumDate }}</td>
           <td>{{ usuario.phone }}</td>
           <td>
@@ -83,11 +77,6 @@
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
-
-              <button type="submit" (click)="delete(usuario)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
               </button>
             </div>
           </td>

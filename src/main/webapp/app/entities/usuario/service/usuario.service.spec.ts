@@ -26,6 +26,9 @@ describe('Service Tests', () => {
 
       elemDefault = {
         id: 0,
+        username: 'AAAAAAA',
+        password: 'AAAAAAA',
+        email: 'prueba@prueba.com',
         birthdate: currentDate,
         phone: 0,
       };
@@ -74,6 +77,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
+            username: 'BBBBBBB',
+            password: 'BBBBBBB',
+            email: 'prueba1@prueba1.com',
             birthdate: currentDate.format(DATE_FORMAT),
             phone: 1,
           },
@@ -97,7 +103,9 @@ describe('Service Tests', () => {
       it('should partial update a Usuario', () => {
         const patchObject = Object.assign(
           {
+            username: 'BBBBBB',
             birthdate: currentDate.format(DATE_FORMAT),
+            phone: 1,
           },
           new Usuario()
         );
@@ -122,6 +130,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
+            username: 'BBBBBB',
+            password: 'BBBBBB',
+            email: 'prueba1@prueba1.com',
             birthdate: currentDate.format(DATE_FORMAT),
             phone: 1,
           },

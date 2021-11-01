@@ -15,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { TemplateRef, ViewChild } from '@angular/core';
 import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-input',
@@ -25,11 +26,12 @@ export class InputComponent implements OnInit {
   closeResult = '';
   isLoading = false;
   calendarOptions?: CalendarOptions;
+  hasThisAuthority = false;
 
   @ViewChild('content')
   private content!: TemplateRef<any>;
 
-  constructor(protected inputService: InputService, private httpClient: HttpClient, private modalService: NgbModal) {}
+  constructor(protected inputService: InputService, protected accountService: AccountService, private httpClient: HttpClient, private modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -137,6 +139,10 @@ export class InputComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  hasAnyAuthority(authorities: string[] | string): boolean {
+    return this.accountService.hasAnyAuthority(authorities);
   }
 
   renderEventContent(eventInfo, createElement) {

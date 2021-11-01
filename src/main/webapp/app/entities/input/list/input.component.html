@@ -28,7 +28,12 @@
     <span jhiTranslate="javanikoCalendarApp.input.home.notFound">No inputs found</span>
   </div>
 
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  <div [ngSwitch]="hasAnyAuthority('ROLE_ADMIN')">
+    <div *ngSwitchCase="true"></div>
+    <div *ngSwitchCase="false">
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </div>
 
   <div class="table-responsive" id="entities" *ngIf="inputs && inputs.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
@@ -38,7 +43,7 @@
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.comment">Comment</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.feelings">Feelings</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.inputDate">Input Date</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.usuario">Usuario</span></th>
+          <th *ngIf="hasAnyAuthority('ROLE_ADMIN')" scope="col"><span jhiTranslate="javanikoCalendarApp.input.usuario">Usuario</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,14 +52,14 @@
           <td>
             <a [routerLink]="['/input', input.id, 'view']">{{ input.id }}</a>
           </td>
-          <td>{{ input.comment }}</td>
+          <td><strong style="font-size: 1.15em;">{{input.usuario?.username}}</strong>: {{ input.comment }}</td>
           <td *ngIf="input.feelings == 0">☹</td>
           <td *ngIf="input.feelings == 5">😐</td>
           <td *ngIf="input.feelings == 10">😁</td>
           <td>{{ input.inputDate | formatMediumDate }}</td>
           <td>
-            <div *ngIf="input.usuario">
-              <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.id }}</a>
+            <div *ngIf="input.usuario && hasAnyAuthority('ROLE_ADMIN')">
+              <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.username }}</a>
             </div>
           </td>
           <td class="text-right">

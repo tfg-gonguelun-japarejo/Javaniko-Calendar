@@ -13,5 +13,10 @@
                                  constraintName="fk_input__usuario_id"
                                  referencedColumnNames="id"
                                  referencedTableName="usuario"/>
+        <addUniqueConstraint
+        columnNames="input_date, usuario_id"
+        constraintName="ux_input__input_date"
+        tableName="input"
+        />
     </changeSet>
 </databaseChangeLog>

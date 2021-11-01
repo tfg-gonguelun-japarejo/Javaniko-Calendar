@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -27,8 +27,11 @@ export class UsuarioUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    username: [],
+    password: [],
+    email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
     birthdate: [],
-    phone: [],
+    phone: ['', [Validators.pattern('^\\d{9}$')]],
     user: [],
     workspaces: [],
     proyects: [],
@@ -121,6 +124,9 @@ export class UsuarioUpdateComponent implements OnInit {
   protected updateForm(usuario: IUsuario): void {
     this.editForm.patchValue({
       id: usuario.id,
+      username: usuario.username,
+      password: usuario.password,
+      email: usuario.email,
       birthdate: usuario.birthdate,
       phone: usuario.phone,
       user: usuario.user,
@@ -171,6 +177,9 @@ export class UsuarioUpdateComponent implements OnInit {
     return {
       ...new Usuario(),
       id: this.editForm.get(['id'])!.value,
+      username: this.editForm.get(['username'])!.value,
+      password: this.editForm.get(['password'])!.value,
+      email: this.editForm.get(['email'])!.value,
       birthdate: this.editForm.get(['birthdate'])!.value,
       phone: this.editForm.get(['phone'])!.value,
       user: this.editForm.get(['user'])!.value,
