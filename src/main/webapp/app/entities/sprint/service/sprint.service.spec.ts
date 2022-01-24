@@ -27,11 +27,11 @@ describe('Service Tests', () => {
 
       elemDefault = {
         id: 0,
-        sprint: 0,
-        startDate: currentDate,
-        endDate: currentDate,
+        title: 'AAAAAAA',
+        createdAt: currentDate,
+        dueOn: currentDate,
         status: Status.ON_GOING,
-        goal: 'AAAAAAA',
+        description: 'AAAAAAA',
       };
     });
 
@@ -39,8 +39,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
+            dueOn: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -56,16 +56,16 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
+            dueOn: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
+            dueOn: currentDate,
           },
           returnedFromService
         );
@@ -81,19 +81,19 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            sprint: 1,
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            title: 'BBBBBB',
+            createdAt: currentDate.format(DATE_FORMAT),
+            dueOn: currentDate.format(DATE_FORMAT),
             status: 'BBBBBB',
-            goal: 'BBBBBB',
+            description: 'BBBBBB',
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
+            dueOn: currentDate,
           },
           returnedFromService
         );
@@ -117,8 +117,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
+            dueOn: currentDate,
           },
           returnedFromService
         );
@@ -134,19 +134,19 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            sprint: 1,
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            title: 'BBBBBB',
+            createdAt: currentDate.format(DATE_FORMAT),
+            dueOn: currentDate.format(DATE_FORMAT),
             status: 'BBBBBB',
-            goal: 'BBBBBB',
+            description: 'BBBBBB',
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
+            dueOn: currentDate,
           },
           returnedFromService
         );

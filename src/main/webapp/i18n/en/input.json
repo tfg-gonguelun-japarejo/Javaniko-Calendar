@@ -21,7 +21,8 @@
       "comment": "Comment",
       "feelings": "Feelings",
       "inputDate": "Input Date",
-      "usuario": "Usuario"
+      "usuario": "Usuario",
+      "sprint": "Sprint"
     }
   }
 }

@@ -18,19 +18,22 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.name" for="field_name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.login" for="field_login">Login</label>
+          <input type="text" class="form-control" name="login" id="field_login" data-cy="login" formControlName="login" />
+          <div *ngIf="editForm.get('login')!.invalid && (editForm.get('login')!.dirty || editForm.get('login')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('login')?.errors?.required" jhiTranslate="entity.validation.required">
               This field is required.
             </small>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.description" for="field_description"
-            >Description</label
-          >
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.repos_url" for="field_repos_url">Repos Url</label>
+          <input type="text" class="form-control" name="repos_url" id="field_repos_url" data-cy="repos_url" formControlName="repos_url" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.description" for="field_description">Description</label>
           <input
             type="text"
             class="form-control"
@@ -43,28 +46,6 @@
             <small
               class="form-text text-danger"
               *ngIf="editForm.get('description')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('description')?.errors?.minlength"
-              jhiTranslate="entity.validation.minlength"
-              [translateValues]="{ min: 20 }"
-            >
-              This field is required to be at least 20 characters.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.workspace.isPrivate" for="field_isPrivate">Is Private</label>
-          <input type="checkbox" class="form-check" name="isPrivate" id="field_isPrivate" data-cy="isPrivate" formControlName="isPrivate" />
-          <div *ngIf="editForm.get('isPrivate')!.invalid && (editForm.get('isPrivate')!.dirty || editForm.get('isPrivate')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('isPrivate')?.errors?.required"
               jhiTranslate="entity.validation.required"
             >
               This field is required.

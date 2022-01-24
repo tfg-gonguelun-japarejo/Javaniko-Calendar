@@ -76,6 +76,19 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.input.sprint" for="field_sprint">Sprint</label>
+          <select class="form-control" id="field_sprint" data-cy="sprint" name="sprint" formControlName="sprint">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="sprintOption.id === editForm.get('sprint')!.value?.id ? editForm.get('sprint')!.value : sprintOption"
+              *ngFor="let sprintOption of sprintsSharedCollection; trackBy: trackSprintById"
+            >
+              {{ sprintOption.id }}
+            </option>
+          </select>
+        </div>
+
         <div [ngSwitch]="hasAnyAuthority('ROLE_ADMIN')">
           <div *ngSwitchCase="true">
             <div class="form-group">

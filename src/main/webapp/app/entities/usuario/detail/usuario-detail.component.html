@@ -37,7 +37,7 @@
         <dt><span jhiTranslate="javanikoCalendarApp.usuario.workspace">Workspace</span></dt>
         <dd>
           <span *ngFor="let workspace of usuario.workspaces; let last = last">
-            <a [routerLink]="['/workspace', workspace?.id, 'view']">{{ workspace.name }}</a
+            <a [routerLink]="['/workspace', workspace?.id, 'view']">{{ workspace.login }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>

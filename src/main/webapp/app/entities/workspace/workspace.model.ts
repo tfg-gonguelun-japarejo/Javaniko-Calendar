@@ -3,9 +3,9 @@ import { IUsuario } from 'app/entities/usuario/usuario.model';
 
 export interface IWorkspace {
   id?: number;
-  name?: string;
+  login?: string;
+  repos_url?: string | null;
   description?: string;
-  isPrivate?: boolean;
   proyects?: IProyect[] | null;
   usuarios?: IUsuario[] | null;
 }
@@ -13,14 +13,12 @@ export interface IWorkspace {
 export class Workspace implements IWorkspace {
   constructor(
     public id?: number,
-    public name?: string,
+    public login?: string,
+    public repos_url?: string | null,
     public description?: string,
-    public isPrivate?: boolean,
     public proyects?: IProyect[] | null,
     public usuarios?: IUsuario[] | null
-  ) {
-    this.isPrivate = this.isPrivate ?? false;
-  }
+  ) {}
 }
 
 export function getWorkspaceIdentifier(workspace: IWorkspace): number | undefined {

@@ -18,11 +18,12 @@
         "title": "Sprint"
       },
       "id": "ID",
-      "sprint": "Sprint",
-      "startDate": "Start Date",
-      "endDate": "End Date",
+      "title": "Title",
+      "createdAt": "Created At",
+      "dueOn": "Due On",
       "status": "Status",
-      "goal": "Goal",
+      "description": "Description",
+      "input": "Input",
       "proyect": "Proyect"
     }
   }

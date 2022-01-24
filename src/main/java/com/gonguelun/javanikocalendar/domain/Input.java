@@ -27,12 +27,16 @@ public class Input implements Serializable {
     private Integer feelings;
 
     @NotNull
-    @Column(name = "input_date", nullable = false, unique = true)
+    @Column(name = "input_date", nullable = false)
     private LocalDate inputDate;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "user", "inputs", "workspaces", "proyects" }, allowSetters = true)
     private Usuario usuario;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "inputs", "proyect" }, allowSetters = true)
+    private Sprint sprint;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -98,6 +102,19 @@ public class Input implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Sprint getSprint() {
+        return this.sprint;
+    }
+
+    public Input sprint(Sprint sprint) {
+        this.setSprint(sprint);
+        return this;
+    }
+
+    public void setSprint(Sprint sprint) {
+        this.sprint = sprint;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -43,6 +43,7 @@
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.comment">Comment</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.feelings">Feelings</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.inputDate">Input Date</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.input.sprint">Sprint</span></th>
           <th *ngIf="hasAnyAuthority('ROLE_ADMIN')" scope="col"><span jhiTranslate="javanikoCalendarApp.input.usuario">Usuario</span></th>
           <th scope="col"></th>
         </tr>
@@ -57,6 +58,11 @@
           <td *ngIf="input.feelings == 5">😐</td>
           <td *ngIf="input.feelings == 10">😁</td>
           <td>{{ input.inputDate | formatMediumDate }}</td>
+          <td>
+            <div *ngIf="input.sprint">
+              <a [routerLink]="['/sprint', input.sprint?.id, 'view']">{{ input.sprint?.title }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="input.usuario && hasAnyAuthority('ROLE_ADMIN')">
               <a [routerLink]="['/usuario', input.usuario?.id, 'view']">{{ input.usuario?.username }}</a>

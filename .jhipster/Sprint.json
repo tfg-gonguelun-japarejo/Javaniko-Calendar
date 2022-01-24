@@ -2,15 +2,15 @@
   "name": "Sprint",
   "fields": [
     {
-      "fieldName": "sprint",
-      "fieldType": "Integer"
+      "fieldName": "title",
+      "fieldType": "String"
     },
     {
-      "fieldName": "startDate",
+      "fieldName": "createdAt",
       "fieldType": "LocalDate"
     },
     {
-      "fieldName": "endDate",
+      "fieldName": "dueOn",
       "fieldType": "LocalDate"
     },
     {
@@ -19,11 +19,17 @@
       "fieldValues": "ON_GOING,PENDING,SUCCESS,FAIL"
     },
     {
-      "fieldName": "goal",
+      "fieldName": "description",
       "fieldType": "String"
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "input",
+      "otherEntityRelationshipName": "sprint",
+      "relationshipName": "input"
+    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "proyect",

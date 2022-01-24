@@ -29,14 +29,14 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class WorkspaceResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_LOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_LOGIN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAAAAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBBBBBBBBBBBB";
+    private static final String DEFAULT_REPOS_URL = "AAAAAAAAAA";
+    private static final String UPDATED_REPOS_URL = "BBBBBBBBBB";
 
-    private static final Boolean DEFAULT_IS_PRIVATE = false;
-    private static final Boolean UPDATED_IS_PRIVATE = true;
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/workspaces";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -62,7 +62,7 @@ class WorkspaceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Workspace createEntity(EntityManager em) {
-        Workspace workspace = new Workspace().name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION).isPrivate(DEFAULT_IS_PRIVATE);
+        Workspace workspace = new Workspace().login(DEFAULT_LOGIN).repos_url(DEFAULT_REPOS_URL).description(DEFAULT_DESCRIPTION);
         return workspace;
     }
 
@@ -73,7 +73,7 @@ class WorkspaceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Workspace createUpdatedEntity(EntityManager em) {
-        Workspace workspace = new Workspace().name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+        Workspace workspace = new Workspace().login(UPDATED_LOGIN).repos_url(UPDATED_REPOS_URL).description(UPDATED_DESCRIPTION);
         return workspace;
     }
 
@@ -95,9 +95,9 @@ class WorkspaceResourceIT {
         List<Workspace> workspaceList = workspaceRepository.findAll();
         assertThat(workspaceList).hasSize(databaseSizeBeforeCreate + 1);
         Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
-        assertThat(testWorkspace.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testWorkspace.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(testWorkspace.getrepos_url()).isEqualTo(DEFAULT_REPOS_URL);
         assertThat(testWorkspace.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testWorkspace.getIsPrivate()).isEqualTo(DEFAULT_IS_PRIVATE);
     }
 
     @Test
@@ -120,10 +120,10 @@ class WorkspaceResourceIT {
 
     @Test
     @Transactional
-    void checkNameIsRequired() throws Exception {
+    void checkLoginIsRequired() throws Exception {
         int databaseSizeBeforeTest = workspaceRepository.findAll().size();
         // set the field null
-        workspace.setName(null);
+        workspace.setLogin(null);
 
         // Create the Workspace, which fails.
 
@@ -154,23 +154,6 @@ class WorkspaceResourceIT {
 
     @Test
     @Transactional
-    void checkIsPrivateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = workspaceRepository.findAll().size();
-        // set the field null
-        workspace.setIsPrivate(null);
-
-        // Create the Workspace, which fails.
-
-        restWorkspaceMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(workspace)))
-            .andExpect(status().isBadRequest());
-
-        List<Workspace> workspaceList = workspaceRepository.findAll();
-        assertThat(workspaceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllWorkspaces() throws Exception {
         // Initialize the database
         workspaceRepository.saveAndFlush(workspace);
@@ -181,9 +164,9 @@ class WorkspaceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(workspace.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].isPrivate").value(hasItem(DEFAULT_IS_PRIVATE.booleanValue())));
+            .andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)))
+            .andExpect(jsonPath("$.[*].repos_url").value(hasItem(DEFAULT_REPOS_URL)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
@@ -198,9 +181,9 @@ class WorkspaceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(workspace.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.isPrivate").value(DEFAULT_IS_PRIVATE.booleanValue()));
+            .andExpect(jsonPath("$.login").value(DEFAULT_LOGIN))
+            .andExpect(jsonPath("$.repos_url").value(DEFAULT_REPOS_URL))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -222,7 +205,7 @@ class WorkspaceResourceIT {
         Workspace updatedWorkspace = workspaceRepository.findById(workspace.getId()).get();
         // Disconnect from session so that the updates on updatedWorkspace are not directly saved in db
         em.detach(updatedWorkspace);
-        updatedWorkspace.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+        updatedWorkspace.login(UPDATED_LOGIN).repos_url(UPDATED_REPOS_URL).description(UPDATED_DESCRIPTION);
 
         restWorkspaceMockMvc
             .perform(
@@ -236,9 +219,9 @@ class WorkspaceResourceIT {
         List<Workspace> workspaceList = workspaceRepository.findAll();
         assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
         Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
-        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testWorkspace.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testWorkspace.getrepos_url()).isEqualTo(UPDATED_REPOS_URL);
         assertThat(testWorkspace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
     }
 
     @Test
@@ -309,7 +292,7 @@ class WorkspaceResourceIT {
         Workspace partialUpdatedWorkspace = new Workspace();
         partialUpdatedWorkspace.setId(workspace.getId());
 
-        partialUpdatedWorkspace.name(UPDATED_NAME).isPrivate(UPDATED_IS_PRIVATE);
+        partialUpdatedWorkspace.login(UPDATED_LOGIN).description(UPDATED_DESCRIPTION);
 
         restWorkspaceMockMvc
             .perform(
@@ -323,9 +306,9 @@ class WorkspaceResourceIT {
         List<Workspace> workspaceList = workspaceRepository.findAll();
         assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
         Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
-        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testWorkspace.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
+        assertThat(testWorkspace.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testWorkspace.getrepos_url()).isEqualTo(DEFAULT_REPOS_URL);
+        assertThat(testWorkspace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test
@@ -340,7 +323,7 @@ class WorkspaceResourceIT {
         Workspace partialUpdatedWorkspace = new Workspace();
         partialUpdatedWorkspace.setId(workspace.getId());
 
-        partialUpdatedWorkspace.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).isPrivate(UPDATED_IS_PRIVATE);
+        partialUpdatedWorkspace.login(UPDATED_LOGIN).repos_url(UPDATED_REPOS_URL).description(UPDATED_DESCRIPTION);
 
         restWorkspaceMockMvc
             .perform(
@@ -354,9 +337,9 @@ class WorkspaceResourceIT {
         List<Workspace> workspaceList = workspaceRepository.findAll();
         assertThat(workspaceList).hasSize(databaseSizeBeforeUpdate);
         Workspace testWorkspace = workspaceList.get(workspaceList.size() - 1);
-        assertThat(testWorkspace.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testWorkspace.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testWorkspace.getrepos_url()).isEqualTo(UPDATED_REPOS_URL);
         assertThat(testWorkspace.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testWorkspace.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
     }
 
     @Test

@@ -45,11 +45,11 @@ public class ProyectServiceImpl implements ProyectService {
                     if (proyect.getDescription() != null) {
                         existingProyect.setDescription(proyect.getDescription());
                     }
-                    if (proyect.getStartDate() != null) {
-                        existingProyect.setStartDate(proyect.getStartDate());
+                    if (proyect.getCreatedAt() != null) {
+                        existingProyect.setCreatedAt(proyect.getCreatedAt());
                     }
-                    if (proyect.getEndDate() != null) {
-                        existingProyect.setEndDate(proyect.getEndDate());
+                    if (proyect.getIsPrivate() != null) {
+                        existingProyect.setIsPrivate(proyect.getIsPrivate());
                     }
 
                     return existingProyect;

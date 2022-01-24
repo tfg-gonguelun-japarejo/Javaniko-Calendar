@@ -37,11 +37,11 @@ class ProyectResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAAAAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBBBBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Boolean DEFAULT_IS_PRIVATE = false;
+    private static final Boolean UPDATED_IS_PRIVATE = true;
 
     private static final String ENTITY_API_URL = "/api/proyects";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -70,8 +70,8 @@ class ProyectResourceIT {
         Proyect proyect = new Proyect()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
-            .startDate(DEFAULT_START_DATE)
-            .endDate(DEFAULT_END_DATE);
+            .createdAt(DEFAULT_CREATED_AT)
+            .isPrivate(DEFAULT_IS_PRIVATE);
         return proyect;
     }
 
@@ -85,8 +85,8 @@ class ProyectResourceIT {
         Proyect proyect = new Proyect()
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
-            .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE);
+            .createdAt(UPDATED_CREATED_AT)
+            .isPrivate(UPDATED_IS_PRIVATE);
         return proyect;
     }
 
@@ -110,8 +110,8 @@ class ProyectResourceIT {
         Proyect testProyect = proyectList.get(proyectList.size() - 1);
         assertThat(testProyect.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProyect.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testProyect.getStartDate()).isEqualTo(DEFAULT_START_DATE);
-        assertThat(testProyect.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testProyect.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testProyect.getIsPrivate()).isEqualTo(DEFAULT_IS_PRIVATE);
     }
 
     @Test
@@ -168,6 +168,23 @@ class ProyectResourceIT {
 
     @Test
     @Transactional
+    void checkIsPrivateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = proyectRepository.findAll().size();
+        // set the field null
+        proyect.setIsPrivate(null);
+
+        // Create the Proyect, which fails.
+
+        restProyectMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(proyect)))
+            .andExpect(status().isBadRequest());
+
+        List<Proyect> proyectList = proyectRepository.findAll();
+        assertThat(proyectList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllProyects() throws Exception {
         // Initialize the database
         proyectRepository.saveAndFlush(proyect);
@@ -180,8 +197,8 @@ class ProyectResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(proyect.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
-            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())));
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].isPrivate").value(hasItem(DEFAULT_IS_PRIVATE.booleanValue())));
     }
 
     @Test
@@ -198,8 +215,8 @@ class ProyectResourceIT {
             .andExpect(jsonPath("$.id").value(proyect.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
-            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()));
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.isPrivate").value(DEFAULT_IS_PRIVATE.booleanValue()));
     }
 
     @Test
@@ -221,7 +238,7 @@ class ProyectResourceIT {
         Proyect updatedProyect = proyectRepository.findById(proyect.getId()).get();
         // Disconnect from session so that the updates on updatedProyect are not directly saved in db
         em.detach(updatedProyect);
-        updatedProyect.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+        updatedProyect.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).createdAt(UPDATED_CREATED_AT).isPrivate(UPDATED_IS_PRIVATE);
 
         restProyectMockMvc
             .perform(
@@ -237,8 +254,8 @@ class ProyectResourceIT {
         Proyect testProyect = proyectList.get(proyectList.size() - 1);
         assertThat(testProyect.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProyect.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testProyect.getStartDate()).isEqualTo(UPDATED_START_DATE);
-        assertThat(testProyect.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testProyect.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testProyect.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
     }
 
     @Test
@@ -309,7 +326,7 @@ class ProyectResourceIT {
         Proyect partialUpdatedProyect = new Proyect();
         partialUpdatedProyect.setId(proyect.getId());
 
-        partialUpdatedProyect.name(UPDATED_NAME).startDate(UPDATED_START_DATE);
+        partialUpdatedProyect.name(UPDATED_NAME).createdAt(UPDATED_CREATED_AT);
 
         restProyectMockMvc
             .perform(
@@ -325,8 +342,8 @@ class ProyectResourceIT {
         Proyect testProyect = proyectList.get(proyectList.size() - 1);
         assertThat(testProyect.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProyect.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testProyect.getStartDate()).isEqualTo(UPDATED_START_DATE);
-        assertThat(testProyect.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testProyect.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testProyect.getIsPrivate()).isEqualTo(DEFAULT_IS_PRIVATE);
     }
 
     @Test
@@ -341,7 +358,11 @@ class ProyectResourceIT {
         Proyect partialUpdatedProyect = new Proyect();
         partialUpdatedProyect.setId(proyect.getId());
 
-        partialUpdatedProyect.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).startDate(UPDATED_START_DATE).endDate(UPDATED_END_DATE);
+        partialUpdatedProyect
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .createdAt(UPDATED_CREATED_AT)
+            .isPrivate(UPDATED_IS_PRIVATE);
 
         restProyectMockMvc
             .perform(
@@ -357,8 +378,8 @@ class ProyectResourceIT {
         Proyect testProyect = proyectList.get(proyectList.size() - 1);
         assertThat(testProyect.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProyect.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-        assertThat(testProyect.getStartDate()).isEqualTo(UPDATED_START_DATE);
-        assertThat(testProyect.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testProyect.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testProyect.getIsPrivate()).isEqualTo(UPDATED_IS_PRIVATE);
     }
 
     @Test

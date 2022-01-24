@@ -85,15 +85,15 @@ describe('Workspace e2e test', () => {
     cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('Workspace');
 
-    cy.get(`[data-cy="name"]`).type('navigate AGP', { force: true }).invoke('val').should('match', new RegExp('navigate AGP'));
+    cy.get(`[data-cy="login"]`).type('navigate AGP', { force: true }).invoke('val').should('match', new RegExp('navigate AGP'));
+
+    cy.get(`[data-cy="repos_url"]`).type('Card América', { force: true }).invoke('val').should('match', new RegExp('Card América'));
 
     cy.get(`[data-cy="description"]`)
-      .type('Card AméricaXXXXXXXX', { force: true })
+      .type('Auto Queso Director', { force: true })
       .invoke('val')
-      .should('match', new RegExp('Card AméricaXXXXXXXX'));
+      .should('match', new RegExp('Auto Queso Director'));
 
-    cy.get(`[data-cy="isPrivate"]`).should('not.be.checked');
-    cy.get(`[data-cy="isPrivate"]`).click().should('be.checked');
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });
     cy.get(entityCreateSaveButtonSelector).should('not.exist');

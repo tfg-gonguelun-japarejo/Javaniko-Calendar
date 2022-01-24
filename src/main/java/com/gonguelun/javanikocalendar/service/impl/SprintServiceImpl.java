@@ -39,20 +39,20 @@ public class SprintServiceImpl implements SprintService {
             .findById(sprint.getId())
             .map(
                 existingSprint -> {
-                    if (sprint.getSprint() != null) {
-                        existingSprint.setSprint(sprint.getSprint());
+                    if (sprint.getTitle() != null) {
+                        existingSprint.setTitle(sprint.getTitle());
                     }
-                    if (sprint.getStartDate() != null) {
-                        existingSprint.setStartDate(sprint.getStartDate());
+                    if (sprint.getCreatedAt() != null) {
+                        existingSprint.setCreatedAt(sprint.getCreatedAt());
                     }
-                    if (sprint.getEndDate() != null) {
-                        existingSprint.setEndDate(sprint.getEndDate());
+                    if (sprint.getDueOn() != null) {
+                        existingSprint.setDueOn(sprint.getDueOn());
                     }
                     if (sprint.getStatus() != null) {
                         existingSprint.setStatus(sprint.getStatus());
                     }
-                    if (sprint.getGoal() != null) {
-                        existingSprint.setGoal(sprint.getGoal());
+                    if (sprint.getDescription() != null) {
+                        existingSprint.setDescription(sprint.getDescription());
                     }
 
                     return existingSprint;

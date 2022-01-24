@@ -13,7 +13,7 @@
     {
       "fieldName": "inputDate",
       "fieldType": "LocalDate",
-      "fieldValidateRules": ["required", "unique"]
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
@@ -22,6 +22,12 @@
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "input",
       "relationshipName": "usuario"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "sprint",
+      "otherEntityRelationshipName": "input",
+      "relationshipName": "sprint"
     }
   ],
   "entityTableName": "input",

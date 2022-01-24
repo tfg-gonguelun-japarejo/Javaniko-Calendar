@@ -89,9 +89,14 @@ describe('Usuario e2e test', () => {
 
     cy.get(`[data-cy="password"]`).type('Herzegovina Rojo', { force: true }).invoke('val').should('match', new RegExp('Herzegovina Rojo'));
 
-    cy.get(`[data-cy="birthdate"]`).type('2021-08-30').should('have.value', '2021-08-30');
+    cy.get(`[data-cy="email"]`)
+      .type('Carla.Camarillo78@gmail.com', { force: true })
+      .invoke('val')
+      .should('match', new RegExp('Carla.Camarillo78@gmail.com'));
 
-    cy.get(`[data-cy="phone"]`).type('1517').should('have.value', '1517');
+    cy.get(`[data-cy="birthdate"]`).type('2021-11-01').should('have.value', '2021-11-01');
+
+    cy.get(`[data-cy="phone"]`).type('88225').should('have.value', '88225');
 
     cy.setFieldSelectToLastOfEntity('user');
 
