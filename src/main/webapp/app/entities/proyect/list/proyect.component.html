@@ -35,8 +35,8 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.name">Name</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.description">Description</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.startDate">Start Date</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.endDate">End Date</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.createdAt">Created At</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.isPrivate">Is Private</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.workspace">Workspace</span></th>
           <th scope="col"></th>
         </tr>
@@ -48,11 +48,11 @@
           </td>
           <td>{{ proyect.name }}</td>
           <td>{{ proyect.description }}</td>
-          <td>{{ proyect.startDate | formatMediumDate }}</td>
-          <td>{{ proyect.endDate | formatMediumDate }}</td>
+          <td>{{ proyect.createdAt | formatMediumDate }}</td>
+          <td>{{ proyect.isPrivate }}</td>
           <td>
             <div *ngIf="proyect.workspace">
-              <a [routerLink]="['/workspace', proyect.workspace?.id, 'view']">{{ proyect.workspace?.name }}</a>
+              <a [routerLink]="['/workspace', proyect.workspace?.id, 'view']">{{ proyect.workspace?.login }}</a>
             </div>
           </td>
           <td class="text-right">

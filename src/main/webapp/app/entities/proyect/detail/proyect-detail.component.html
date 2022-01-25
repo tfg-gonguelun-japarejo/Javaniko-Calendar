@@ -22,18 +22,18 @@
         <dd>
           <span>{{ proyect.description }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.proyect.startDate">Start Date</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.proyect.createdAt">Created At</span></dt>
         <dd>
-          <span>{{ proyect.startDate | formatMediumDate }}</span>
+          <span>{{ proyect.createdAt | formatMediumDate }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.proyect.endDate">End Date</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.proyect.isPrivate">Is Private</span></dt>
         <dd>
-          <span>{{ proyect.endDate | formatMediumDate }}</span>
+          <span>{{ proyect.isPrivate }}</span>
         </dd>
         <dt><span jhiTranslate="javanikoCalendarApp.proyect.workspace">Workspace</span></dt>
         <dd>
           <div *ngIf="proyect.workspace">
-            <a [routerLink]="['/workspace', proyect.workspace?.id, 'view']">{{ proyect.workspace?.name }}</a>
+            <a [routerLink]="['/workspace', proyect.workspace?.id, 'view']">{{ proyect.workspace?.login }}</a>
           </div>
         </dd>
       </dl>

@@ -14,25 +14,25 @@
         <dd>
           <span>{{ sprint.id }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.sprint.sprint">Sprint</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.sprint.title">Title</span></dt>
         <dd>
-          <span>{{ sprint.sprint }}</span>
+          <span>{{ sprint.title }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.sprint.startDate">Start Date</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.sprint.createdAt">Created At</span></dt>
         <dd>
-          <span>{{ sprint.startDate | formatMediumDate }}</span>
+          <span>{{ sprint.createdAt | formatMediumDate }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.sprint.endDate">End Date</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.sprint.dueOn">Due On</span></dt>
         <dd>
-          <span>{{ sprint.endDate | formatMediumDate }}</span>
+          <span>{{ sprint.dueOn | formatMediumDate }}</span>
         </dd>
         <dt><span jhiTranslate="javanikoCalendarApp.sprint.status">Status</span></dt>
         <dd>
           <span jhiTranslate="{{ 'javanikoCalendarApp.Status.' + sprint.status }}">{{ sprint.status }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.sprint.goal">Goal</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.sprint.description">Description</span></dt>
         <dd>
-          <span>{{ sprint.goal }}</span>
+          <span>{{ sprint.description }}</span>
         </dd>
         <dt><span jhiTranslate="javanikoCalendarApp.sprint.proyect">Proyect</span></dt>
         <dd>

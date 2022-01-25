@@ -86,7 +86,7 @@ export class InputComponent implements OnInit {
       for (const myinput of this.inputs) {
         if (myinput.feelings === 0) {
           obj = {
-            title: myinput.comment,
+            title: myinput.usuario?.username + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/sad.png',
@@ -94,7 +94,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 5) {
           obj = {
-            title: myinput.comment,
+            title: myinput.usuario + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/serious_emoji.png',
@@ -102,7 +102,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 10) {
           obj = {
-            title: myinput.comment,
+            title: myinput.usuario + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/happy_emoji.png',

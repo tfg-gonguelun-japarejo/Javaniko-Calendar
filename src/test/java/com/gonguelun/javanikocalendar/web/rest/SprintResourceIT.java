@@ -32,20 +32,20 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class SprintResourceIT {
 
-    private static final Integer DEFAULT_SPRINT = 1;
-    private static final Integer UPDATED_SPRINT = 2;
+    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
+    private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
 
-    private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate DEFAULT_DUE_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DUE_ON = LocalDate.now(ZoneId.systemDefault());
 
     private static final Status DEFAULT_STATUS = Status.ON_GOING;
     private static final Status UPDATED_STATUS = Status.PENDING;
 
-    private static final String DEFAULT_GOAL = "AAAAAAAAAA";
-    private static final String UPDATED_GOAL = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/sprints";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -72,11 +72,11 @@ class SprintResourceIT {
      */
     public static Sprint createEntity(EntityManager em) {
         Sprint sprint = new Sprint()
-            .sprint(DEFAULT_SPRINT)
-            .startDate(DEFAULT_START_DATE)
-            .endDate(DEFAULT_END_DATE)
+            .title(DEFAULT_TITLE)
+            .createdAt(DEFAULT_CREATED_AT)
+            .dueOn(DEFAULT_DUE_ON)
             .status(DEFAULT_STATUS)
-            .goal(DEFAULT_GOAL);
+            .description(DEFAULT_DESCRIPTION);
         return sprint;
     }
 
@@ -88,11 +88,11 @@ class SprintResourceIT {
      */
     public static Sprint createUpdatedEntity(EntityManager em) {
         Sprint sprint = new Sprint()
-            .sprint(UPDATED_SPRINT)
-            .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE)
+            .title(UPDATED_TITLE)
+            .createdAt(UPDATED_CREATED_AT)
+            .dueOn(UPDATED_DUE_ON)
             .status(UPDATED_STATUS)
-            .goal(UPDATED_GOAL);
+            .description(UPDATED_DESCRIPTION);
         return sprint;
     }
 
@@ -114,11 +114,11 @@ class SprintResourceIT {
         List<Sprint> sprintList = sprintRepository.findAll();
         assertThat(sprintList).hasSize(databaseSizeBeforeCreate + 1);
         Sprint testSprint = sprintList.get(sprintList.size() - 1);
-        assertThat(testSprint.getSprint()).isEqualTo(DEFAULT_SPRINT);
-        assertThat(testSprint.getStartDate()).isEqualTo(DEFAULT_START_DATE);
-        assertThat(testSprint.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testSprint.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testSprint.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testSprint.getDueOn()).isEqualTo(DEFAULT_DUE_ON);
         assertThat(testSprint.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testSprint.getGoal()).isEqualTo(DEFAULT_GOAL);
+        assertThat(testSprint.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -151,11 +151,11 @@ class SprintResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(sprint.getId().intValue())))
-            .andExpect(jsonPath("$.[*].sprint").value(hasItem(DEFAULT_SPRINT)))
-            .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
-            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_END_DATE.toString())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].createdAt").value(hasItem(DEFAULT_CREATED_AT.toString())))
+            .andExpect(jsonPath("$.[*].dueOn").value(hasItem(DEFAULT_DUE_ON.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-            .andExpect(jsonPath("$.[*].goal").value(hasItem(DEFAULT_GOAL)));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
     @Test
@@ -170,11 +170,11 @@ class SprintResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(sprint.getId().intValue()))
-            .andExpect(jsonPath("$.sprint").value(DEFAULT_SPRINT))
-            .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
-            .andExpect(jsonPath("$.endDate").value(DEFAULT_END_DATE.toString()))
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
+            .andExpect(jsonPath("$.createdAt").value(DEFAULT_CREATED_AT.toString()))
+            .andExpect(jsonPath("$.dueOn").value(DEFAULT_DUE_ON.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-            .andExpect(jsonPath("$.goal").value(DEFAULT_GOAL));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -197,11 +197,11 @@ class SprintResourceIT {
         // Disconnect from session so that the updates on updatedSprint are not directly saved in db
         em.detach(updatedSprint);
         updatedSprint
-            .sprint(UPDATED_SPRINT)
-            .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE)
+            .title(UPDATED_TITLE)
+            .createdAt(UPDATED_CREATED_AT)
+            .dueOn(UPDATED_DUE_ON)
             .status(UPDATED_STATUS)
-            .goal(UPDATED_GOAL);
+            .description(UPDATED_DESCRIPTION);
 
         restSprintMockMvc
             .perform(
@@ -215,11 +215,11 @@ class SprintResourceIT {
         List<Sprint> sprintList = sprintRepository.findAll();
         assertThat(sprintList).hasSize(databaseSizeBeforeUpdate);
         Sprint testSprint = sprintList.get(sprintList.size() - 1);
-        assertThat(testSprint.getSprint()).isEqualTo(UPDATED_SPRINT);
-        assertThat(testSprint.getStartDate()).isEqualTo(UPDATED_START_DATE);
-        assertThat(testSprint.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testSprint.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testSprint.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testSprint.getDueOn()).isEqualTo(UPDATED_DUE_ON);
         assertThat(testSprint.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testSprint.getGoal()).isEqualTo(UPDATED_GOAL);
+        assertThat(testSprint.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test
@@ -304,11 +304,11 @@ class SprintResourceIT {
         List<Sprint> sprintList = sprintRepository.findAll();
         assertThat(sprintList).hasSize(databaseSizeBeforeUpdate);
         Sprint testSprint = sprintList.get(sprintList.size() - 1);
-        assertThat(testSprint.getSprint()).isEqualTo(DEFAULT_SPRINT);
-        assertThat(testSprint.getStartDate()).isEqualTo(DEFAULT_START_DATE);
-        assertThat(testSprint.getEndDate()).isEqualTo(DEFAULT_END_DATE);
+        assertThat(testSprint.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testSprint.getCreatedAt()).isEqualTo(DEFAULT_CREATED_AT);
+        assertThat(testSprint.getDueOn()).isEqualTo(DEFAULT_DUE_ON);
         assertThat(testSprint.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testSprint.getGoal()).isEqualTo(DEFAULT_GOAL);
+        assertThat(testSprint.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -324,11 +324,11 @@ class SprintResourceIT {
         partialUpdatedSprint.setId(sprint.getId());
 
         partialUpdatedSprint
-            .sprint(UPDATED_SPRINT)
-            .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE)
+            .title(UPDATED_TITLE)
+            .createdAt(UPDATED_CREATED_AT)
+            .dueOn(UPDATED_DUE_ON)
             .status(UPDATED_STATUS)
-            .goal(UPDATED_GOAL);
+            .description(UPDATED_DESCRIPTION);
 
         restSprintMockMvc
             .perform(
@@ -342,11 +342,11 @@ class SprintResourceIT {
         List<Sprint> sprintList = sprintRepository.findAll();
         assertThat(sprintList).hasSize(databaseSizeBeforeUpdate);
         Sprint testSprint = sprintList.get(sprintList.size() - 1);
-        assertThat(testSprint.getSprint()).isEqualTo(UPDATED_SPRINT);
-        assertThat(testSprint.getStartDate()).isEqualTo(UPDATED_START_DATE);
-        assertThat(testSprint.getEndDate()).isEqualTo(UPDATED_END_DATE);
+        assertThat(testSprint.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testSprint.getCreatedAt()).isEqualTo(UPDATED_CREATED_AT);
+        assertThat(testSprint.getDueOn()).isEqualTo(UPDATED_DUE_ON);
         assertThat(testSprint.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testSprint.getGoal()).isEqualTo(UPDATED_GOAL);
+        assertThat(testSprint.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

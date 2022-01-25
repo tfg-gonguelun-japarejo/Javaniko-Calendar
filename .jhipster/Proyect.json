@@ -9,16 +9,16 @@
     {
       "fieldName": "description",
       "fieldType": "String",
-      "fieldValidateRules": ["required", "minlength"],
-      "fieldValidateRulesMinlength": "20"
+      "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "startDate",
+      "fieldName": "createdAt",
       "fieldType": "LocalDate"
     },
     {
-      "fieldName": "endDate",
-      "fieldType": "LocalDate"
+      "fieldName": "isPrivate",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

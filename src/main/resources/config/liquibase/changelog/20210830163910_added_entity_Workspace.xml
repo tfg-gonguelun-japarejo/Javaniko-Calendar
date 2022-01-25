@@ -14,13 +14,13 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="login" type="varchar(255)">
                 <constraints nullable="false" />
+            </column>
+            <column name="repos_url" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
             <column name="description" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="is_private" type="boolean">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

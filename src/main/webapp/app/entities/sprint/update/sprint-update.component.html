@@ -14,25 +14,25 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.sprint" for="field_sprint">Sprint</label>
-          <input type="number" class="form-control" name="sprint" id="field_sprint" data-cy="sprint" formControlName="sprint" />
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.startDate" for="field_startDate">Start Date</label>
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.createdAt" for="field_createdAt">Created At</label>
           <div class="input-group">
             <input
-              id="field_startDate"
-              data-cy="startDate"
+              id="field_createdAt"
+              data-cy="createdAt"
               type="text"
               class="form-control"
-              name="startDate"
+              name="createdAt"
               ngbDatepicker
-              #startDateDp="ngbDatepicker"
-              formControlName="startDate"
+              #createdAtDp="ngbDatepicker"
+              formControlName="createdAt"
             />
             <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()">
+              <button type="button" class="btn btn-secondary" (click)="createdAtDp.toggle()">
                 <fa-icon icon="calendar-alt"></fa-icon>
               </button>
             </span>
@@ -40,20 +40,20 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.endDate" for="field_endDate">End Date</label>
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.dueOn" for="field_dueOn">Due On</label>
           <div class="input-group">
             <input
-              id="field_endDate"
-              data-cy="endDate"
+              id="field_dueOn"
+              data-cy="dueOn"
               type="text"
               class="form-control"
-              name="endDate"
+              name="dueOn"
               ngbDatepicker
-              #endDateDp="ngbDatepicker"
-              formControlName="endDate"
+              #dueOnDp="ngbDatepicker"
+              formControlName="dueOn"
             />
             <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+              <button type="button" class="btn btn-secondary" (click)="dueOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
             </span>
           </div>
         </div>
@@ -70,8 +70,15 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.goal" for="field_goal">Goal</label>
-          <input type="text" class="form-control" name="goal" id="field_goal" data-cy="goal" formControlName="goal" />
+          <label class="form-control-label" jhiTranslate="javanikoCalendarApp.sprint.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
         </div>
 
         <div class="form-group">

@@ -21,7 +21,8 @@
       "comment": "Comentario",
       "feelings": "Estado de ánimo",
       "inputDate": "Fecha de inputación",
-      "usuario": "Usuario"
+      "usuario": "Usuario",
+      "sprint": "Sprint"
     }
   }
 }

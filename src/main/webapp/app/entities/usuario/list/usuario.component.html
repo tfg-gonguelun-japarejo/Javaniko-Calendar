@@ -47,7 +47,7 @@
           </td>
           <td>
             <span *ngFor="let workspace of usuario.workspaces; let last = last">
-              <a class="form-control-static" [routerLink]="['/workspace', workspace.id, 'view']">{{ workspace.name }}</a
+              <a class="form-control-static" [routerLink]="['/workspace', workspace.id, 'view']">{{ workspace.login }}</a
               >{{ last ? '' : ', ' }}
             </span>
           </td>

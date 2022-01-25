@@ -2,19 +2,17 @@
   "name": "Workspace",
   "fields": [
     {
-      "fieldName": "name",
+      "fieldName": "login",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "description",
-      "fieldType": "String",
-      "fieldValidateRules": ["required", "minlength"],
-      "fieldValidateRulesMinlength": "20"
+      "fieldName": "repos_url",
+      "fieldType": "String"
     },
     {
-      "fieldName": "isPrivate",
-      "fieldType": "Boolean",
+      "fieldName": "description",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     }
   ],

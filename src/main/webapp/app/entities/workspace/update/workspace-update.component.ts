@@ -17,9 +17,9 @@ export class WorkspaceUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    name: [null, [Validators.required]],
-    description: [null, [Validators.required, Validators.minLength(20)]],
-    isPrivate: [null, [Validators.required]],
+    login: [null, [Validators.required]],
+    repos_url: [],
+    description: [null, [Validators.required]],
   });
 
   constructor(protected workspaceService: WorkspaceService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -66,9 +66,9 @@ export class WorkspaceUpdateComponent implements OnInit {
   protected updateForm(workspace: IWorkspace): void {
     this.editForm.patchValue({
       id: workspace.id,
-      name: workspace.name,
+      login: workspace.login,
+      repos_url: workspace.repos_url,
       description: workspace.description,
-      isPrivate: workspace.isPrivate,
     });
   }
 
@@ -76,9 +76,9 @@ export class WorkspaceUpdateComponent implements OnInit {
     return {
       ...new Workspace(),
       id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
+      login: this.editForm.get(['login'])!.value,
+      repos_url: this.editForm.get(['repos_url'])!.value,
       description: this.editForm.get(['description'])!.value,
-      isPrivate: this.editForm.get(['isPrivate'])!.value,
     };
   }
 }

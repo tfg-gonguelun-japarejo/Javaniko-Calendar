@@ -18,12 +18,13 @@
         "title": "Sprint"
       },
       "id": "ID",
-      "sprint": "Sprint",
-      "startDate": "Fecha de inicio",
-      "endDate": "Fecha de fin",
+      "title": "Título",
+      "createdAt": "Creado en",
+      "dueOn": "Fecha de vencimiento",
       "status": "Estado",
-      "goal": "Objetivo",
-      "proyect": "Proyect"
+      "description": "Descripción",
+      "input": "Input",
+      "proyect": "Proyecto"
     }
   }
 }

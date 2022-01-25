@@ -13,6 +13,8 @@ import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { IUser } from 'app/admin/user-management/user-management.model';
 import { Account } from 'app/core/auth/account.model';
+import { ISprint } from 'app/entities/sprint/sprint.model';
+import { SprintService } from 'app/entities/sprint/service/sprint.service';
 
 @Component({
   selector: 'jhi-input-update',
@@ -22,6 +24,7 @@ export class InputUpdateComponent implements OnInit {
   isSaving = false;
 
   usuariosSharedCollection: IUsuario[] = [];
+  sprintsSharedCollection: ISprint[] = [];
 
   usuario?: Usuario | null;
 
@@ -31,12 +34,14 @@ export class InputUpdateComponent implements OnInit {
     feelings: [null, [Validators.required]],
     inputDate: [null, [Validators.required]],
     usuario: [],
+    sprint: [],
   });
 
   constructor(
     protected inputService: InputService,
     protected usuarioService: UsuarioService,
     protected accountService: AccountService,
+    protected sprintService: SprintService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -85,6 +90,10 @@ export class InputUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackSprintById(index: number, item: ISprint): number {
+    return item.id!;
+  }
+
   
   hasAnyAuthority(authorities: string[] | string): boolean {
     return this.accountService.hasAnyAuthority(authorities);
@@ -116,9 +125,11 @@ export class InputUpdateComponent implements OnInit {
       feelings: input.feelings,
       inputDate: input.inputDate,
       usuario: input.usuario,
+      sprint: input.sprint,
     });
 
     this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(this.usuariosSharedCollection, input.usuario);
+    this.sprintsSharedCollection = this.sprintService.addSprintToCollectionIfMissing(this.sprintsSharedCollection, input.sprint);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -129,6 +140,12 @@ export class InputUpdateComponent implements OnInit {
         map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, this.editForm.get('usuario')!.value))
       )
       .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+
+    this.sprintService
+    .query()
+    .pipe(map((res: HttpResponse<ISprint[]>) => res.body ?? []))
+    .pipe(map((sprints: ISprint[]) => this.sprintService.addSprintToCollectionIfMissing(sprints, this.editForm.get('sprint')!.value)))
+    .subscribe((sprints: ISprint[]) => (this.sprintsSharedCollection = sprints));
   }
 
   protected createFromForm(): IInput {
@@ -139,6 +156,7 @@ export class InputUpdateComponent implements OnInit {
       feelings: this.editForm.get(['feelings'])!.value,
       inputDate: this.editForm.get(['inputDate'])!.value,
       usuario: this.editForm.get(['usuario'])!.value,
+      sprint: this.editForm.get(['sprint'])!.value,
     };
   }
 }

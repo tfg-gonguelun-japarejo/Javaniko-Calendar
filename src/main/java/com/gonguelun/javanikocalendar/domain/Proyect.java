@@ -26,15 +26,15 @@ public class Proyect implements Serializable {
     private String name;
 
     @NotNull
-    @Size(min = 20)
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+    @NotNull
+    @Column(name = "private", nullable = false)
+    private Boolean isPrivate;
 
     @OneToMany(mappedBy = "proyect")
     @JsonIgnoreProperties(value = { "calendars", "proyect" }, allowSetters = true)
@@ -88,30 +88,30 @@ public class Proyect implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getStartDate() {
-        return this.startDate;
+    public LocalDate getCreatedAt() {
+        return this.createdAt;
     }
 
-    public Proyect startDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public Proyect createdAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public LocalDate getEndDate() {
-        return this.endDate;
+    public Boolean getIsPrivate() {
+        return this.isPrivate;
     }
 
-    public Proyect endDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public Proyect isPrivate(Boolean isPrivate) {
+        this.isPrivate = isPrivate;
         return this;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setIsPrivate(Boolean isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     public Set<Sprint> getSprints() {
@@ -215,8 +215,8 @@ public class Proyect implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", isPrivate='" + getIsPrivate() + "'" +
             "}";
     }
 }

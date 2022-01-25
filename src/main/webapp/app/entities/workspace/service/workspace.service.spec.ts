@@ -22,9 +22,9 @@ describe('Service Tests', () => {
 
       elemDefault = {
         id: 0,
-        name: 'AAAAAAA',
+        login: 'AAAAAAA',
+        repos_url: 'AAAAAAA',
         description: 'AAAAAAA',
-        isPrivate: false,
       };
     });
 
@@ -60,9 +60,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
+            login: 'BBBBBB',
+            repos_url: 'BBBBBB',
             description: 'BBBBBB',
-            isPrivate: true,
           },
           elemDefault
         );
@@ -79,8 +79,8 @@ describe('Service Tests', () => {
       it('should partial update a Workspace', () => {
         const patchObject = Object.assign(
           {
-            name: 'BBBBBB',
-            isPrivate: true,
+            login: 'BBBBBB',
+            description: 'BBBBBB',
           },
           new Workspace()
         );
@@ -100,9 +100,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
+            login: 'BBBBBB',
+            repos_url: 'BBBBBB',
             description: 'BBBBBB',
-            isPrivate: true,
           },
           elemDefault
         );
