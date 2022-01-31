@@ -23,7 +23,7 @@
             <column name="created_at" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="private" type="boolean">
+            <column name="is_private" type="boolean">
                 <constraints nullable="false" />
             </column>
             <column name="workspace_id" type="bigint">
@@ -51,8 +51,8 @@
             <column name="id" type="numeric"/>
             <column name="name" type="string"/>
             <column name="description" type="string"/>
-            <column name="start_date" type="date"/>
-            <column name="end_date" type="date"/>
+            <column name="created_at" type="date"/>
+            <column name="is_private" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

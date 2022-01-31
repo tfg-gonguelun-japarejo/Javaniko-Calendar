@@ -33,7 +33,7 @@ public class Proyect implements Serializable {
     private LocalDate createdAt;
 
     @NotNull
-    @Column(name = "private", nullable = false)
+    @Column(name = "is_private", nullable = false)
     private Boolean isPrivate;
 
     @OneToMany(mappedBy = "proyect")

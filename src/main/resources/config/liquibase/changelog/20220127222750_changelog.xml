@@ -25,7 +25,7 @@
         <dropDefaultValue columnDataType="varchar(60)" columnName="password" tableName="usuario"/>
     </changeSet>
     <changeSet author="Gonzalo (generated)" id="1643322482095-3">
-        <addNotNullConstraint columnDataType="boolean" columnName="private" tableName="proyect" validate="true"/>
+        <addNotNullConstraint columnDataType="boolean" columnName="is_private" tableName="proyect" validate="true"/>
     </changeSet>
     <changeSet author="Gonzalo (generated)" id="1643322482095-4">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="repos_url" tableName="workspace"/>

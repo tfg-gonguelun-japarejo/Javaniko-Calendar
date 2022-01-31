@@ -1,4 +1,4 @@
-id;name;description;created_at;private
+id;name;description;created_at;is_private
 1;Artesanal Gris;feed LoanXXXXXXXXXXX;2021-11-01;true
 2;mano;AGP OpcionalXXXXXXXX;2021-11-01;false
 3;Hormigon;MarcaXXXXXXXXXXXXXXX;2021-10-31;true
