@@ -39,6 +39,10 @@
           },
           "configurations": {
             "production": {
+              "index": {
+                "input": "src/main/webapp/index.prod.html",
+                "output": "index.html"
+              },
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

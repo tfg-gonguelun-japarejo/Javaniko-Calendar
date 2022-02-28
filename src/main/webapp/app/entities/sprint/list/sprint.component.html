@@ -33,11 +33,11 @@
       <thead>
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.sprint">Sprint</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.startDate">Start Date</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.endDate">End Date</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.title">Title</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.createdAt">Created At</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.dueOn">Due On</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.status">Status</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.goal">Goal</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.description">Description</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.sprint.proyect">Proyect</span></th>
           <th scope="col"></th>
         </tr>
@@ -47,11 +47,11 @@
           <td>
             <a [routerLink]="['/sprint', sprint.id, 'view']">{{ sprint.id }}</a>
           </td>
-          <td>{{ sprint.sprint }}</td>
-          <td>{{ sprint.startDate | formatMediumDate }}</td>
-          <td>{{ sprint.endDate | formatMediumDate }}</td>
+          <td>{{ sprint.title }}</td>
+          <td>{{ sprint.createdAt | formatMediumDate }}</td>
+          <td>{{ sprint.dueOn | formatMediumDate }}</td>
           <td jhiTranslate="{{ 'javanikoCalendarApp.Status.' + sprint.status }}">{{ sprint.status }}</td>
-          <td>{{ sprint.goal }}</td>
+          <td>{{ sprint.description }}</td>
           <td>
             <div *ngIf="sprint.proyect">
               <a [routerLink]="['/proyect', sprint.proyect?.id, 'view']">{{ sprint.proyect?.name }}</a>

@@ -28,8 +28,8 @@ describe('Service Tests', () => {
         id: 0,
         name: 'AAAAAAA',
         description: 'AAAAAAA',
-        startDate: currentDate,
-        endDate: currentDate,
+        createdAt: currentDate,
+        isPrivate: false,
       };
     });
 
@@ -37,8 +37,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -54,16 +53,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
           },
           returnedFromService
         );
@@ -81,16 +78,15 @@ describe('Service Tests', () => {
             id: 1,
             name: 'BBBBBB',
             description: 'BBBBBB',
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
+            isPrivate: true,
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
           },
           returnedFromService
         );
@@ -106,7 +102,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             name: 'BBBBBB',
-            startDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
           },
           new Proyect()
         );
@@ -115,8 +111,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
           },
           returnedFromService
         );
@@ -134,16 +129,15 @@ describe('Service Tests', () => {
             id: 1,
             name: 'BBBBBB',
             description: 'BBBBBB',
-            startDate: currentDate.format(DATE_FORMAT),
-            endDate: currentDate.format(DATE_FORMAT),
+            createdAt: currentDate.format(DATE_FORMAT),
+            isPrivate: true,
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            startDate: currentDate,
-            endDate: currentDate,
+            createdAt: currentDate,
           },
           returnedFromService
         );

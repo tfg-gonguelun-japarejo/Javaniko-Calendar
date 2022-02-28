@@ -39,14 +39,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
             .findById(workspace.getId())
             .map(
                 existingWorkspace -> {
-                    if (workspace.getName() != null) {
-                        existingWorkspace.setName(workspace.getName());
+                    if (workspace.getLogin() != null) {
+                        existingWorkspace.setLogin(workspace.getLogin());
+                    }
+                    if (workspace.getrepos_url() != null) {
+                        existingWorkspace.setrepos_url(workspace.getrepos_url());
                     }
                     if (workspace.getDescription() != null) {
                         existingWorkspace.setDescription(workspace.getDescription());
-                    }
-                    if (workspace.getIsPrivate() != null) {
-                        existingWorkspace.setIsPrivate(workspace.getIsPrivate());
                     }
 
                     return existingWorkspace;

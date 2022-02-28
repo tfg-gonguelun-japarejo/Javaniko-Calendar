@@ -20,8 +20,8 @@
       "id": "ID",
       "name": "Nombre",
       "description": "Descripción",
-      "startDate": "Fecha de inicio",
-      "endDate": "Fecha de fin",
+      "createdAt": "Creado en",
+      "isPrivate": "Es privado",
       "sprint": "Sprint",
       "workspace": "Workspace",
       "usuario": "Usuario"

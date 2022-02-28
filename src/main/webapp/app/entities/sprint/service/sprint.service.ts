@@ -76,15 +76,15 @@ export class SprintService {
 
   protected convertDateFromClient(sprint: ISprint): ISprint {
     return Object.assign({}, sprint, {
-      startDate: sprint.startDate?.isValid() ? sprint.startDate.format(DATE_FORMAT) : undefined,
-      endDate: sprint.endDate?.isValid() ? sprint.endDate.format(DATE_FORMAT) : undefined,
+      createdAt: sprint.createdAt?.isValid() ? sprint.createdAt.format(DATE_FORMAT) : undefined,
+      dueOn: sprint.dueOn?.isValid() ? sprint.dueOn.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.startDate = res.body.startDate ? dayjs(res.body.startDate) : undefined;
-      res.body.endDate = res.body.endDate ? dayjs(res.body.endDate) : undefined;
+      res.body.createdAt = res.body.createdAt ? dayjs(res.body.createdAt) : undefined;
+      res.body.dueOn = res.body.dueOn ? dayjs(res.body.dueOn) : undefined;
     }
     return res;
   }
@@ -92,8 +92,8 @@ export class SprintService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((sprint: ISprint) => {
-        sprint.startDate = sprint.startDate ? dayjs(sprint.startDate) : undefined;
-        sprint.endDate = sprint.endDate ? dayjs(sprint.endDate) : undefined;
+        sprint.createdAt = sprint.createdAt ? dayjs(sprint.createdAt) : undefined;
+        sprint.dueOn = sprint.dueOn ? dayjs(sprint.dueOn) : undefined;
       });
     }
     return res;

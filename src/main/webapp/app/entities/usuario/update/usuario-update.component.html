@@ -65,7 +65,7 @@
               [ngValue]="getSelectedWorkspace(workspaceOption, editForm.get('workspaces')!.value)"
               *ngFor="let workspaceOption of workspacesSharedCollection; trackBy: trackWorkspaceById"
             >
-              {{ workspaceOption.name }}
+              {{ workspaceOption.login }}
             </option>
           </select>
         </div>

@@ -22,9 +22,9 @@ export class ProyectUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
-    description: [null, [Validators.required, Validators.minLength(20)]],
-    startDate: [],
-    endDate: [],
+    description: [null, [Validators.required]],
+    createdAt: [],
+    isPrivate: [null, [Validators.required]],
     workspace: [],
   });
 
@@ -85,8 +85,8 @@ export class ProyectUpdateComponent implements OnInit {
       id: proyect.id,
       name: proyect.name,
       description: proyect.description,
-      startDate: proyect.startDate,
-      endDate: proyect.endDate,
+      createdAt: proyect.createdAt,
+      isPrivate: proyect.isPrivate,
       workspace: proyect.workspace,
     });
 
@@ -114,8 +114,8 @@ export class ProyectUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       description: this.editForm.get(['description'])!.value,
-      startDate: this.editForm.get(['startDate'])!.value,
-      endDate: this.editForm.get(['endDate'])!.value,
+      createdAt: this.editForm.get(['createdAt'])!.value,
+      isPrivate: this.editForm.get(['isPrivate'])!.value,
       workspace: this.editForm.get(['workspace'])!.value,
     };
   }

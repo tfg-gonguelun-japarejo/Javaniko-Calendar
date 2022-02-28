@@ -21,17 +21,16 @@ public class Workspace implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "login", nullable = false)
+    private String login;
+
+    @Column(name = "repos_url")
+    private String repos_url;
 
     @NotNull
     @Size(min = 20)
     @Column(name = "description", nullable = false)
     private String description;
-
-    @NotNull
-    @Column(name = "is_private", nullable = false)
-    private Boolean isPrivate;
 
     @OneToMany(mappedBy = "workspace")
     @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
@@ -55,17 +54,30 @@ public class Workspace implements Serializable {
         return this;
     }
 
-    public String getName() {
-        return this.name;
+    public String getLogin() {
+        return this.login;
     }
 
-    public Workspace name(String name) {
-        this.name = name;
+    public Workspace login(String login) {
+        this.login = login;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getrepos_url() {
+        return this.repos_url;
+    }
+
+    public Workspace repos_url(String repos_url) {
+        this.repos_url = repos_url;
+        return this;
+    }
+
+    public void setrepos_url(String repos_url) {
+        this.repos_url = repos_url;
     }
 
     public String getDescription() {
@@ -79,19 +91,6 @@ public class Workspace implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getIsPrivate() {
-        return this.isPrivate;
-    }
-
-    public Workspace isPrivate(Boolean isPrivate) {
-        this.isPrivate = isPrivate;
-        return this;
-    }
-
-    public void setIsPrivate(Boolean isPrivate) {
-        this.isPrivate = isPrivate;
     }
 
     public Set<Proyect> getProyects() {
@@ -180,9 +179,9 @@ public class Workspace implements Serializable {
     public String toString() {
         return "Workspace{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
+            ", login='" + getLogin() + "'" +
+            ", repos_url='" + getrepos_url() + "'" +
             ", description='" + getDescription() + "'" +
-            ", isPrivate='" + getIsPrivate() + "'" +
             "}";
     }
 }

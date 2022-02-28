@@ -76,15 +76,13 @@ export class ProyectService {
 
   protected convertDateFromClient(proyect: IProyect): IProyect {
     return Object.assign({}, proyect, {
-      startDate: proyect.startDate?.isValid() ? proyect.startDate.format(DATE_FORMAT) : undefined,
-      endDate: proyect.endDate?.isValid() ? proyect.endDate.format(DATE_FORMAT) : undefined,
+      createdAt: proyect.createdAt?.isValid() ? proyect.createdAt.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.startDate = res.body.startDate ? dayjs(res.body.startDate) : undefined;
-      res.body.endDate = res.body.endDate ? dayjs(res.body.endDate) : undefined;
+      res.body.createdAt = res.body.createdAt ? dayjs(res.body.createdAt) : undefined;
     }
     return res;
   }
@@ -92,8 +90,7 @@ export class ProyectService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((proyect: IProyect) => {
-        proyect.startDate = proyect.startDate ? dayjs(proyect.startDate) : undefined;
-        proyect.endDate = proyect.endDate ? dayjs(proyect.endDate) : undefined;
+        proyect.createdAt = proyect.createdAt ? dayjs(proyect.createdAt) : undefined;
       });
     }
     return res;

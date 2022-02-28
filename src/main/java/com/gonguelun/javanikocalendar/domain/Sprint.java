@@ -15,27 +15,32 @@ import javax.persistence.*;
 @Table(name = "sprint")
 public class Sprint implements Serializable {
 
+    
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "sprint")
-    private Integer sprint;
+    @Column(name = "title")
+    private String title;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+    @Column(name = "due_on")
+    private LocalDate dueOn;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 
-    @Column(name = "goal")
-    private String goal;
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "sprint")
+    @JsonIgnoreProperties(value = { "usuario", "sprint" }, allowSetters = true)
+    private Set<Input> inputs = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
@@ -55,43 +60,43 @@ public class Sprint implements Serializable {
         return this;
     }
 
-    public Integer getSprint() {
-        return this.sprint;
+    public String getTitle() {
+        return this.title;
     }
 
-    public Sprint sprint(Integer sprint) {
-        this.sprint = sprint;
+    public Sprint title(String title) {
+        this.title = title;
         return this;
     }
 
-    public void setSprint(Integer sprint) {
-        this.sprint = sprint;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public LocalDate getStartDate() {
-        return this.startDate;
+    public LocalDate getCreatedAt() {
+        return this.createdAt;
     }
 
-    public Sprint startDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public Sprint createdAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public LocalDate getEndDate() {
-        return this.endDate;
+    public LocalDate getDueOn() {
+        return this.dueOn;
     }
 
-    public Sprint endDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public Sprint dueOn(LocalDate dueOn) {
+        this.dueOn = dueOn;
         return this;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setDueOn(LocalDate dueOn) {
+        this.dueOn = dueOn;
     }
 
     public Status getStatus() {
@@ -107,17 +112,48 @@ public class Sprint implements Serializable {
         this.status = status;
     }
 
-    public String getGoal() {
-        return this.goal;
+    public String getDescription() {
+        return this.description;
     }
 
-    public Sprint goal(String goal) {
-        this.goal = goal;
+    public Sprint description(String description) {
+        this.description = description;
         return this;
     }
 
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Input> getInputs() {
+        return this.inputs;
+    }
+
+    public Sprint inputs(Set<Input> inputs) {
+        this.setInputs(inputs);
+        return this;
+    }
+
+    public Sprint addInput(Input input) {
+        this.inputs.add(input);
+        input.setSprint(this);
+        return this;
+    }
+
+    public Sprint removeInput(Input input) {
+        this.inputs.remove(input);
+        input.setSprint(null);
+        return this;
+    }
+
+    public void setInputs(Set<Input> inputs) {
+        if (this.inputs != null) {
+            this.inputs.forEach(i -> i.setSprint(null));
+        }
+        if (inputs != null) {
+            inputs.forEach(i -> i.setSprint(this));
+        }
+        this.inputs = inputs;
     }
 
     public Proyect getProyect() {
@@ -157,11 +193,12 @@ public class Sprint implements Serializable {
     public String toString() {
         return "Sprint{" +
             "id=" + getId() +
-            ", sprint=" + getSprint() +
-            ", startDate='" + getStartDate() + "'" +
-            ", endDate='" + getEndDate() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", dueOn='" + getDueOn() + "'" +
             ", status='" + getStatus() + "'" +
-            ", goal='" + getGoal() + "'" +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }
+

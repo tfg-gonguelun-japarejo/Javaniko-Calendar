@@ -18,11 +18,16 @@
         "title": "Workspace"
       },
       "id": "ID",
-      "name": "Name",
+      "login": "Login",
+      "repos_url": "Repos Url",
       "description": "Description",
-      "isPrivate": "Is Private",
       "proyect": "Proyect",
-      "usuario": "Usuario"
+      "usuario": "Usuario",
+      "github": "Import from GitHub",
+      "emptyOrgs": "No workspaces found for this Github user"
+    },
+    "error": {
+      "Description": "Error on field 'Description': size should be between 20 and 2147483647"
     }
   }
 }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IWorkspace, getWorkspaceIdentifier } from '../workspace.model';
+import { IWorkspace, getWorkspaceIdentifier, Workspace } from '../workspace.model';
 
 export type EntityResponseType = HttpResponse<IWorkspace>;
 export type EntityArrayResponseType = HttpResponse<IWorkspace[]>;
@@ -63,5 +63,10 @@ export class WorkspaceService {
       return [...workspacesToAdd, ...workspaceCollection];
     }
     return workspaceCollection;
+  }
+
+  getGithubOrg(name: string): Observable<IWorkspace[]> {
+    const url = 'https://api.github.com/users/' + name + '/orgs';
+    return this.http.get<IWorkspace[]>(url);
   }
 }

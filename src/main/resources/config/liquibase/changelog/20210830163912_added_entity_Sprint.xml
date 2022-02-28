@@ -14,19 +14,19 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="sprint" type="integer">
+            <column name="title" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="start_date" type="date">
+            <column name="created_at" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="end_date" type="date">
+            <column name="due_on" type="date">
                 <constraints nullable="true" />
             </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="goal" type="varchar(255)">
+            <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="proyect_id" type="bigint">
@@ -52,11 +52,11 @@
                   separator=";"
                   tableName="sprint">
             <column name="id" type="numeric"/>
-            <column name="sprint" type="numeric"/>
-            <column name="start_date" type="date"/>
-            <column name="end_date" type="date"/>
+            <column name="title" type="string"/>
+            <column name="created_at" type="date"/>
+            <column name="due_on" type="date"/>
             <column name="status" type="string"/>
-            <column name="goal" type="string"/>
+            <column name="description" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

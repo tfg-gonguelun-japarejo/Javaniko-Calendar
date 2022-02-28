@@ -21,11 +21,11 @@ export class SprintUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    sprint: [],
-    startDate: [],
-    endDate: [],
+    title: [],
+    createdAt: [],
+    dueOn: [],
     status: [],
-    goal: [],
+    description: [],
     proyect: [],
   });
 
@@ -84,11 +84,11 @@ export class SprintUpdateComponent implements OnInit {
   protected updateForm(sprint: ISprint): void {
     this.editForm.patchValue({
       id: sprint.id,
-      sprint: sprint.sprint,
-      startDate: sprint.startDate,
-      endDate: sprint.endDate,
+      title: sprint.title,
+      createdAt: sprint.createdAt,
+      dueOn: sprint.dueOn,
       status: sprint.status,
-      goal: sprint.goal,
+      description: sprint.description,
       proyect: sprint.proyect,
     });
 
@@ -109,11 +109,11 @@ export class SprintUpdateComponent implements OnInit {
     return {
       ...new Sprint(),
       id: this.editForm.get(['id'])!.value,
-      sprint: this.editForm.get(['sprint'])!.value,
-      startDate: this.editForm.get(['startDate'])!.value,
-      endDate: this.editForm.get(['endDate'])!.value,
+      title: this.editForm.get(['title'])!.value,
+      createdAt: this.editForm.get(['createdAt'])!.value,
+      dueOn: this.editForm.get(['dueOn'])!.value,
       status: this.editForm.get(['status'])!.value,
-      goal: this.editForm.get(['goal'])!.value,
+      description: this.editForm.get(['description'])!.value,
       proyect: this.editForm.get(['proyect'])!.value,
     };
   }
