@@ -73,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(problemSupport)
         .and()
             .headers()
-            .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
+            .contentSecurityPolicy("default-src 'self' api.github.com; connect-src * 'unsafe-inline'; frame-src * data:; script-src * 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src * 'unsafe-inline'; img-src * data:; font-src * data:")
         .and()
             .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
         .and()

@@ -52,11 +52,11 @@
                   separator=";"
                   tableName="sprint">
             <column name="id" type="numeric"/>
-            <column name="sprint" type="numeric"/>
-            <column name="start_date" type="date"/>
-            <column name="end_date" type="date"/>
+            <column name="title" type="string"/>
+            <column name="created_at" type="date"/>
+            <column name="due_on" type="date"/>
             <column name="status" type="string"/>
-            <column name="goal" type="string"/>
+            <column name="description" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

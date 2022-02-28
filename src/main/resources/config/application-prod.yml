@@ -109,6 +109,7 @@ jhipster:
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
+    content-security-policy: "default-src 'self' api.github.com; connect-src * 'unsafe-inline'; frame-src * data:; script-src * 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src * 'unsafe-inline'; img-src * data:; font-src * data:"
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://my-server-url-to-change # Modify according to your server's URL
   logging:
