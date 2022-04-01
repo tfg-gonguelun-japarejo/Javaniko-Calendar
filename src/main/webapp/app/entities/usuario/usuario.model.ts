@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { IUser } from 'app/entities/user/user.model';
 import { IInput } from 'app/entities/input/input.model';
 import { IWorkspace } from 'app/entities/workspace/workspace.model';

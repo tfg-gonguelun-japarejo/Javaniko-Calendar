@@ -1,4 +1,4 @@
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { IProyect } from 'app/entities/proyect/proyect.model';
 import { Status } from 'app/entities/enumerations/status.model';
 import { IInput } from '../input/input.model';

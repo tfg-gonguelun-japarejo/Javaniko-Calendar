@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
 import { DATE_FORMAT } from 'app/config/input.constants';
@@ -48,8 +48,8 @@ export class UsuarioService {
 
   findByUsername(username: string): Observable<EntityResponseType> {
     return this.http
-    .get<IUsuario>(`${this.resourceUrl}/usuario?username=${username}`, { observe: 'response'})
-    .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      .get<IUsuario>(`${this.resourceUrl}/usuario?username=${username}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

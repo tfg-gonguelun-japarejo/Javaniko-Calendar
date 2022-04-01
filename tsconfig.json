@@ -8,6 +8,8 @@
     "strict": true,
     "noImplicitReturns": false,
     "noImplicitAny": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "outDir": "target/classes/static/app",
     "lib": ["es2018", "dom"],
