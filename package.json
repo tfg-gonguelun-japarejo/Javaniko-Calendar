@@ -99,7 +99,7 @@
     "angular-calendar": "^0.28.28",
     "bootstrap": "4.6.0",
     "date-fns": "^2.23.0",
-    "dayjs": "1.10.4",
+    "dayjs": "^1.11.0",
     "jquery": "^3.6.0",
     "ngx-infinite-scroll": "10.0.1",
     "ngx-webstorage": "7.0.1",

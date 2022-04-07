@@ -5,25 +5,25 @@ import { IInput } from '../input/input.model';
 
 export interface ISprint {
   id?: number;
-  title?: string | null;
-  createdAt?: dayjs.Dayjs | null;
-  dueOn?: dayjs.Dayjs | null;
-  status?: Status | null;
-  description?: string | null;
-  inputs?: IInput[] | null;
-  proyect?: IProyect | null;
+  title?: string;
+  createdAt?: dayjs.Dayjs;
+  dueOn?: dayjs.Dayjs;
+  status?: Status;
+  description?: string;
+  inputs?: IInput[];
+  proyect?: IProyect;
 }
 
 export class Sprint implements ISprint {
   constructor(
     public id?: number,
-    public title?: string | null,
-    public createdAt?: dayjs.Dayjs | null,
-    public dueOn?: dayjs.Dayjs | null,
-    public status?: Status | null,
-    public description?: string | null,
-    public inputs?: IInput[] | null,
-    public proyect?: IProyect | null
+    public title?: string,
+    public createdAt?: dayjs.Dayjs,
+    public dueOn?: dayjs.Dayjs,
+    public status?: Status,
+    public description?: string,
+    public inputs?: IInput[],
+    public proyect?: IProyect
   ) {}
 }
 

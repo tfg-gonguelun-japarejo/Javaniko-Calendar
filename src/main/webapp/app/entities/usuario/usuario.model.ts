@@ -9,12 +9,12 @@ export interface IUsuario {
   username?: string;
   password?: string;
   email?: string;
-  birthdate?: dayjs.Dayjs | null;
-  phone?: number | null;
-  user?: IUser | null;
-  inputs?: IInput[] | null;
-  workspaces?: IWorkspace[] | null;
-  proyects?: IProyect[] | null;
+  birthdate?: dayjs.Dayjs;
+  phone?: number;
+  user?: IUser;
+  inputs?: IInput[];
+  workspaces?: IWorkspace[];
+  proyects?: IProyect[];
 }
 
 export class Usuario implements IUsuario {
@@ -23,12 +23,12 @@ export class Usuario implements IUsuario {
     public username?: string,
     public password?: string,
     public email?: string,
-    public birthdate?: dayjs.Dayjs | null,
-    public phone?: number | null,
-    public user?: IUser | null,
-    public inputs?: IInput[] | null,
-    public workspaces?: IWorkspace[] | null,
-    public proyects?: IProyect[] | null
+    public birthdate?: dayjs.Dayjs,
+    public phone?: number,
+    public user?: IUser,
+    public inputs?: IInput[],
+    public workspaces?: IWorkspace[],
+    public proyects?: IProyect[]
   ) {}
 }
 

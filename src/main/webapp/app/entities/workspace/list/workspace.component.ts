@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-console */
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
@@ -17,6 +18,11 @@ import { AccountService } from '../../../core/auth/account.service';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { forEachChild } from 'typescript';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { IProyect } from 'app/entities/proyect/proyect.model';
+import { ProyectService } from 'app/entities/proyect/service/proyect.service';
+import { formatDate } from '@angular/common';
+import * as dayjs from 'dayjs';
+import { create } from 'domain';
 
 @Component({
   selector: 'jhi-workspace',
@@ -27,10 +33,18 @@ export class WorkspaceComponent implements OnInit {
   isLoading = false;
   usuario?: Usuario | null;
   aux?: IWorkspace[];
+  aux2?: IProyect[];
   faPaperPlane = faPaperPlane;
   emptyOrgs = false;
+  emptyProyects = false;
 
-  constructor(protected workspaceService: WorkspaceService, protected accountService: AccountService, protected usuarioService: UsuarioService, protected modalService: NgbModal) {}
+  constructor(
+    protected workspaceService: WorkspaceService,
+    protected proyectService: ProyectService,
+    protected accountService: AccountService,
+    protected usuarioService: UsuarioService,
+    protected modalService: NgbModal
+  ) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -43,20 +57,14 @@ export class WorkspaceComponent implements OnInit {
       () => {
         this.isLoading = false;
       }
-      
     );
 
-    this.accountService.getAuthenticationState().subscribe(
-      account => {
-        if(account) {
-          this.usuarioService.findByUsername(account.login).subscribe(
-            usuario => this.usuario = usuario.body
-          );
-        }
+    this.accountService.getAuthenticationState().subscribe(account => {
+      if (account) {
+        this.usuarioService.findByUsername(account.login).subscribe(usuario => (this.usuario = usuario.body));
       }
-    );
-    
-  } 
+    });
+  }
 
   ngOnInit(): void {
     this.loadAll();
@@ -78,35 +86,82 @@ export class WorkspaceComponent implements OnInit {
   }
 
   getGithubData(): any {
-    this.workspaceService.getGithubOrg(this.usuario!.username!).pipe(
-      tap(workspaces => {
-        if(workspaces.length === 0){
-          this.emptyOrgs = true
-        }
-      }),
-      map(workspaces => workspaces.map(
-        workspace => ({
+    this.workspaceService
+      .getGithubOrg(this.usuario!.username!)
+      .pipe(
+        tap(workspaces => {
+          if (workspaces.length === 0) {
+            this.emptyOrgs = true;
+          }
+        }),
+        map(workspaces =>
+          workspaces.map(workspace => ({
             login: workspace.login,
             repos_url: workspace.repos_url,
-            description: workspace.description
-
-          })
-      ))
-    ).subscribe(
-      (workspaces: IWorkspace[]) => {
-        this.aux = workspaces
+            description: workspace.description,
+          }))
+        )
+      )
+      .subscribe((workspaces: IWorkspace[]) => {
+        this.aux = workspaces;
         this.aux.forEach(workspace => {
-          const create: any = this.workspaceService.create(workspace)
-          create.subscribe(() => this.previousState())
-        })
-      }
-    );
+          const create: any = this.workspaceService.create(workspace);
+          create.subscribe(() => {
+            this.addUsuarioToWorkspace(workspace);
+            this.previousState();
+          });
+        });
+      });
   }
+
+  addUsuarioToWorkspace(workspace: IWorkspace): any {
+    console.log(this.usuario!);
+    this.usuario!.workspaces = [];
+    this.usuario!.inputs = [];
+    this.usuario!.proyects = [];
+    this.usuario!.workspaces.push(workspace);
+    const update = this.usuarioService.update(this.usuario!);
+    update.subscribe(usuario => (this.usuario = usuario.body));
+  }
+
+  getGithubProyectsByOrg(url: string): any {
+    this.workspaceService
+      .getGithubProyects(url)
+      .pipe(
+        tap(proyects => {
+          if (proyects.length === 0) {
+            this.emptyProyects = true;
+          }
+        }),
+        map(proyects =>
+          proyects.map(proyect => ({
+            name: proyect['name'],
+            description: proyect['description'],
+            createdAt: proyect['created_at'],
+            isPrivate: proyect['private'],
+          }))
+        )
+      )
+      .subscribe((proyects: IProyect[]) => {
+        this.aux2 = proyects;
+        this.aux2.forEach(proyect => {
+          // this.formatDateProyect(proyect);
+          console.log(proyect.workspace);
+          const create: any = this.proyectService.create(proyect);
+          create.subscribe(() => this.previousState());
+        });
+      });
+  }
+
+  /* formatDateProyect(proyect: IProyect): dayjs.Dayjs {
+    const fecha = dayjs(proyect.createdAt).format('D/MMM/YYYY');
+    proyect.createdAt = dayjs(fecha);
+    return proyect.createdAt;
+  } */
 
   previousState(): void {
     setTimeout(() => {
       window.location.reload();
-   }, 3000);
+    }, 3000);
   }
-    
 }
