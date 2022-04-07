@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { ISprint } from 'app/entities/sprint/sprint.model';
 import { IWorkspace } from 'app/entities/workspace/workspace.model';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
@@ -7,11 +7,11 @@ export interface IProyect {
   id?: number;
   name?: string;
   description?: string;
-  createdAt?: dayjs.Dayjs | null;
+  createdAt?: dayjs.Dayjs;
   isPrivate?: boolean;
-  sprints?: ISprint[] | null;
-  workspace?: IWorkspace | null;
-  usuarios?: IUsuario[] | null;
+  sprints?: ISprint[];
+  workspace?: IWorkspace;
+  usuarios?: IUsuario[];
 }
 
 export class Proyect implements IProyect {
@@ -19,11 +19,11 @@ export class Proyect implements IProyect {
     public id?: number,
     public name?: string,
     public description?: string,
-    public createdAt?: dayjs.Dayjs | null,
+    public createdAt?: dayjs.Dayjs,
     public isPrivate?: boolean,
-    public sprints?: ISprint[] | null,
-    public workspace?: IWorkspace | null,
-    public usuarios?: IUsuario[] | null
+    public sprints?: ISprint[],
+    public workspace?: IWorkspace,
+    public usuarios?: IUsuario[]
   ) {
     this.isPrivate = this.isPrivate ?? false;
   }

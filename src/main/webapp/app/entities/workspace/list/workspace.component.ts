@@ -21,7 +21,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { IProyect } from 'app/entities/proyect/proyect.model';
 import { ProyectService } from 'app/entities/proyect/service/proyect.service';
 import { formatDate } from '@angular/common';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { create } from 'domain';
 
 @Component({
@@ -105,14 +105,9 @@ export class WorkspaceComponent implements OnInit {
       .subscribe((workspaces: IWorkspace[]) => {
         this.aux = workspaces;
         this.aux.forEach(workspace => {
-          if (workspace.usuarios == null) {
-            workspace.usuarios = [];
-          }
-          workspace.usuarios.push(this.usuario!);
-          this.addUsuarioToWorkspace(workspace);
           const create: any = this.workspaceService.create(workspace);
           create.subscribe(() => {
-            // this.addUsuarioToWorkspace(workspace)
+            this.addUsuarioToWorkspace(workspace);
             this.previousState();
           });
         });
@@ -120,9 +115,10 @@ export class WorkspaceComponent implements OnInit {
   }
 
   addUsuarioToWorkspace(workspace: IWorkspace): any {
-    if (this.usuario!.workspaces == null) {
-      this.usuario!.workspaces = [];
-    }
+    console.log(this.usuario!);
+    this.usuario!.workspaces = [];
+    this.usuario!.inputs = [];
+    this.usuario!.proyects = [];
     this.usuario!.workspaces.push(workspace);
     const update = this.usuarioService.update(this.usuario!);
     update.subscribe(usuario => (this.usuario = usuario.body));
@@ -149,7 +145,7 @@ export class WorkspaceComponent implements OnInit {
       .subscribe((proyects: IProyect[]) => {
         this.aux2 = proyects;
         this.aux2.forEach(proyect => {
-          this.formatDateProyect(proyect);
+          // this.formatDateProyect(proyect);
           console.log(proyect.workspace);
           const create: any = this.proyectService.create(proyect);
           create.subscribe(() => this.previousState());
@@ -157,11 +153,11 @@ export class WorkspaceComponent implements OnInit {
       });
   }
 
-  formatDateProyect(proyect: IProyect): dayjs.Dayjs {
+  /* formatDateProyect(proyect: IProyect): dayjs.Dayjs {
     const fecha = dayjs(proyect.createdAt).format('D/MMM/YYYY');
     proyect.createdAt = dayjs(fecha);
     return proyect.createdAt;
-  }
+  } */
 
   previousState(): void {
     setTimeout(() => {

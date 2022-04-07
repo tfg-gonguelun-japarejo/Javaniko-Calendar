@@ -5,7 +5,7 @@
  */
 import { Injectable } from '@angular/core';
 import { NgbDateAdapter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class NgbDateDayjsAdapter extends NgbDateAdapter<dayjs.Dayjs> {

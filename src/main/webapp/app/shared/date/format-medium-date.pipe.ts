@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 
 @Pipe({
   name: 'formatMediumDate',
