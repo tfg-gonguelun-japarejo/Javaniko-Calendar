@@ -29,7 +29,7 @@
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "workspace",
       "relationshipName": "usuario",
-      "ownerSide": false
+      "ownerSide": true
     }
   ],
   "entityTableName": "workspace",

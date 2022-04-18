@@ -41,7 +41,7 @@
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "proyect",
       "relationshipName": "usuario",
-      "ownerSide": false
+      "ownerSide": true
     }
   ],
   "entityTableName": "proyect",

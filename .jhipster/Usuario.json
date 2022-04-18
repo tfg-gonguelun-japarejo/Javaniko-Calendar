@@ -46,7 +46,7 @@
       "otherEntityRelationshipName": "usuario",
       "relationshipName": "workspace",
       "otherEntityField": "name",
-      "ownerSide": true
+      "ownerSide": false
     },
     {
       "relationshipType": "many-to-many",
@@ -54,7 +54,7 @@
       "otherEntityRelationshipName": "usuario",
       "relationshipName": "proyect",
       "otherEntityField": "name",
-      "ownerSide": true
+      "ownerSide": false
     }
   ],
   "entityTableName": "usuario",
