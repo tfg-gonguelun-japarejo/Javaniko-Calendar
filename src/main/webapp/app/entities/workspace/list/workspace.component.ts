@@ -23,6 +23,8 @@ import { ProyectService } from 'app/entities/proyect/service/proyect.service';
 import { formatDate } from '@angular/common';
 import * as dayjs from 'dayjs';
 import { create } from 'domain';
+import { WorkspaceUpdateComponent } from '../update/workspace-update.component';
+import { GithubModalComponent } from '../github/github.component';
 
 @Component({
   selector: 'jhi-workspace',
@@ -32,8 +34,6 @@ export class WorkspaceComponent implements OnInit {
   workspaces?: IWorkspace[];
   isLoading = false;
   usuario?: Usuario | null;
-  aux?: IWorkspace[];
-  aux2?: IProyect[];
   faPaperPlane = faPaperPlane;
   emptyOrgs = false;
   emptyProyects = false;
@@ -85,83 +85,21 @@ export class WorkspaceComponent implements OnInit {
     });
   }
 
-  getGithubData(): any {
-    this.workspaceService
-      .getGithubOrg(this.usuario!.username!)
-      .pipe(
-        tap(workspaces => {
-          if (workspaces.length === 0) {
-            this.emptyOrgs = true;
-          }
-        }),
-        map(workspaces =>
-          workspaces.map(workspace => ({
-            login: workspace.login,
-            repos_url: workspace.repos_url,
-            description: workspace.description,
-          }))
-        )
-      )
-      .subscribe((workspaces: IWorkspace[]) => {
-        this.aux = workspaces;
-        this.aux.forEach(workspace => {
-          const create: any = this.workspaceService.create(workspace);
-          create.subscribe(() => {
-            this.addUsuarioToWorkspace(workspace);
-            this.previousState();
-          });
-        });
-      });
+  githubData(workspaces: IWorkspace[], usuario: Usuario): void {
+    const modalRef = this.modalService.open(GithubModalComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.workspaces = workspaces;
+    modalRef.componentInstance.usuario = usuario;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.componentInstance.emitService.subscribe((emptyOrgs, emptyProyects) => {
+      this.emptyOrgs = emptyOrgs;
+      this.emptyProyects = emptyProyects;
+    });
+    modalRef.closed.subscribe(() => this.previousState());
   }
-
-  addUsuarioToWorkspace(workspace: IWorkspace): any {
-    console.log(this.usuario!);
-    this.usuario!.workspaces = [];
-    this.usuario!.inputs = [];
-    this.usuario!.proyects = [];
-    this.usuario!.workspaces.push(workspace);
-    const update = this.usuarioService.update(this.usuario!);
-    update.subscribe(usuario => (this.usuario = usuario.body));
-  }
-
-  getGithubProyectsByOrg(url: string): any {
-    this.workspaceService
-      .getGithubProyects(url)
-      .pipe(
-        tap(proyects => {
-          if (proyects.length === 0) {
-            this.emptyProyects = true;
-          }
-        }),
-        map(proyects =>
-          proyects.map(proyect => ({
-            name: proyect['name'],
-            description: proyect['description'],
-            createdAt: proyect['created_at'],
-            isPrivate: proyect['private'],
-          }))
-        )
-      )
-      .subscribe((proyects: IProyect[]) => {
-        this.aux2 = proyects;
-        this.aux2.forEach(proyect => {
-          // this.formatDateProyect(proyect);
-          console.log(proyect.workspace);
-          const create: any = this.proyectService.create(proyect);
-          create.subscribe(() => this.previousState());
-        });
-      });
-  }
-
-  /* formatDateProyect(proyect: IProyect): dayjs.Dayjs {
-    const fecha = dayjs(proyect.createdAt).format('D/MMM/YYYY');
-    proyect.createdAt = dayjs(fecha);
-    return proyect.createdAt;
-  } */
 
   previousState(): void {
     setTimeout(() => {
       window.location.reload();
-    }, 3000);
+    }, 5000);
   }
 }

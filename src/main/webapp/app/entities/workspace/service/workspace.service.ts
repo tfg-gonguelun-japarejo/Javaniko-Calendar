@@ -7,6 +7,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IWorkspace, getWorkspaceIdentifier, Workspace } from '../workspace.model';
 import { IProyect } from 'app/entities/proyect/proyect.model';
+import { ISprint } from 'app/entities/sprint/sprint.model';
 
 export type EntityResponseType = HttpResponse<IWorkspace>;
 export type EntityArrayResponseType = HttpResponse<IWorkspace[]>;
@@ -73,5 +74,9 @@ export class WorkspaceService {
 
   getGithubProyects(url: string): Observable<IProyect[]> {
     return this.http.get<IProyect[]>(url);
+  }
+
+  getGithubMilestones(url: string): Observable<ISprint[]> {
+    return this.http.get<ISprint[]>(url);
   }
 }
