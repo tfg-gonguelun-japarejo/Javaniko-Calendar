@@ -171,4 +171,11 @@ public class WorkspaceResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/workspaces/usuario")
+    public List<Workspace> getWorkspacesByUsuarioId(@RequestParam(value = "usuarioId") Long usuarioId) {
+        log.debug("REST request to get Workspaces by Usuario");
+        List<Workspace> workspaces = workspaceService.findWorkspacesByUsuarioId(usuarioId);
+        return workspaces;
+    }
 }

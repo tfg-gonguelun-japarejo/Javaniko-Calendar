@@ -74,4 +74,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         log.debug("Request to delete Workspace : {}", id);
         workspaceRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Workspace> findWorkspacesByUsuarioId(Long usuarioId) {
+        log.debug("Request to get all Workspaces by Usuario");
+        return workspaceRepository.findWorkspacesByUsuarioId(usuarioId);
+    }
 }
