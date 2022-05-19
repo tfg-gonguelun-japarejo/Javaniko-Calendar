@@ -4,26 +4,16 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IWorkspace, Workspace } from '../workspace.model';
+import { IWorkspace } from '../workspace.model';
 import { WorkspaceService } from '../service/workspace.service';
 import { WorkspaceDeleteDialogComponent } from '../delete/workspace-delete-dialog.component';
 
-import { filter, switchMap, debounceTime, catchError, concatMap, delay, tap, map } from 'rxjs/operators';
-import { EMPTY, forkJoin, Observable, of, throwError } from 'rxjs';
-import { FormControl } from '@angular/forms';
-import { IUsuario, Usuario } from 'app/entities/usuario/usuario.model';
-import { fi } from 'date-fns/locale';
+import { Usuario } from 'app/entities/usuario/usuario.model';
 
 import { AccountService } from '../../../core/auth/account.service';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
-import { forEachChild } from 'typescript';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { IProyect } from 'app/entities/proyect/proyect.model';
 import { ProyectService } from 'app/entities/proyect/service/proyect.service';
-import { formatDate } from '@angular/common';
-import * as dayjs from 'dayjs';
-import { create } from 'domain';
-import { WorkspaceUpdateComponent } from '../update/workspace-update.component';
 import { GithubModalComponent } from '../github/github.component';
 
 @Component({

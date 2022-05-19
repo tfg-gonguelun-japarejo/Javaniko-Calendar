@@ -61,49 +61,8 @@ export class GithubModalComponent {
           }
           workspace.usuarios.push(this.usuario!);
           const create: any = this.workspaceService.create(workspace);
-          create.subscribe(() => {
-            this.getGithubProyectsByOrg(workspace.repos_url!);
-          });
-        });
-      });
-  }
-
-  getGithubProyectsByOrg(url: string): any {
-    this.workspaceService
-      .getGithubProyects(url)
-      .pipe(
-        tap(proyects => {
-          if (proyects.length === 0) {
-            this.emitService.emit((this.emptyProyects = true));
-            this.activeModal.close();
-          }
-        }),
-        map(proyects =>
-          proyects.map(proyect => ({
-            name: proyect['name'],
-            description: proyect['description'],
-            createdAt: proyect['created_at'],
-            isPrivate: proyect['private'],
-          }))
-        )
-      )
-      .subscribe((proyects: IProyect[]) => {
-        this.aux2 = proyects;
-        this.aux2.forEach(proyect => {
-          if (proyect.usuarios === undefined) {
-            proyect.usuarios = [];
-          }
-          proyect.usuarios.push(this.usuario!);
-          this.formatDateProyect(proyect);
-          const create: any = this.proyectService.create(proyect);
           create.subscribe(() => this.activeModal.close());
         });
       });
-  }
-
-  formatDateProyect(proyect: IProyect): dayjs.Dayjs {
-    const fecha = dayjs(proyect.createdAt).format('D/MMM/YYYY');
-    proyect.createdAt = dayjs(fecha);
-    return proyect.createdAt;
   }
 }
