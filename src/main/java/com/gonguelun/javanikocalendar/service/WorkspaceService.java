@@ -45,6 +45,4 @@ public interface WorkspaceService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    List<Workspace> findWorkspacesByUsuarioId(Long usuarioId);
 }

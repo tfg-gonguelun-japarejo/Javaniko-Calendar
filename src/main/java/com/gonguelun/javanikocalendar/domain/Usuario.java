@@ -2,6 +2,7 @@ package com.gonguelun.javanikocalendar.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gonguelun.javanikocalendar.config.Constants;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -28,14 +29,14 @@ public class Usuario implements Serializable {
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
-    @Column(name = "username", length = 50, unique = true, nullable = false)
+    @Column(name="username", length = 50, unique = true, nullable = false)
     private String username;
 
     @NotNull
     @Size(min = 5, max = 60)
     @Column(name = "password", length = 60, nullable = false)
     private String password;
-
+    
     @Email
     @Size(min = 5, max = 254)
     @Column(length = 254, unique = true)
@@ -55,11 +56,21 @@ public class Usuario implements Serializable {
     @JsonIgnoreProperties(value = { "usuario", "sprint" }, allowSetters = true)
     private Set<Input> inputs = new HashSet<>();
 
-    @ManyToMany(mappedBy = "usuarios")
+    @ManyToMany
+    @JoinTable(
+        name = "rel_usuario__workspace",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "workspace_id")
+    )
     @JsonIgnoreProperties(value = { "proyects", "usuarios" }, allowSetters = true)
     private Set<Workspace> workspaces = new HashSet<>();
 
-    @ManyToMany(mappedBy = "usuarios")
+    @ManyToMany
+    @JoinTable(
+        name = "rel_usuario__proyect",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "proyect_id")
+    )
     @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
     private Set<Proyect> proyects = new HashSet<>();
 
@@ -208,12 +219,6 @@ public class Usuario implements Serializable {
     }
 
     public void setWorkspaces(Set<Workspace> workspaces) {
-        if (this.workspaces != null) {
-            this.workspaces.forEach(i -> i.removeUsuario(this));
-        }
-        if (workspaces != null) {
-            workspaces.forEach(i -> i.addUsuario(this));
-        }
         this.workspaces = workspaces;
     }
 
@@ -239,12 +244,6 @@ public class Usuario implements Serializable {
     }
 
     public void setProyects(Set<Proyect> proyects) {
-        if (this.proyects != null) {
-            this.proyects.forEach(i -> i.removeUsuario(this));
-        }
-        if (proyects != null) {
-            proyects.forEach(i -> i.addUsuario(this));
-        }
         this.proyects = proyects;
     }
 

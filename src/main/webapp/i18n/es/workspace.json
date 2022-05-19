@@ -24,8 +24,7 @@
       "proyect": "Proyect",
       "usuario": "Usuario",
       "github": "Importar desde Github",
-      "emptyOrgs": "No se han encontrado workspaces para este usuario de Github",
-      "githubConfirm": "Se importarán las organizaciones (workspaces) de GitHub, incluidos los repositorios (proyects) y los hitos (sprints) asociados.</br> El proceso de importación tardará 5 segundos, mostrando alertas que indicarán si se ha importado o no.</br> ¿Seguro que quiere importarlos?"
+      "emptyOrgs": "No se han encontrado workspaces para este usuario de Github"
     },
     "error": {
       "Descripción": "Error en el campo 'Descripción': el tamaño debe estar entre 20 y 2147483647"

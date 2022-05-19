@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { Component, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
@@ -55,11 +56,9 @@ export class AlertErrorComponent implements OnDestroy {
               const fieldName: string = translateService.instant(
                 `javanikoCalendarApp.${fieldError.objectName as string}.${convertedField}`
               );
-              this.addErrorAlert(
-                `Error en el campo "${fieldName}": ${fieldError.message as string}`,
-                `javanikoCalendarApp.error.${fieldName}`,
-                { fieldName }
-              );
+              debugger;
+              this.addErrorAlert(`Error en el campo "${fieldName}": ${fieldError.message as string}`, `javanikoCalendarApp.error.${fieldName}`, { fieldName });
+              debugger;
             }
           } else if (httpErrorResponse.error !== '' && httpErrorResponse.error.message) {
             this.addErrorAlert(
