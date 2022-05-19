@@ -24,6 +24,7 @@
       "isPrivate": "Is Private",
       "sprint": "Sprint",
       "workspace": "Workspace",
+      "emptyProyects": "No proyects found for this Github user",
       "usuario": "Usuario"
     }
   }

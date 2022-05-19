@@ -44,7 +44,12 @@ public class Proyect implements Serializable {
     @JsonIgnoreProperties(value = { "proyects", "usuarios" }, allowSetters = true)
     private Workspace workspace;
 
-    @ManyToMany(mappedBy = "proyects")
+    @ManyToMany
+    @JoinTable(
+        name = "rel_proyect__usuario",
+        joinColumns = @JoinColumn(name = "proyect_id"),
+        inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
     @JsonIgnoreProperties(value = { "user", "inputs", "workspaces", "proyects" }, allowSetters = true)
     private Set<Usuario> usuarios = new HashSet<>();
 
@@ -180,12 +185,6 @@ public class Proyect implements Serializable {
     }
 
     public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.removeProyect(this));
-        }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.addProyect(this));
-        }
         this.usuarios = usuarios;
     }
 

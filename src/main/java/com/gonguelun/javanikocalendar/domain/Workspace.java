@@ -36,7 +36,12 @@ public class Workspace implements Serializable {
     @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
     private Set<Proyect> proyects = new HashSet<>();
 
-    @ManyToMany(mappedBy = "workspaces")
+    @ManyToMany
+    @JoinTable(
+        name = "rel_workspace__usuario",
+        joinColumns = @JoinColumn(name = "workspace_id"),
+        inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
     @JsonIgnoreProperties(value = { "user", "inputs", "workspaces", "proyects" }, allowSetters = true)
     private Set<Usuario> usuarios = new HashSet<>();
 
@@ -146,12 +151,6 @@ public class Workspace implements Serializable {
     }
 
     public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.removeWorkspace(this));
-        }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.addWorkspace(this));
-        }
         this.usuarios = usuarios;
     }
 
