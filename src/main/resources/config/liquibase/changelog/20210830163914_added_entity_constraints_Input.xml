@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Input.
+    -->
+    <changeSet id="20210830163914-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                                 baseTableName="input"
+                                 constraintName="fk_input__usuario_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+        <addUniqueConstraint
+        columnNames="input_date, usuario_id"
+        constraintName="ux_input__input_date"
+        tableName="input"
+        />
+        <addForeignKeyConstraint baseColumnNames="sprint_id"
+                                 baseTableName="input"
+                                 constraintName="fk_input__sprint_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="sprint"/>
+    </changeSet>
+</databaseChangeLog>

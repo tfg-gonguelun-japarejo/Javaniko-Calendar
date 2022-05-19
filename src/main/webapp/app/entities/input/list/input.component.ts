@@ -16,8 +16,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { TemplateRef, ViewChild } from '@angular/core';
 import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
 import { AccountService } from 'app/core/auth/account.service';
-import { Usuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 
 @Component({
   selector: 'jhi-input',
@@ -33,12 +31,7 @@ export class InputComponent implements OnInit {
   @ViewChild('content')
   private content!: TemplateRef<any>;
 
-  constructor(
-    protected inputService: InputService,
-    protected accountService: AccountService,
-    private httpClient: HttpClient,
-    private modalService: NgbModal
-  ) {}
+  constructor(protected inputService: InputService, protected accountService: AccountService, private httpClient: HttpClient, private modalService: NgbModal) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -93,7 +86,7 @@ export class InputComponent implements OnInit {
       for (const myinput of this.inputs) {
         if (myinput.feelings === 0) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: myinput.usuario?.username + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/sad.png',
@@ -101,7 +94,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 5) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: myinput.usuario + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/serious_emoji.png',
@@ -109,7 +102,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 10) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: myinput.usuario + ': ' + myinput.comment,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/happy_emoji.png',

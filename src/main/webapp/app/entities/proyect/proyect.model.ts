@@ -7,11 +7,11 @@ export interface IProyect {
   id?: number;
   name?: string;
   description?: string;
-  createdAt?: dayjs.Dayjs;
+  createdAt?: dayjs.Dayjs | null;
   isPrivate?: boolean;
-  sprints?: ISprint[];
-  workspace?: IWorkspace;
-  usuarios?: IUsuario[];
+  sprints?: ISprint[] | null;
+  workspace?: IWorkspace | null;
+  usuarios?: IUsuario[] | null;
 }
 
 export class Proyect implements IProyect {
@@ -19,11 +19,11 @@ export class Proyect implements IProyect {
     public id?: number,
     public name?: string,
     public description?: string,
-    public createdAt?: dayjs.Dayjs,
+    public createdAt?: dayjs.Dayjs | null,
     public isPrivate?: boolean,
-    public sprints?: ISprint[],
-    public workspace?: IWorkspace,
-    public usuarios?: IUsuario[]
+    public sprints?: ISprint[] | null,
+    public workspace?: IWorkspace | null,
+    public usuarios?: IUsuario[] | null
   ) {
     this.isPrivate = this.isPrivate ?? false;
   }

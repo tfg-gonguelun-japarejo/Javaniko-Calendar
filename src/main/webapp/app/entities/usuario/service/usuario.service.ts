@@ -48,8 +48,8 @@ export class UsuarioService {
 
   findByUsername(username: string): Observable<EntityResponseType> {
     return this.http
-      .get<IUsuario>(`${this.resourceUrl}/usuario?username=${username}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    .get<IUsuario>(`${this.resourceUrl}/usuario?username=${username}`, { observe: 'response'})
+    .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

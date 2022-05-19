@@ -24,8 +24,7 @@
       "proyect": "Proyect",
       "usuario": "Usuario",
       "github": "Import from GitHub",
-      "emptyOrgs": "No workspaces found for this Github user",
-      "githubConfirm": "You are going to import your organizations (workspaces) from GitHub, including related repositories (proyects) and milestones (sprints).</br> The import process will take 5 seconds, displaying alerts indicating whether it has been imported or not.</br> Are you sure you want to import them?"
+      "emptyOrgs": "No workspaces found for this Github user"
     },
     "error": {
       "Description": "Error on field 'Description': size should be between 20 and 2147483647"

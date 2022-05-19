@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /**
  * Angular bootstrap Date adapter
  */
