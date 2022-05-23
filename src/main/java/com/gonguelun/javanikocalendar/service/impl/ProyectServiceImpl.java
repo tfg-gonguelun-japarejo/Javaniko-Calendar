@@ -77,4 +77,9 @@ public class ProyectServiceImpl implements ProyectService {
         log.debug("Request to delete Proyect : {}", id);
         proyectRepository.deleteById(id);
     }
+
+    @Override
+    public List<Proyect> findProyectsByUsuarioId(Long usuarioId) {
+        return proyectRepository.findProyectsByUsuarioId(usuarioId);
+    }
 }

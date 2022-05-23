@@ -74,6 +74,10 @@ export class ProyectService {
     return proyectCollection;
   }
 
+  getGithubProyects(url: string): Observable<IProyect[]> {
+    return this.http.get<IProyect[]>(url);
+  }
+
   protected convertDateFromClient(proyect: IProyect): IProyect {
     return Object.assign({}, proyect, {
       createdAt: proyect.createdAt?.isValid() ? proyect.createdAt.format(DATE_FORMAT) : undefined,

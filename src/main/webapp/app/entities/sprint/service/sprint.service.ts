@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ISprint, getSprintIdentifier } from '../sprint.model';
+import { IProyect } from 'app/entities/proyect/proyect.model';
 
 export type EntityResponseType = HttpResponse<ISprint>;
 export type EntityArrayResponseType = HttpResponse<ISprint[]>;
@@ -72,6 +73,14 @@ export class SprintService {
       return [...sprintsToAdd, ...sprintCollection];
     }
     return sprintCollection;
+  }
+
+  getGithubMilestones(url: string): Observable<ISprint[]> {
+    return this.http.get<ISprint[]>(url);
+  }
+
+  findProyectsByUsuarioId(usuarioId: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IProyect[]>(`${this.resourceUrl}/usuario?usuarioId=${usuarioId}`, { observe: 'response' });
   }
 
   protected convertDateFromClient(sprint: ISprint): ISprint {

@@ -9,7 +9,7 @@ import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Usuario } from 'app/entities/usuario/usuario.model';
 import { WorkspaceService } from 'app/entities/workspace/service/workspace.service';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import dayjs from 'dayjs';
 import { IWorkspace } from 'app/entities/workspace/workspace.model';
 
@@ -86,7 +86,7 @@ export class ProyectComponent implements OnInit {
   }
 
   getGithubProyectsByOrg(workspace: IWorkspace): any {
-    this.workspaceService
+    this.proyectService
       .getGithubProyects(workspace.repos_url!)
       .pipe(
         tap(proyects => {

@@ -171,4 +171,11 @@ public class ProyectResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/proyects/usuario")
+    public List<Proyect> getWorkspacesByUsuarioId(@RequestParam(value = "usuarioId") Long usuarioId) {
+        log.debug("REST request to get Proyects by Usuario");
+        List<Proyect> proyects = proyectService.findProyectsByUsuarioId(usuarioId);
+        return proyects;
+    }
 }

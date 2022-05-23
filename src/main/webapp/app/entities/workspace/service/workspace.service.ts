@@ -72,14 +72,6 @@ export class WorkspaceService {
     return this.http.get<IWorkspace[]>(url);
   }
 
-  getGithubProyects(url: string): Observable<IProyect[]> {
-    return this.http.get<IProyect[]>(url);
-  }
-
-  getGithubMilestones(url: string): Observable<ISprint[]> {
-    return this.http.get<ISprint[]>(url);
-  }
-
   findWorkspacesByUsuarioId(usuarioId: number): Observable<EntityArrayResponseType> {
     return this.http.get<IWorkspace[]>(`${this.resourceUrl}/usuario?usuarioId=${usuarioId}`, { observe: 'response' });
   }
