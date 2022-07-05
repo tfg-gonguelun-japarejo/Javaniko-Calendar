@@ -1,28 +1,32 @@
 
 entity Usuario {
+	username String required,
+    password String required,
+    email String required,
     birthdate LocalDate,
     phone Integer
 }
 
 entity Workspace {
-	name String required,
-	description String required minlength(20),
-    isPrivate Boolean required
+	login String required,
+	repos_url String,
+    description String required minlength(20)
 }
 
 entity Proyect {
 	name String required,
 	description String required minlength(20),
-	startDate LocalDate,
-	endDate LocalDate
+	createdAt LocalDate,
+	isPrivate Boolean required
 }
 
 entity Sprint {
-	sprint Integer,
-	startDate LocalDate,
-	endDate LocalDate,
+	title String required,
+	createdAt LocalDate,
+	dueOn LocalDate,
     status Status,
-    goal String
+    description String required,
+    milestonesUrl String
 }
 
 enum Status {
@@ -32,19 +36,19 @@ enum Status {
 entity Input {
 	comment String,
     feelings Integer required,
-    inputDate LocalDate required
+    inputDate LocalDate required unique
 }
 
 relationship ManyToMany {
-	Usuario{workspace(name)} to Workspace{usuario}
-    Usuario{proyect(name)} to Proyect{usuario}
+	Workspace{usuario} to Usuario{workspace(name)},
+    Proyect{usuario} to Usuario{proyect(name)}
 }
 
 // defining multiple OneToMany relationships with comments
 relationship OneToMany {
 	Workspace{proyect(name)} to Proyect{workspace(name)},
     Proyect{sprint(sprint)} to Sprint{proyect(name)},
-    Usuario{input} to Input{usuario},
+    Usuario{input} to Input{usuario}
 }
 
 relationship OneToOne {

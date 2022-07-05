@@ -9,7 +9,8 @@
     {
       "fieldName": "description",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "minlength"],
+      "fieldValidateRulesMinlength": "20"
     },
     {
       "fieldName": "createdAt",
@@ -19,6 +20,10 @@
       "fieldName": "isPrivate",
       "fieldType": "Boolean",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "milestonesUrl",
+      "fieldType": "String"
     }
   ],
   "relationships": [
@@ -30,18 +35,18 @@
       "otherEntityField": "sprint"
     },
     {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "workspace",
-      "otherEntityRelationshipName": "proyect",
-      "relationshipName": "workspace",
-      "otherEntityField": "name"
-    },
-    {
       "relationshipType": "many-to-many",
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "proyect",
       "relationshipName": "usuario",
       "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "workspace",
+      "otherEntityRelationshipName": "proyect",
+      "relationshipName": "workspace",
+      "otherEntityField": "name"
     }
   ],
   "entityTableName": "proyect",

@@ -45,4 +45,6 @@ public interface SprintService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<Sprint> findSprintsByProyectId(Long proyectId);
 }

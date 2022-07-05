@@ -1,42 +1,53 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable arrow-body-style */
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-/* eslint-disable object-shorthand */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 
 import { IInput } from '../input.model';
 import { InputService } from '../service/input.service';
-import { CalendarOptions } from '@fullcalendar/angular';
+import { CalendarOptions, FullCalendarComponent } from '@fullcalendar/angular';
 import { HttpClient } from '@angular/common/http';
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { TemplateRef, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InputDeleteDialogComponent } from '../delete/input-delete-dialog.component';
 import { AccountService } from 'app/core/auth/account.service';
-import { Usuario } from 'app/entities/usuario/usuario.model';
+import { SessionStorageService } from 'ngx-webstorage';
+import { Tooltip } from 'bootstrap';
+import dayjs from 'dayjs';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { Usuario } from 'app/entities/usuario/usuario.model';
+import { IProyect } from 'app/entities/proyect/proyect.model';
+import { ISprint } from 'app/entities/sprint/sprint.model';
+import { SprintService } from 'app/entities/sprint/service/sprint.service';
+import { ProyectService } from 'app/entities/proyect/service/proyect.service';
 
 @Component({
   selector: 'jhi-input',
   templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnInit {
   inputs?: IInput[];
-  closeResult = '';
+  usuario?: Usuario | null;
+  proyects?: IProyect[] | null;
+  sprints?: ISprint[] | null;
   isLoading = false;
   calendarOptions?: CalendarOptions;
   hasThisAuthority = false;
-
-  @ViewChild('content')
-  private content!: TemplateRef<any>;
+  locale?: string;
+  @ViewChild('calendar') calendarComponent?: FullCalendarComponent;
+  title?: string;
+  proyectSelected?: IProyect | null;
+  sprintSelected?: ISprint | null;
 
   constructor(
     protected inputService: InputService,
+    protected usuarioService: UsuarioService,
     protected accountService: AccountService,
+    protected sprintService: SprintService,
+    protected proyectService: ProyectService,
     private httpClient: HttpClient,
+    private sessionStorage: SessionStorageService,
     private modalService: NgbModal
   ) {}
 
@@ -47,37 +58,70 @@ export class InputComponent implements OnInit {
       (res: HttpResponse<IInput[]>) => {
         this.isLoading = false;
         this.inputs = res.body ?? [];
-        this.calendarOptions = {
-          headerToolbar: {
-            left: '',
-            center: 'title',
-            right: 'prev,next today',
-          },
-          initialView: 'dayGridMonth',
-          eventContent: this.renderEventContent, // This will render the event with image
-          eventColor: '#ffffff',
-          contentHeight: 700,
-          locale: 'es',
-          firstDay: 1,
-          buttonText: {
-            today: 'Hoy',
-          },
-          eventClick: function (info) {
-            alert('Event: ' + info.event.title);
-            alert('Start: ' + info.event.start);
 
-            // change the border color just for fun
-            info.el.style.borderColor = 'red';
-          },
-          dayMaxEvents: 1,
-        };
-        this.calendarOptions.events = this.transformInputsInEvents();
+        this.accountService.getAuthenticationState().subscribe(account => {
+          if (account) {
+            this.usuarioService.findByUsername(account.login).subscribe(usuario => {
+              this.usuario = usuario.body;
+              this.getGithubProyectsByUser(usuario.body!);
+            });
+          }
+        });
+
+        this.loadCalendar();
       },
       () => {
         this.isLoading = false;
       }
     );
   }
+
+  loadCalendar(): void {
+    this.calendarOptions = {
+      headerToolbar: false,
+      initialView: 'dayGridMonth',
+      eventContent: this.renderEventContent,
+      eventColor: '#ffffff',
+      contentHeight: 700,
+      firstDay: 1,
+      eventDidMount: this.renderEventTooltip,
+      dayMaxEvents: 1,
+    };
+
+    this.title = this.calendarComponent!.getApi().view.title;
+
+    this.calendarOptions.events = this.transformInputsInEvents();
+
+    this.locale = this.sessionStorage.retrieve('locale');
+
+    if (this.locale === 'es') {
+      this.calendarOptions.locale = 'es';
+      this.calendarOptions.buttonText = {
+        today: 'Hoy',
+      };
+    } else {
+      this.calendarOptions.locale = 'en';
+      this.calendarOptions.buttonText = {
+        today: 'Today',
+      };
+    }
+  }
+
+  getPreviousMonth(calendarComponent): void {
+    calendarComponent.getApi().prev();
+    this.title = calendarComponent.getApi().view.title;
+  }
+
+  getNextMonth(calendarComponent): void {
+    calendarComponent.getApi().next();
+    this.title = calendarComponent.getApi().view.title;
+  }
+
+  getCurrentMonth(calendarComponent): void {
+    calendarComponent.getApi().today();
+    this.title = calendarComponent.getApi().view.title;
+  }
+
   transformInputsInEvents(): any {
     const result: any[] = [];
     let obj: any;
@@ -93,7 +137,7 @@ export class InputComponent implements OnInit {
       for (const myinput of this.inputs) {
         if (myinput.feelings === 0) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: `${myinput.usuario!.username!}: ${myinput.comment!}`,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/sad.png',
@@ -101,7 +145,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 5) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: `${myinput.usuario!.username!}: ${myinput.comment!}`,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/serious_emoji.png',
@@ -109,7 +153,7 @@ export class InputComponent implements OnInit {
           result.push(obj);
         } else if (myinput.feelings === 10) {
           obj = {
-            title: myinput.usuario!.username + ': ' + myinput.comment,
+            title: `${myinput.usuario!.username!}: ${myinput.comment!}`,
             start: myinput.inputDate?.format(),
             end: myinput.inputDate?.format(),
             imageUrl: '../../../content/images/happy_emoji.png',
@@ -129,6 +173,27 @@ export class InputComponent implements OnInit {
     return result;
   }
 
+  getGithubProyectsByUser(usuario: Usuario): void {
+    this.proyectService.findProyectsByUsuarioId(usuario.id!).subscribe(proyects => {
+      this.proyects = proyects.body;
+    });
+  }
+
+  findSprintsByProyectId(proyect: IProyect): void {
+    this.sprintService.findSprintsByProyectId(proyect.id!).subscribe(sprints => {
+      this.sprints = sprints.body;
+    });
+  }
+
+  onChangeSelectSprint(): void {
+    this.findSprintsByProyectId(this.proyectSelected!);
+  }
+
+  onChangeSprintDate(calendarComponent): void {
+    calendarComponent.getApi().gotoDate(this.sprintSelected?.createdAt);
+    this.title = calendarComponent.getApi().view.title;
+  }
+
   ngOnInit(): void {
     this.loadAll();
   }
@@ -140,7 +205,6 @@ export class InputComponent implements OnInit {
   delete(input: IInput): void {
     const modalRef = this.modalService.open(InputDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.input = input;
-    // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
         this.loadAll();
@@ -152,52 +216,17 @@ export class InputComponent implements OnInit {
     return this.accountService.hasAnyAuthority(authorities);
   }
 
-  renderEventContent(eventInfo, createElement) {
-    // eslint-disable-next-line no-var
-    var innerHtml;
-    // Check if event has image
-    if (eventInfo.event._def.extendedProps.imageUrl) {
-      // Store custom html code in variable
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      innerHtml =
-        '<p>' +
-        eventInfo.event._def.title +
-        '</p>' +
-        "<img style='width:100px;' src='" +
-        eventInfo.event._def.extendedProps.imageUrl +
-        "'>";
-      // Event with rendering html
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      return (createElement = { html: '<div class="imageCalendar">' + innerHtml + '</div>' });
-    }
+  renderEventContent(eventInfo): any {
+    const innerHtml = `<img class='eventImage' style='width: 3rem; max-width: 100%; max-height: 100%' src='${eventInfo.event._def.extendedProps.imageUrl}'>`;
+    return { html: `<div class="imageCalendar" style="margin-left: auto; margin-right: auto">${innerHtml}</div>` };
   }
 
-  // eslint-disable-next-line @typescript-eslint/member-ordering
-  onSubmit(data) {
-    console.log(data);
-  }
-
-  open(content): any {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        this.closeResult = `Closed with: ${result}`;
-      },
-      reason => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      return `with: ${reason}`;
-    }
+  renderEventTooltip(info): any {
+    const fecha = dayjs(info.event.startStr).format('D/MMM/YYYY');
+    return new Tooltip(info.el, {
+      title: `<b>${info.event.title}</br>Fecha → ${fecha}</b>`,
+      trigger: 'hover',
+      html: true,
+    });
   }
 }

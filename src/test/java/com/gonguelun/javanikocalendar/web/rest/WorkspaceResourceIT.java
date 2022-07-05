@@ -2,20 +2,28 @@ package com.gonguelun.javanikocalendar.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.gonguelun.javanikocalendar.IntegrationTest;
 import com.gonguelun.javanikocalendar.domain.Workspace;
 import com.gonguelun.javanikocalendar.repository.WorkspaceRepository;
+import com.gonguelun.javanikocalendar.service.WorkspaceService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link WorkspaceResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class WorkspaceResourceIT {
@@ -35,8 +44,8 @@ class WorkspaceResourceIT {
     private static final String DEFAULT_REPOS_URL = "AAAAAAAAAA";
     private static final String UPDATED_REPOS_URL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAAAAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBBBBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/workspaces";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -46,6 +55,12 @@ class WorkspaceResourceIT {
 
     @Autowired
     private WorkspaceRepository workspaceRepository;
+
+    @Mock
+    private WorkspaceRepository workspaceRepositoryMock;
+
+    @Mock
+    private WorkspaceService workspaceServiceMock;
 
     @Autowired
     private EntityManager em;

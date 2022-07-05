@@ -3,6 +3,11 @@
     <span jhiTranslate="javanikoCalendarApp.proyect.home.title">Proyects</span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-warning mr-2" (click)="getGithubWorkspacesByUser(usuario!)">
+        <fa-icon [icon]="faCheckCircle"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.proyect.confirmGithub">Confirm import of proyects</span>
+      </button>
+
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="javanikoCalendarApp.proyect.home.refreshListLabel">Refresh List</span>
@@ -41,6 +46,7 @@
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.description">Description</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.createdAt">Created At</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.isPrivate">Is Private</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.milestonesUrl">Milestones Url</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.proyect.workspace">Workspace</span></th>
           <th scope="col"></th>
         </tr>
@@ -54,6 +60,7 @@
           <td>{{ proyect.description }}</td>
           <td>{{ proyect.createdAt | formatMediumDate }}</td>
           <td>{{ proyect.isPrivate }}</td>
+          <td>{{ proyect.milestonesUrl }}</td>
           <td>
             <div *ngIf="proyect.workspace">
               <a [routerLink]="['/workspace', proyect.workspace?.id, 'view']">{{ proyect.workspace?.login }}</a>

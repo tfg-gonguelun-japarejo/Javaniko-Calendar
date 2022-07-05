@@ -9,6 +9,11 @@ import { AccountService } from 'app/core/auth/account.service';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { Usuario } from 'app/entities/usuario/usuario.model';
 import { IProyect } from 'app/entities/proyect/proyect.model';
+import { ProyectService } from 'app/entities/proyect/service/proyect.service';
+import { map, tap } from 'rxjs/operators';
+import { Status } from 'app/entities/enumerations/status.model';
+import dayjs from 'dayjs';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-sprint',
@@ -18,10 +23,15 @@ export class SprintComponent implements OnInit {
   sprints?: ISprint[];
   usuario?: Usuario | null;
   proyects?: IProyect[] | null;
+  aux?: ISprint[];
+  emptyProyects = false;
+  sprintDuplicate = false;
+  faCheckSquare = faCheckSquare;
   isLoading = false;
 
   constructor(
     protected sprintService: SprintService,
+    protected proyectService: ProyectService,
     protected accountService: AccountService,
     protected usuarioService: UsuarioService,
     protected modalService: NgbModal
@@ -44,7 +54,6 @@ export class SprintComponent implements OnInit {
       if (account) {
         this.usuarioService.findByUsername(account.login).subscribe(usuario => {
           this.usuario = usuario.body;
-          this.getGithubProyectsByUser(this.usuario!);
         });
       }
     });
@@ -70,58 +79,60 @@ export class SprintComponent implements OnInit {
   }
 
   getGithubProyectsByUser(usuario: Usuario): any {
-    this.sprintService.findProyectsByUsuarioId(usuario.id!).subscribe(proyects => {
+    this.proyectService.findProyectsByUsuarioId(usuario.id!).subscribe(proyects => {
       this.proyects = proyects.body;
-      /* this.proyects!.forEach(proyect => {
+      this.proyects!.forEach(proyect => {
         this.getGithubSprintsByProyect(proyect);
-      }); */
+      });
     });
   }
 
-  /* getGithubSprintsByProyect(proyect: IProyect): any {
+  getGithubSprintsByProyect(proyect: IProyect): any {
     this.sprintService
-      .getGithubMilestones(workspace.repos_url!)
+      .getGithubMilestones(proyect.milestonesUrl!)
       .pipe(
-        tap(proyects => {
-          if (proyects.length === 0) {
+        tap(sprints => {
+          if (sprints.length === 0) {
             this.emptyProyects = true;
           }
         }),
-        map(proyects =>
-          proyects.map(proyect => ({
-            name: proyect['name'],
-            description: proyect['description'],
-            createdAt: proyect['created_at'],
-            isPrivate: proyect['private'],
+        map(sprints =>
+          sprints.map(sprint => ({
+            title: sprint['title'],
+            description: sprint['description'],
+            createdAt: sprint['created_at'],
+            dueOn: sprint['due_on'],
+            status: Status.ON_GOING,
           }))
         )
       )
-      .subscribe((proyects: IProyect[]) => {
-        this.aux = proyects;
-        this.aux.forEach(proyect => {
-          for (let i = 0; i < this.proyects!.length; i++) {
-            if (this.proyects![i].name === proyect.name && this.proyects![i].description === proyect.description) {
-              this.proyectDuplicate = true;
-              i = this.proyects!.length;
+      .subscribe((sprints: ISprint[]) => {
+        this.aux = sprints;
+        this.aux.forEach(sprint => {
+          for (let i = 0; i < this.sprints!.length; i++) {
+            if (this.sprints![i].title === sprint.title && this.sprints![i].description === sprint.description) {
+              this.sprintDuplicate = true;
+              i = this.sprints!.length;
             }
           }
-          if (this.proyectDuplicate) {
+          if (this.sprintDuplicate) {
             return;
           }
-          if (proyect.usuarios === undefined) {
-            proyect.usuarios = [];
-          }
-          proyect.usuarios.push(this.usuario!);
-          if (proyect.workspace === undefined) {
-            proyect.workspace = {};
-          }
-          proyect.workspace = workspace;
-          this.formatDateProyect(proyect);
-          const create: any = this.proyectService.create(proyect);
+          sprint.proyect = proyect;
+          this.formatDateSprint(sprint);
+          const create: any = this.sprintService.create(sprint);
           create.subscribe(() => this.previousState());
         });
       });
-  } */
+  }
+
+  formatDateSprint(sprint: ISprint): dayjs.Dayjs {
+    const startDate = dayjs(sprint.createdAt).format('D/MMM/YYYY');
+    sprint.createdAt = dayjs(startDate);
+    const endDate = dayjs(sprint.dueOn).format('D/MMM/YYYY');
+    sprint.dueOn = dayjs(endDate);
+    return sprint.createdAt, sprint.dueOn;
+  }
 
   previousState(): void {
     setTimeout(() => {

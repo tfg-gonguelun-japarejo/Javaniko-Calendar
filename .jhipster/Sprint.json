@@ -3,7 +3,8 @@
   "fields": [
     {
       "fieldName": "title",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "createdAt",
@@ -20,16 +21,11 @@
     },
     {
       "fieldName": "description",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "input",
-      "otherEntityRelationshipName": "sprint",
-      "relationshipName": "input"
-    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "proyect",

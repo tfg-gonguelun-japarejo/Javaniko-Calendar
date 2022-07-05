@@ -51,6 +51,9 @@ public class ProyectServiceImpl implements ProyectService {
                     if (proyect.getIsPrivate() != null) {
                         existingProyect.setIsPrivate(proyect.getIsPrivate());
                     }
+                    if (proyect.getMilestonesUrl() != null) {
+                        existingProyect.setMilestonesUrl(proyect.getMilestonesUrl());
+                    }
 
                     return existingProyect;
                 }

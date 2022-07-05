@@ -36,6 +36,9 @@ public class Proyect implements Serializable {
     @Column(name = "is_private", nullable = false)
     private Boolean isPrivate;
 
+    @Column(name = "milestones_url")
+    private String milestonesUrl;
+
     @OneToMany(mappedBy = "proyect")
     @JsonIgnoreProperties(value = { "calendars", "proyect" }, allowSetters = true)
     private Set<Sprint> sprints = new HashSet<>();
@@ -117,6 +120,19 @@ public class Proyect implements Serializable {
 
     public void setIsPrivate(Boolean isPrivate) {
         this.isPrivate = isPrivate;
+    }
+
+    public String getMilestonesUrl() {
+        return this.milestonesUrl;
+    }
+
+    public Proyect milestonesUrl(String milestonesUrl) {
+        this.milestonesUrl = milestonesUrl;
+        return this;
+    }
+
+    public void setMilestonesUrl(String milestonesUrl) {
+        this.milestonesUrl = milestonesUrl;
     }
 
     public Set<Sprint> getSprints() {
@@ -216,6 +232,7 @@ public class Proyect implements Serializable {
             ", description='" + getDescription() + "'" +
             ", createdAt='" + getCreatedAt() + "'" +
             ", isPrivate='" + getIsPrivate() + "'" +
+            ", milestonesUrl='" + getMilestonesUrl() + "'" +
             "}";
     }
 }

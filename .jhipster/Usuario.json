@@ -4,7 +4,7 @@
     {
       "fieldName": "username",
       "fieldType": "String",
-      "fieldValidateRules": ["required", "unique"]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "password",
@@ -14,7 +14,7 @@
     {
       "fieldName": "email",
       "fieldType": "String",
-      "fieldValidateRules": ["unique"]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "birthdate",

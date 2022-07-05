@@ -173,7 +173,7 @@ public class ProyectResource {
     }
 
     @GetMapping("/proyects/usuario")
-    public List<Proyect> getWorkspacesByUsuarioId(@RequestParam(value = "usuarioId") Long usuarioId) {
+    public List<Proyect> getProyectsByUsuarioId(@RequestParam(value = "usuarioId") Long usuarioId) {
         log.debug("REST request to get Proyects by Usuario");
         List<Proyect> proyects = proyectService.findProyectsByUsuarioId(usuarioId);
         return proyects;

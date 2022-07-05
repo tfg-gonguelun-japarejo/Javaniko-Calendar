@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +50,7 @@ public class SprintResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/sprints")
-    public ResponseEntity<Sprint> createSprint(@RequestBody Sprint sprint) throws URISyntaxException {
+    public ResponseEntity<Sprint> createSprint(@Valid @RequestBody Sprint sprint) throws URISyntaxException {
         log.debug("REST request to save Sprint : {}", sprint);
         if (sprint.getId() != null) {
             throw new BadRequestAlertException("A new sprint cannot already have an ID", ENTITY_NAME, "idexists");
@@ -71,8 +73,10 @@ public class SprintResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/sprints/{id}")
-    public ResponseEntity<Sprint> updateSprint(@PathVariable(value = "id", required = false) final Long id, @RequestBody Sprint sprint)
-        throws URISyntaxException {
+    public ResponseEntity<Sprint> updateSprint(
+        @PathVariable(value = "id", required = false) final Long id,
+        @Valid @RequestBody Sprint sprint
+    ) throws URISyntaxException {
         log.debug("REST request to update Sprint : {}, {}", id, sprint);
         if (sprint.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -106,7 +110,7 @@ public class SprintResource {
     @PatchMapping(value = "/sprints/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<Sprint> partialUpdateSprint(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Sprint sprint
+        @NotNull @RequestBody Sprint sprint
     ) throws URISyntaxException {
         log.debug("REST request to partial update Sprint partially : {}, {}", id, sprint);
         if (sprint.getId() == null) {
@@ -166,5 +170,12 @@ public class SprintResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/sprints/proyect")
+    public List<Sprint> findSprintsByProyectId(@RequestParam(value = "proyectId") Long proyectId) {
+        log.debug("REST request to get Proyects by Usuario");
+        List<Sprint> sprints = sprintService.findSprintsByProyectId(proyectId);
+        return sprints;
     }
 }

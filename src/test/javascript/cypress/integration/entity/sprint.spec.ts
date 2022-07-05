@@ -85,15 +85,17 @@ describe('Sprint e2e test', () => {
     cy.get(entityCreateButtonSelector).click({ force: true });
     cy.getEntityCreateUpdateHeading('Sprint');
 
-    cy.get(`[data-cy="title"]`).type('asimétrica', { force: true }).invoke('val').should('match', new RegExp('asimétrica'));
+    cy.get(`[data-cy="title"]`).type('6571').should('have.value', '6571');
 
-    cy.get(`[data-cy="createdAt"]`).type('2021-11-01').should('have.value', '2021-11-01');
+    cy.get(`[data-cy="createdAt"]`).type('2021-08-30').should('have.value', '2021-08-30');
 
-    cy.get(`[data-cy="dueOn"]`).type('2021-11-01').should('have.value', '2021-11-01');
+    cy.get(`[data-cy="dueOn"]`).type('2021-08-30').should('have.value', '2021-08-30');
 
-    cy.get(`[data-cy="status"]`).select('FAIL');
+    cy.get(`[data-cy="status"]`).select('ON_GOING');
 
-    cy.get(`[data-cy="description"]`).type('Metal', { force: true }).invoke('val').should('match', new RegExp('Metal'));
+    cy.get(`[data-cy="description"]`).type('Región', { force: true }).invoke('val').should('match', new RegExp('Región'));
+
+    cy.get(`[data-cy="milestonesUrl"]`).type('payment', { force: true }).invoke('val').should('match', new RegExp('payment'));
 
     cy.setFieldSelectToLastOfEntity('proyect');
 

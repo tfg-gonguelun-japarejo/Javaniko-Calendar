@@ -22,10 +22,12 @@
       "description": "Description",
       "createdAt": "Created At",
       "isPrivate": "Is Private",
+      "milestonesUrl": "Milestones Url",
       "sprint": "Sprint",
       "workspace": "Workspace",
       "emptyProyects": "No proyects found for this Github user",
-      "usuario": "Usuario"
+      "usuario": "Usuario",
+      "confirmGithub": "Confirm import of proyects"
     }
   }
 }

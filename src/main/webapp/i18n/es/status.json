@@ -2,10 +2,10 @@
   "javanikoCalendarApp": {
     "Status": {
       "null": "",
-      "ON_GOING": "EN_PROCESO",
-      "PENDING": "PENDIENTE",
-      "SUCCESS": "ÉXITO",
-      "FAIL": "ERROR"
+      "ON_GOING": "ON_GOING",
+      "PENDING": "PENDING",
+      "SUCCESS": "SUCCESS",
+      "FAIL": "FAIL"
     }
   }
 }

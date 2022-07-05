@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gonguelun.javanikocalendar.domain.enumeration.Status;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A Sprint.
@@ -15,14 +14,14 @@ import javax.persistence.*;
 @Table(name = "sprint")
 public class Sprint implements Serializable {
 
-    
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @NotNull
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "created_at")
@@ -35,15 +34,12 @@ public class Sprint implements Serializable {
     @Column(name = "status")
     private Status status;
 
-    @Column(name = "description")
+    @NotNull
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "sprint")
-    @JsonIgnoreProperties(value = { "usuario", "sprint" }, allowSetters = true)
-    private Set<Input> inputs = new HashSet<>();
-
     @ManyToOne
-    @JsonIgnoreProperties(value = { "sprints", "workspace", "usuarios" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "sprints", "usuarios", "workspace" }, allowSetters = true)
     private Proyect proyect;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -125,37 +121,6 @@ public class Sprint implements Serializable {
         this.description = description;
     }
 
-    public Set<Input> getInputs() {
-        return this.inputs;
-    }
-
-    public Sprint inputs(Set<Input> inputs) {
-        this.setInputs(inputs);
-        return this;
-    }
-
-    public Sprint addInput(Input input) {
-        this.inputs.add(input);
-        input.setSprint(this);
-        return this;
-    }
-
-    public Sprint removeInput(Input input) {
-        this.inputs.remove(input);
-        input.setSprint(null);
-        return this;
-    }
-
-    public void setInputs(Set<Input> inputs) {
-        if (this.inputs != null) {
-            this.inputs.forEach(i -> i.setSprint(null));
-        }
-        if (inputs != null) {
-            inputs.forEach(i -> i.setSprint(this));
-        }
-        this.inputs = inputs;
-    }
-
     public Proyect getProyect() {
         return this.proyect;
     }
@@ -193,7 +158,7 @@ public class Sprint implements Serializable {
     public String toString() {
         return "Sprint{" +
             "id=" + getId() +
-            ", title='" + getTitle() + "'" +
+            ", title=" + getTitle() +
             ", createdAt='" + getCreatedAt() + "'" +
             ", dueOn='" + getDueOn() + "'" +
             ", status='" + getStatus() + "'" +
@@ -201,4 +166,3 @@ public class Sprint implements Serializable {
             "}";
     }
 }
-

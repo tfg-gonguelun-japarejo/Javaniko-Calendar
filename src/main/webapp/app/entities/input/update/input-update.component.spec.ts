@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Usuario query and add missing value', () => {
         const input: IInput = { id: 456 };
-        const usuario: IUsuario = { id: 16609 };
+        const usuario: IUsuario = { id: 9313 };
         input.usuario = usuario;
 
-        const usuarioCollection: IUsuario[] = [{ id: 63584 }];
+        const usuarioCollection: IUsuario[] = [{ id: 13238 }];
         spyOn(usuarioService, 'query').and.returnValue(of(new HttpResponse({ body: usuarioCollection })));
         const additionalUsuarios = [usuario];
         const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
@@ -59,16 +59,9 @@ describe('Component Tests', () => {
         expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
       });
 
-      it('Should call Calendar query and add missing value', () => {
-        const input: IInput = { id: 456 };
-
-        activatedRoute.data = of({ input });
-        comp.ngOnInit();
-      });
-
       it('Should update editForm', () => {
         const input: IInput = { id: 456 };
-        const usuario: IUsuario = { id: 41606 };
+        const usuario: IUsuario = { id: 81484 };
         input.usuario = usuario;
 
         activatedRoute.data = of({ input });

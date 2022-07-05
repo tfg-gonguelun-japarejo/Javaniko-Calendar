@@ -12,6 +12,7 @@ import { WorkspaceService } from 'app/entities/workspace/service/workspace.servi
 import { map, tap } from 'rxjs/operators';
 import dayjs from 'dayjs';
 import { IWorkspace } from 'app/entities/workspace/workspace.model';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-proyect',
@@ -24,6 +25,7 @@ export class ProyectComponent implements OnInit {
   aux?: IProyect[];
   emptyProyects = false;
   proyectDuplicate = false;
+  faCheckCircle = faCheckCircle;
   isLoading = false;
 
   constructor(
@@ -51,7 +53,6 @@ export class ProyectComponent implements OnInit {
       if (account) {
         this.usuarioService.findByUsername(account.login).subscribe(usuario => {
           this.usuario = usuario.body;
-          this.getGithubWorkspacesByUser(this.usuario!);
         });
       }
     });
@@ -100,6 +101,7 @@ export class ProyectComponent implements OnInit {
             description: proyect['description'],
             createdAt: proyect['created_at'],
             isPrivate: proyect['private'],
+            milestonesUrl: proyect['milestones_url'],
           }))
         )
       )
@@ -124,6 +126,7 @@ export class ProyectComponent implements OnInit {
           }
           proyect.workspace = workspace;
           this.formatDateProyect(proyect);
+          proyect.milestonesUrl = proyect.milestonesUrl!.split('{')[0];
           const create: any = this.proyectService.create(proyect);
           create.subscribe(() => this.previousState());
         });

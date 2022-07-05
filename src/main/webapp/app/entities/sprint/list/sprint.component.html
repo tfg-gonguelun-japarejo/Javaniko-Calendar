@@ -3,6 +3,11 @@
     <span jhiTranslate="javanikoCalendarApp.sprint.home.title">Sprints</span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-warning mr-2" (click)="getGithubProyectsByUser(usuario!)">
+        <fa-icon [icon]="faCheckSquare"></fa-icon>
+        <span jhiTranslate="javanikoCalendarApp.sprint.confirmGithub">Confirm import of sprints</span>
+      </button>
+
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="javanikoCalendarApp.sprint.home.refreshListLabel">Refresh List</span>

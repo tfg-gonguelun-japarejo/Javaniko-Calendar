@@ -95,10 +95,12 @@ describe('Proyect e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('BalearesXXXXXXXXXXXX'));
 
-    cy.get(`[data-cy="createdAt"]`).type('2021-11-01').should('have.value', '2021-11-01');
+    cy.get(`[data-cy="createdAt"]`).type('2021-08-30').should('have.value', '2021-08-30');
 
     cy.get(`[data-cy="isPrivate"]`).should('not.be.checked');
     cy.get(`[data-cy="isPrivate"]`).click().should('be.checked');
+    cy.setFieldSelectToLastOfEntity('usuario');
+
     cy.setFieldSelectToLastOfEntity('workspace');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
