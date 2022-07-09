@@ -44,6 +44,7 @@ export class NavbarComponent implements OnInit {
   changeLanguage(languageKey: string): void {
     this.sessionStorage.store('locale', languageKey);
     this.translateService.use(languageKey);
+    this.previousState();
   }
 
   collapseNavbar(): void {
@@ -70,5 +71,11 @@ export class NavbarComponent implements OnInit {
 
   getImageUrl(): string {
     return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
+  }
+
+  previousState(): void {
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   }
 }

@@ -9,6 +9,7 @@ export interface IProyect {
   description?: string;
   createdAt?: dayjs.Dayjs;
   isPrivate?: boolean;
+  milestonesUrl?: string;
   sprints?: ISprint[];
   workspace?: IWorkspace;
   usuarios?: IUsuario[];
@@ -21,6 +22,7 @@ export class Proyect implements IProyect {
     public description?: string,
     public createdAt?: dayjs.Dayjs,
     public isPrivate?: boolean,
+    public milestonesUrl?: string,
     public sprints?: ISprint[],
     public workspace?: IWorkspace,
     public usuarios?: IUsuario[]

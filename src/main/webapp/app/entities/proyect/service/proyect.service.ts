@@ -74,6 +74,14 @@ export class ProyectService {
     return proyectCollection;
   }
 
+  findProyectsByUsuarioId(usuarioId: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IProyect[]>(`${this.resourceUrl}/usuario?usuarioId=${usuarioId}`, { observe: 'response' });
+  }
+
+  getGithubProyects(url: string): Observable<IProyect[]> {
+    return this.http.get<IProyect[]>(url);
+  }
+
   protected convertDateFromClient(proyect: IProyect): IProyect {
     return Object.assign({}, proyect, {
       createdAt: proyect.createdAt?.isValid() ? proyect.createdAt.format(DATE_FORMAT) : undefined,

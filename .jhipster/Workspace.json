@@ -13,7 +13,8 @@
     {
       "fieldName": "description",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "minlength"],
+      "fieldValidateRulesMinlength": "20"
     }
   ],
   "relationships": [

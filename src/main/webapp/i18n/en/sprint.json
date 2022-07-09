@@ -23,8 +23,8 @@
       "dueOn": "Due On",
       "status": "Status",
       "description": "Description",
-      "input": "Input",
-      "proyect": "Proyect"
+      "proyect": "Proyect",
+      "confirmGithub": "Confirm import of sprints"
     }
   }
 }

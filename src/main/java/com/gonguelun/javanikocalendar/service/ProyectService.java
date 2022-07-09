@@ -45,4 +45,6 @@ public interface ProyectService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<Proyect> findProyectsByUsuarioId(Long usuarioId);
 }

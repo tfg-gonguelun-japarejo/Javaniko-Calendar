@@ -81,10 +81,10 @@
           <select class="form-control" id="field_sprint" data-cy="sprint" name="sprint" formControlName="sprint">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="sprintOption.id === editForm.get('sprint')!.value?.id ? editForm.get('sprint')!.value : sprintOption"
+              [ngValue]="sprintOption.title === editForm.get('sprint')!.value?.title ? editForm.get('sprint')!.value : sprintOption"
               *ngFor="let sprintOption of sprintsSharedCollection; trackBy: trackSprintById"
             >
-              {{ sprintOption.id }}
+              {{ sprintOption.title }}
             </option>
           </select>
         </div>

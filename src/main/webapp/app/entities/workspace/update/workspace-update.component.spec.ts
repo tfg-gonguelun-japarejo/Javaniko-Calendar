@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 
 import { WorkspaceService } from '../service/workspace.service';
 import { IWorkspace, Workspace } from '../workspace.model';
+import { IUsuario } from 'app/entities/usuario/usuario.model';
+import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 
 import { WorkspaceUpdateComponent } from './workspace-update.component';
 
@@ -18,6 +20,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<WorkspaceUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let workspaceService: WorkspaceService;
+    let usuarioService: UsuarioService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -31,18 +34,41 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(WorkspaceUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       workspaceService = TestBed.inject(WorkspaceService);
+      usuarioService = TestBed.inject(UsuarioService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call Usuario query and add missing value', () => {
+        const workspace: IWorkspace = { id: 456 };
+        const usuarios: IUsuario[] = [{ id: 26386 }];
+        workspace.usuarios = usuarios;
+
+        const usuarioCollection: IUsuario[] = [{ id: 46376 }];
+        spyOn(usuarioService, 'query').and.returnValue(of(new HttpResponse({ body: usuarioCollection })));
+        const additionalUsuarios = [...usuarios];
+        const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
+        spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ workspace });
+        comp.ngOnInit();
+
+        expect(usuarioService.query).toHaveBeenCalled();
+        expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(usuarioCollection, ...additionalUsuarios);
+        expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      });
+
       it('Should update editForm', () => {
         const workspace: IWorkspace = { id: 456 };
+        const usuarios: IUsuario = { id: 43586 };
+        workspace.usuarios = [usuarios];
 
         activatedRoute.data = of({ workspace });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(workspace));
+        expect(comp.usuariosSharedCollection).toContain(usuarios);
       });
     });
 
@@ -107,6 +133,44 @@ describe('Component Tests', () => {
         expect(workspaceService.update).toHaveBeenCalledWith(workspace);
         expect(comp.isSaving).toEqual(false);
         expect(comp.previousState).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('Tracking relationships identifiers', () => {
+      describe('trackUsuarioById', () => {
+        it('Should return tracked Usuario primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUsuarioById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+    });
+
+    describe('Getting selected relationships', () => {
+      describe('getSelectedUsuario', () => {
+        it('Should return option if no Usuario is selected', () => {
+          const option = { id: 123 };
+          const result = comp.getSelectedUsuario(option);
+          expect(result === option).toEqual(true);
+        });
+
+        it('Should return selected Usuario for according option', () => {
+          const option = { id: 123 };
+          const selected = { id: 123 };
+          const selected2 = { id: 456 };
+          const result = comp.getSelectedUsuario(option, [selected2, selected]);
+          expect(result === selected).toEqual(true);
+          expect(result === selected2).toEqual(false);
+          expect(result === option).toEqual(false);
+        });
+
+        it('Should return option if this Usuario is not selected', () => {
+          const option = { id: 123 };
+          const selected = { id: 456 };
+          const result = comp.getSelectedUsuario(option, [selected]);
+          expect(result === option).toEqual(true);
+          expect(result === selected).toEqual(false);
+        });
       });
     });
   });

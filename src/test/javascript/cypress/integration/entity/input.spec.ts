@@ -92,8 +92,6 @@ describe('Input e2e test', () => {
 
     cy.get(`[data-cy="feelings"]`).type('11498').should('have.value', '11498');
 
-    cy.get(`[data-cy="inputDate"]`).type('2021-08-29').should('have.value', '2021-08-29');
-
     cy.setFieldSelectToLastOfEntity('usuario');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });

@@ -22,12 +22,6 @@
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "input",
       "relationshipName": "usuario"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "sprint",
-      "otherEntityRelationshipName": "input",
-      "relationshipName": "sprint"
     }
   ],
   "entityTableName": "input",

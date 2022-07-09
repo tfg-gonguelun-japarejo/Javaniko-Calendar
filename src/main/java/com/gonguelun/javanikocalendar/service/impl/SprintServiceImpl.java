@@ -80,4 +80,9 @@ public class SprintServiceImpl implements SprintService {
         log.debug("Request to delete Sprint : {}", id);
         sprintRepository.deleteById(id);
     }
+
+    @Override
+    public List<Sprint> findSprintsByProyectId(Long proyectId) {
+        return sprintRepository.findSprintsByProyectId(proyectId);
+    }
 }

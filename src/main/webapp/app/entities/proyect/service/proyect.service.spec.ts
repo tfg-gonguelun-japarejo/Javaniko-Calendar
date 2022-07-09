@@ -30,6 +30,7 @@ describe('Service Tests', () => {
         description: 'AAAAAAA',
         createdAt: currentDate,
         isPrivate: false,
+        milestonesUrl: 'AAAAAAA',
       };
     });
 
@@ -80,6 +81,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             createdAt: currentDate.format(DATE_FORMAT),
             isPrivate: true,
+            milestonesUrl: 'BBBBBBB',
           },
           elemDefault
         );
@@ -103,6 +105,7 @@ describe('Service Tests', () => {
           {
             name: 'BBBBBB',
             createdAt: currentDate.format(DATE_FORMAT),
+            milestonesUrl: 'BBBBBBB',
           },
           new Proyect()
         );
@@ -131,6 +134,7 @@ describe('Service Tests', () => {
             description: 'BBBBBB',
             createdAt: currentDate.format(DATE_FORMAT),
             isPrivate: true,
+            milestonesUrl: 'BBBBBBB',
           },
           elemDefault
         );

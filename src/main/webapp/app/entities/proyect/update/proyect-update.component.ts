@@ -25,6 +25,7 @@ export class ProyectUpdateComponent implements OnInit {
     description: [null, [Validators.required]],
     createdAt: [],
     isPrivate: [null, [Validators.required]],
+    milestonesUrl: [],
     workspace: [],
   });
 
@@ -87,6 +88,7 @@ export class ProyectUpdateComponent implements OnInit {
       description: proyect.description,
       createdAt: proyect.createdAt,
       isPrivate: proyect.isPrivate,
+      milestonesUrl: proyect.milestonesUrl,
       workspace: proyect.workspace,
     });
 
@@ -116,6 +118,7 @@ export class ProyectUpdateComponent implements OnInit {
       description: this.editForm.get(['description'])!.value,
       createdAt: this.editForm.get(['createdAt'])!.value,
       isPrivate: this.editForm.get(['isPrivate'])!.value,
+      milestonesUrl: this.editForm.get(['milestonesUrl'])!.value,
       workspace: this.editForm.get(['workspace'])!.value,
     };
   }

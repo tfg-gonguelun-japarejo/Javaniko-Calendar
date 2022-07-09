@@ -51,6 +51,9 @@ public class ProyectServiceImpl implements ProyectService {
                     if (proyect.getIsPrivate() != null) {
                         existingProyect.setIsPrivate(proyect.getIsPrivate());
                     }
+                    if (proyect.getMilestonesUrl() != null) {
+                        existingProyect.setMilestonesUrl(proyect.getMilestonesUrl());
+                    }
 
                     return existingProyect;
                 }
@@ -76,5 +79,10 @@ public class ProyectServiceImpl implements ProyectService {
     public void delete(Long id) {
         log.debug("Request to delete Proyect : {}", id);
         proyectRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Proyect> findProyectsByUsuarioId(Long usuarioId) {
+        return proyectRepository.findProyectsByUsuarioId(usuarioId);
     }
 }

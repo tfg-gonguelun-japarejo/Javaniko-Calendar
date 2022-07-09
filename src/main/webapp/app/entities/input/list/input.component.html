@@ -30,8 +30,42 @@
 
   <div [ngSwitch]="hasAnyAuthority('ROLE_ADMIN')">
     <div *ngSwitchCase="true"></div>
-    <div *ngSwitchCase="false">
-      <full-calendar [options]="calendarOptions"></full-calendar>
+    <div *ngSwitchCase="false" style="display: flex">
+      <div class="calendar">
+        <div class="row">
+          <div class="col-sm">
+            <div class="d-flex justify-content-start">
+              <select [(ngModel)]="proyectSelected" (change)="onChangeSelectSprint()">
+                <option [ngValue]="undefined">Select a proyect...</option>
+                <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
+              </select>
+              <select
+                class="sprintSelect"
+                *ngIf="sprints && sprints.length > 0"
+                [(ngModel)]="sprintSelected"
+                (change)="onChangeSprintDate(calendarComponent)"
+              >
+                <option [ngValue]="undefined">Select a sprint...</option>
+                <option *ngFor="let sprint of sprints" [ngValue]="sprint">{{ sprint.title }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="d-flex justify-content-center title">
+              {{ title }}
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="d-flex justify-content-end months">
+              <button class="fc-button" (click)="getPreviousMonth(calendarComponent)">Prev</button>
+              <button class="fc-button" (click)="getCurrentMonth(calendarComponent)">Current</button>
+              <button class="fc-button" (click)="getNextMonth(calendarComponent)">Next</button>
+            </div>
+          </div>
+        </div>
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
+      <div class="legend"></div>
     </div>
   </div>
 
@@ -53,7 +87,10 @@
           <td>
             <a [routerLink]="['/input', input.id, 'view']">{{ input.id }}</a>
           </td>
-          <td><strong style="font-size: 1.15em;">{{input.usuario?.username}}</strong>: {{ input.comment }}</td>
+          <td>
+            <strong style="font-size: 1.15em">{{ input.usuario?.username }}</strong
+            >: {{ input.comment }}
+          </td>
           <td *ngIf="input.feelings == 0">☹</td>
           <td *ngIf="input.feelings == 5">😐</td>
           <td *ngIf="input.feelings == 10">😁</td>

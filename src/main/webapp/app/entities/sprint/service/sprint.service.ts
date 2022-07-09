@@ -74,6 +74,14 @@ export class SprintService {
     return sprintCollection;
   }
 
+  getGithubMilestones(url: string): Observable<ISprint[]> {
+    return this.http.get<ISprint[]>(url);
+  }
+
+  findSprintsByProyectId(proyectId: number): Observable<EntityArrayResponseType> {
+    return this.http.get<ISprint[]>(`${this.resourceUrl}/proyect?proyectId=${proyectId}`, { observe: 'response' });
+  }
+
   protected convertDateFromClient(sprint: ISprint): ISprint {
     return Object.assign({}, sprint, {
       createdAt: sprint.createdAt?.isValid() ? sprint.createdAt.format(DATE_FORMAT) : undefined,

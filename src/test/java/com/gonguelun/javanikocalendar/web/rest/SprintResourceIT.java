@@ -32,8 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class SprintResourceIT {
 
-    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
-    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+    private static final String DEFAULT_TITLE = "AAAA";
+    private static final String UPDATED_TITLE = "BBBB";
 
     private static final LocalDate DEFAULT_CREATED_AT = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_CREATED_AT = LocalDate.now(ZoneId.systemDefault());
@@ -137,6 +137,40 @@ class SprintResourceIT {
         // Validate the Sprint in the database
         List<Sprint> sprintList = sprintRepository.findAll();
         assertThat(sprintList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkTitleIsRequired() throws Exception {
+        int databaseSizeBeforeTest = sprintRepository.findAll().size();
+        // set the field null
+        sprint.setTitle(null);
+
+        // Create the Sprint, which fails.
+
+        restSprintMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(sprint)))
+            .andExpect(status().isBadRequest());
+
+        List<Sprint> sprintList = sprintRepository.findAll();
+        assertThat(sprintList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDescriptionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = sprintRepository.findAll().size();
+        // set the field null
+        sprint.setDescription(null);
+
+        // Create the Sprint, which fails.
+
+        restSprintMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(sprint)))
+            .andExpect(status().isBadRequest());
+
+        List<Sprint> sprintList = sprintRepository.findAll();
+        assertThat(sprintList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test

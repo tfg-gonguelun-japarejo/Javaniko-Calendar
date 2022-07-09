@@ -90,9 +90,11 @@ describe('Workspace e2e test', () => {
     cy.get(`[data-cy="repos_url"]`).type('Card América', { force: true }).invoke('val').should('match', new RegExp('Card América'));
 
     cy.get(`[data-cy="description"]`)
-      .type('Auto Queso Director', { force: true })
+      .type('Auto Queso DirectorX', { force: true })
       .invoke('val')
-      .should('match', new RegExp('Auto Queso Director'));
+      .should('match', new RegExp('Auto Queso DirectorX'));
+
+    cy.setFieldSelectToLastOfEntity('usuario');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

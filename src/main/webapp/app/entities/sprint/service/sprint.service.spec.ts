@@ -27,7 +27,7 @@ describe('Service Tests', () => {
 
       elemDefault = {
         id: 0,
-        title: 'AAAAAAA',
+        title: 'hola',
         createdAt: currentDate,
         dueOn: currentDate,
         status: Status.ON_GOING,
@@ -81,7 +81,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            title: 'BBBBBB',
+            title: 'hola2',
             createdAt: currentDate.format(DATE_FORMAT),
             dueOn: currentDate.format(DATE_FORMAT),
             status: 'BBBBBB',
@@ -109,6 +109,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             status: 'BBBBBB',
+            description: 'BBBBBB',
           },
           new Sprint()
         );
@@ -134,7 +135,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            title: 'BBBBBB',
+            title: 'hola3',
             createdAt: currentDate.format(DATE_FORMAT),
             dueOn: currentDate.format(DATE_FORMAT),
             status: 'BBBBBB',
@@ -196,7 +197,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Sprint to an array', () => {
-          const sprintArray: ISprint[] = [{ id: 123 }, { id: 456 }, { id: 69685 }];
+          const sprintArray: ISprint[] = [{ id: 123 }, { id: 456 }, { id: 36286 }];
           const sprintCollection: ISprint[] = [{ id: 123 }];
           expectedResult = service.addSprintToCollectionIfMissing(sprintCollection, ...sprintArray);
           expect(expectedResult).toHaveLength(3);
