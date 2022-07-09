@@ -41,7 +41,7 @@
               </select>
               <select
                 class="sprintSelect"
-                *ngIf="proyectSelected"
+                *ngIf="sprints && sprints.length > 0"
                 [(ngModel)]="sprintSelected"
                 (change)="onChangeSprintDate(calendarComponent)"
               >
