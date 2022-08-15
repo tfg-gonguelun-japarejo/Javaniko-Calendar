@@ -5,7 +5,6 @@ import { IProyect } from 'app/entities/proyect/proyect.model';
 import { ProyectService } from 'app/entities/proyect/service/proyect.service';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { Usuario } from 'app/entities/usuario/usuario.model';
-import dayjs from 'dayjs';
 import { map, tap } from 'rxjs/operators';
 import { WorkspaceService } from '../service/workspace.service';
 import { IWorkspace } from '../workspace.model';

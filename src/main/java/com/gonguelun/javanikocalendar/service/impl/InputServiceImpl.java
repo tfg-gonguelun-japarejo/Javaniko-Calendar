@@ -3,6 +3,7 @@ package com.gonguelun.javanikocalendar.service.impl;
 import com.gonguelun.javanikocalendar.domain.Input;
 import com.gonguelun.javanikocalendar.repository.InputRepository;
 import com.gonguelun.javanikocalendar.service.InputService;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -80,5 +81,19 @@ public class InputServiceImpl implements InputService {
     public List<Input> findAllInputsByUsername(String username) {
         log.debug("Request to get all Inputs by User Id");
         return inputRepository.findAllInputsByUsername(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Input> findAllInputsByUsernameAndDate(String username, LocalDate inputDate, LocalDate dueDate) {
+        log.debug("Request to get all Inputs by User Id and Input Date");
+        return inputRepository.findAllInputsByUsernameAndDate(username, inputDate, dueDate);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Input> findAllInputsBySprintIdAndDate(Long sprintId, LocalDate inputDate, LocalDate dueDate) {
+        log.debug("Request to get all Inputs by Sprint Id");
+        return inputRepository.findAllInputsBySprintIdAndDate(sprintId, inputDate, dueDate);
     }
 }

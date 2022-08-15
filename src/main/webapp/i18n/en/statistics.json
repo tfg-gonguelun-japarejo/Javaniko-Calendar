@@ -1,0 +1,11 @@
+{
+  "statistics": {
+    "title": "Statistics",
+    "date": "Enter a date to display statistics by week and month",
+    "user": "<strong>{{username}}</strong>'s statistics",
+    "proyect": "<strong>{{proyectName}}</strong>'s statistics",
+    "sprint": "<strong>{{sprintName}}</strong>'s statistics",
+    "weekDate": "Statistics per week",
+    "monthDate": "Statistics per month"
+  }
+}

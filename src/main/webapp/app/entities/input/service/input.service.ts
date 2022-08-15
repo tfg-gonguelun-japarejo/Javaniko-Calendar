@@ -74,6 +74,28 @@ export class InputService {
     return inputCollection;
   }
 
+  findInputsByUsername(): Observable<EntityArrayResponseType> {
+    return this.http.get<IInput[]>(`${this.resourceUrl}`, { observe: 'response' });
+  }
+
+  findInputsByUsernameAndInputDate(username: string, inputDate: Date, dueDate: Date): Observable<EntityArrayResponseType> {
+    return this.http.get<IInput[]>(
+      `${this.resourceUrl}/usuario?username=${username}&inputDate=${inputDate
+        .toISOString()
+        .substring(0, 10)}&dueDate=${dueDate.toISOString().substring(0, 10)}`,
+      { observe: 'response' }
+    );
+  }
+
+  findInputsBySprintIdAndDate(sprintId: number, inputDate: Date, dueDate: Date): Observable<EntityArrayResponseType> {
+    return this.http.get<IInput[]>(
+      `${this.resourceUrl}/sprint?sprintId=${sprintId}&inputDate=${inputDate
+        .toISOString()
+        .substring(0, 10)}&dueDate=${dueDate.toISOString().substring(0, 10)}`,
+      { observe: 'response' }
+    );
+  }
+
   protected convertDateFromClient(input: IInput): IInput {
     return Object.assign({}, input, {
       inputDate: input.inputDate?.isValid() ? input.inputDate.format(DATE_FORMAT) : undefined,

@@ -1,0 +1,114 @@
+<div class="col-md-9">
+  <h1 class="display-4" jhiTranslate="statistics.title">Statistics</h1>
+  <h4 jhiTranslate="statistics.date">Enter a date to display statistics by week and month</h4>
+</div>
+
+<div class="col-md-6">
+  <div class="input-group">
+    <input
+      class="form-control"
+      placeholder="dd/mm/yyyy"
+      name="dp"
+      [(ngModel)]="calendar"
+      ngbDatepicker
+      #d="ngbDatepicker"
+      (ngModelChange)="getInputsByUsuario(calendar!)"
+    />
+    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+  </div>
+</div>
+
+<div class="row justify-content-md-center">
+  <div *ngIf="dateInput" class="col-md-9 usuarios">
+    <h2 class="usuariosTitle" jhiTranslate="statistics.user" [translateValues]="{ username: account.login }" *ngIf="account">
+      <strong>{{ account.login }}</strong
+      >'s statistics
+    </h2>
+    <ngx-charts-bar-vertical-2d
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="multi"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+    >
+    </ngx-charts-bar-vertical-2d>
+
+    <p>{{ inputWeekUsuarioMode }}</p>
+    <p>{{ inputMonthUsuarioMode }}</p>
+  </div>
+
+  <div *ngIf="dateInput" class="col-md-9 proyects">
+    <h2
+      class="proyectsTitle"
+      jhiTranslate="statistics.proyect"
+      [translateValues]="{ proyectName: proyectSelected.name }"
+      *ngIf="proyectSelected"
+    >
+      <strong>{{ proyectSelected.name }}</strong
+      >'s statistics
+    </h2>
+    <select class="proyectsSelect" [(ngModel)]="proyectSelected" (change)="onChangeSelectSprint()">
+      <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.proyect.select">Select a proyect...</option>
+      <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
+    </select>
+
+    <ngx-charts-bar-vertical-2d
+      *ngIf="proyectSelected"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="multi2"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+    >
+    </ngx-charts-bar-vertical-2d>
+
+    <p *ngIf="proyectSelected">{{ inputWeekProyectMode }}</p>
+    <p *ngIf="proyectSelected">{{ inputMonthProyectMode }}</p>
+  </div>
+  <div *ngIf="proyectSelected" class="col-md-9 sprints">
+    <h2
+      class="sprintsTitle"
+      jhiTranslate="statistics.sprint"
+      [translateValues]="{ sprintName: sprintSelected.title }"
+      *ngIf="sprintSelected"
+    >
+      <strong>{{ sprintSelected.title }}</strong
+      >'s statistics
+    </h2>
+    <select class="sprintsSelect" *ngIf="sprints && sprints.length > 0" [(ngModel)]="sprintSelected" (change)="onChangeSprintDate()">
+      <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.sprint.select">Select a sprint...</option>
+      <option *ngFor="let sprint of sprints" [ngValue]="sprint">{{ sprint.title }}</option>
+    </select>
+
+    <ngx-charts-bar-vertical-2d
+      *ngIf="sprintSelected"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="multi3"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+    >
+    </ngx-charts-bar-vertical-2d>
+
+    <p *ngIf="sprintSelected">{{ inputWeekSprintMode }}</p>
+    <p *ngIf="sprintSelected">{{ inputMonthSprintMode }}</p>
+  </div>
+</div>

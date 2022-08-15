@@ -1,6 +1,7 @@
 package com.gonguelun.javanikocalendar.service;
 
 import com.gonguelun.javanikocalendar.domain.Input;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,4 +48,8 @@ public interface InputService {
     void delete(Long id);
 
     List<Input> findAllInputsByUsername(String username);
+
+    List<Input> findAllInputsByUsernameAndDate(String username, LocalDate inputDate, LocalDate dueDate);
+
+    List<Input> findAllInputsBySprintIdAndDate(Long sprintId, LocalDate inputDate, LocalDate dueDate);
 }

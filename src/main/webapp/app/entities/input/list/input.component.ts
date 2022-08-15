@@ -77,7 +77,10 @@ export class InputComponent implements OnInit {
   }
 
   loadCalendar(): void {
+    this.locale = this.sessionStorage.retrieve('locale');
+
     this.calendarOptions = {
+      locale: this.locale === 'en' ? 'en' : 'es',
       headerToolbar: false,
       initialView: 'dayGridMonth',
       eventContent: this.renderEventContent,
@@ -88,23 +91,8 @@ export class InputComponent implements OnInit {
       dayMaxEvents: 1,
     };
 
-    this.title = this.calendarComponent!.getApi().view.title;
-
     this.calendarOptions.events = this.transformInputsInEvents();
-
-    this.locale = this.sessionStorage.retrieve('locale');
-
-    if (this.locale === 'es') {
-      this.calendarOptions.locale = 'es';
-      this.calendarOptions.buttonText = {
-        today: 'Hoy',
-      };
-    } else {
-      this.calendarOptions.locale = 'en';
-      this.calendarOptions.buttonText = {
-        today: 'Today',
-      };
-    }
+    this.title = this.calendarComponent!.getApi().view.title;
   }
 
   getPreviousMonth(calendarComponent): void {

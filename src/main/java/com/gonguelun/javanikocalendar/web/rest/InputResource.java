@@ -7,6 +7,7 @@ import com.gonguelun.javanikocalendar.service.InputService;
 import com.gonguelun.javanikocalendar.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -142,14 +143,13 @@ public class InputResource {
         String username = SecurityUtils.getCurrentUserLogin().orElse(null);
         List<Input> res = new ArrayList<>();
         log.debug("REST request to get all Inputs");
-        if(!username.equals("admin")) {
+        if (!username.equals("admin")) {
             res = inputService.findAllInputsByUsername(username);
         } else {
             res = inputService.findAll();
         }
 
         return res;
-        
     }
 
     /**
@@ -179,5 +179,27 @@ public class InputResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/inputs/usuario")
+    public List<Input> getInputsByUsuarioIdAndDate(
+        @RequestParam(value = "username") String username,
+        @RequestParam(value = "inputDate") LocalDate inputDate,
+        @RequestParam(value = "dueDate") LocalDate dueDate
+    ) {
+        log.debug("REST request to get Inputs by Usuario Id and Input Date");
+        List<Input> inputs = inputService.findAllInputsByUsernameAndDate(username, inputDate, dueDate);
+        return inputs;
+    }
+
+    @GetMapping("/inputs/sprint")
+    public List<Input> getInputsBySprintId(
+        @RequestParam(value = "sprintId") Long sprintId,
+        @RequestParam(value = "inputDate") LocalDate inputDate,
+        @RequestParam(value = "dueDate") LocalDate dueDate
+    ) {
+        log.debug("REST request to get Inputs by Sprint Id");
+        List<Input> inputs = inputService.findAllInputsBySprintIdAndDate(sprintId, inputDate, dueDate);
+        return inputs;
     }
 }
