@@ -9,6 +9,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 
+import { faChartBar } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'jhi-navbar',
   templateUrl: './navbar.component.html',
@@ -20,6 +22,7 @@ export class NavbarComponent implements OnInit {
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
   version = '';
+  faChartBar = faChartBar;
 
   constructor(
     private loginService: LoginService,

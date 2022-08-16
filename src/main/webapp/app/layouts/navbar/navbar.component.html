@@ -105,6 +105,14 @@
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
         </ul>
       </li>
+      <li *ngSwitchCase="true" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" routerLink="statistics" (click)="collapseNavbar()">
+          <span>
+            <fa-icon [icon]="faChartBar"></fa-icon>
+            <span jhiTranslate="global.menu.statistics">Statistics</span>
+          </span>
+        </a>
+      </li>
       <li
         *jhiHasAnyAuthority="'ROLE_ADMIN'"
         ngbDropdown

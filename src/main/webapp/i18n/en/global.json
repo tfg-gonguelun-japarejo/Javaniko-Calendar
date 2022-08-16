@@ -14,6 +14,7 @@
         "input": "Input",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "statistics": "Statistics",
       "account": {
         "main": "Account",
         "settings": "Settings",
@@ -123,7 +124,6 @@
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date in 'YYYY-MM-dd' format.",
       "patternLogin": "This field can only contain letters, digits and e-mail addresses.",
-      "duplicate": "This value is duplicate to existing data.",
       "phone": "This field should be a phone of 9 digits."
     }
   },
@@ -143,7 +143,8 @@
     "file": {
       "could.not.extract": "Could not extract file",
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
-    }
+    },
+    "foreignKey": "Non-compliance with foreign or unique key restriction"
   },
   "footer": "This is your footer"
 }

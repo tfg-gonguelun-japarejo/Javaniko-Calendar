@@ -22,7 +22,25 @@
       "feelings": "Estado de ánimo",
       "inputDate": "Fecha de inputación",
       "usuario": "Usuario",
-      "sprint": "Sprint"
+      "proyect": {
+        "select": "Selecciona un proyecto..."
+      },
+      "sprint": {
+        "title": "Sprint",
+        "select": "Selecciona un sprint..."
+      },
+      "calendar": {
+        "prev": "Anterior",
+        "current": "Actual",
+        "next": "Posterior"
+      },
+
+      "legend": {
+        "title": "Estados de ánimo",
+        "happy": "Día bueno",
+        "serious": "Día neutro",
+        "sad": "Mal día"
+      }
     }
   }
 }

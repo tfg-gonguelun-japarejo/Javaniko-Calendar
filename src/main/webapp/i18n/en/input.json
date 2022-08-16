@@ -22,7 +22,24 @@
       "feelings": "Feelings",
       "inputDate": "Input Date",
       "usuario": "Usuario",
-      "sprint": "Sprint"
+      "proyect": {
+        "select": "Select a proyect..."
+      },
+      "sprint": {
+        "title": "Sprint",
+        "select": "Select a sprint..."
+      },
+      "calendar": {
+        "prev": "Previous",
+        "current": "Current",
+        "next": "Next"
+      },
+      "legend": {
+        "title": "Moods",
+        "happy": "Good day",
+        "serious": "Neutral day",
+        "sad": "Bad day"
+      }
     }
   }
 }

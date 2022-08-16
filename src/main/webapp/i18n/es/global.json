@@ -14,6 +14,7 @@
         "input": "Input",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
+      "statistics": "Estadísticas",
       "account": {
         "main": "Cuenta",
         "settings": "Ajustes",
@@ -122,7 +123,6 @@
       "pattern": "Este campo debe seguir el patrón {{pattern}}.",
       "number": "Este campo debe ser un número.",
       "datetimelocal": "Este campo debe ser una fecha con el formato 'YYYY-MM-dd'.",
-      "duplicate": "Este valor está duplicado para los datos existentes.",
       "phone": "Este campo debe tener un número de teléfono de 9 dígitos."
     }
   },
@@ -142,7 +142,8 @@
     "file": {
       "could.not.extract": "No se pudo extraer el fichero",
       "not.image": "Se esperaba que el fichero fuera una imagen pero se encontro \"{{ fileType }}\""
-    }
+    },
+    "foreignKey": "Incumplimiento de restricción de clave foránea o única"
   },
   "footer": "Pie de página"
 }
