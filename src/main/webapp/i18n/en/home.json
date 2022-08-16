@@ -5,6 +5,8 @@
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },
+    "goToInputs": "Start right now telling how you feel here:",
+    "goToStatistics": "Take a look at your input's statistics here:",
     "introduccion": {
       "title": "What is Javaniko Calendar?",
       "text": "Javaniko Calendar is a platform where you can create projects using Scrum, with a workspace to link your projects, related sprints for each project, and the exclusive option in the platform, get a Niko Niko calendar for each sprint to monitor the team satisfaction with the done work. There is also available an option to see the statistics of workspaces, proyects and sprints to analyze all of the content."

@@ -5,6 +5,20 @@
     <h2 class="lead" jhiTranslate="home.subtitle">
       Do you want to indicate how was your day, but you dont know how? ¡Javaniko Calendar is your choice!
     </h2>
+
+    <div class="d-flex justify-content-center">
+      <h4 class="goToInputs" jhiTranslate="home.goToInputs">Start right now telling how you feel here:</h4>
+      <button class="btn btn-warning mr-2 inputButton" [routerLink]="['/input']">
+        <span jhiTranslate="global.menu.entities.input">Input</span>
+      </button>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <h4 class="goToStatistics" jhiTranslate="home.goToStatistics">Take a look at your input's statistics here:</h4>
+      <button class="btn btn-primary statisticsButton" [routerLink]="['/statistics']">
+        <span jhiTranslate="global.menu.statistics">Statistics</span>
+      </button>
+    </div>
   </div>
 
   <div class="col-md-3">

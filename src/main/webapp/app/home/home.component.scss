@@ -60,6 +60,26 @@ Main page styles
   font-size: 4rem;
 }
 
+.goToInputs,
+.goToStatistics {
+  padding-top: 1.5em;
+  text-align: center;
+  border-bottom: 0.1em solid #000;
+  padding-bottom: 1px;
+}
+
+.inputButton {
+  margin-left: 1em;
+  height: 2.5em;
+  width: 5em;
+  margin-top: 2em;
+}
+
+.statisticsButton {
+  margin-left: 1em;
+  margin-top: 2em;
+}
+
 .introduccion,
 .proyectos,
 .workspaces,

@@ -5,6 +5,8 @@
     "logged": {
       "message": "Está conectado como \"{{username}}\"."
     },
+    "goToInputs": "Empieza ahora mismo a expresar cómo te sientes aquí:",
+    "goToStatistics": "Echa un vistazo a las estadísticas de sus inputs aquí:",
     "introduccion": {
       "title": "¿Qué es Javaniko Calendar?",
       "text": "Javaniko Calendar es una plataforma donde podrás crear tus proyectos utilizando la metodología ágil Scrum, con un workspace para alojar proyectos, los respectivos sprints por proyecto, y la opción que destaca en la plataforma, obtener un calendario Niko Niko por sprint para controlar la satisfacción del equipo con el trabajo realizado. También estará disponible la opción de poder ver las estadísticas de workspaces, proyectos y sprints para poder realizar un análisis del contenido."

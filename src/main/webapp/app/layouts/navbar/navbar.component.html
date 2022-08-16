@@ -106,7 +106,13 @@
         </ul>
       </li>
       <li *ngSwitchCase="true" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <a class="nav-link" routerLink="statistics" (click)="collapseNavbar()">
+        <a
+          class="nav-link"
+          routerLink="statistics"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="collapseNavbar()"
+        >
           <span>
             <fa-icon [icon]="faChartBar"></fa-icon>
             <span jhiTranslate="global.menu.statistics">Statistics</span>
