@@ -26,7 +26,7 @@
         <dd>
           <span>{{ input.inputDate | formatMediumDate }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.input.sprint">Sprint</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.input.sprint.title">Sprint</span></dt>
         <dd>
           <div *ngIf="input.sprint">
             <a [routerLink]="['/sprint', input.sprint?.id, 'view']">{{ input.sprint?.title }}</a>
