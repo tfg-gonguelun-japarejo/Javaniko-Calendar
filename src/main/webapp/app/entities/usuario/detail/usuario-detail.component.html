@@ -34,20 +34,6 @@
         <dd>
           <span>{{ usuario.user?.login }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.usuario.workspace">Workspace</span></dt>
-        <dd>
-          <span *ngFor="let workspace of usuario.workspaces; let last = last">
-            <a [routerLink]="['/workspace', workspace?.id, 'view']">{{ workspace.login }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
-        </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.usuario.proyect">Proyect</span></dt>
-        <dd>
-          <span *ngFor="let proyect of usuario.proyects; let last = last">
-            <a [routerLink]="['/proyect', proyect?.id, 'view']">{{ proyect.name }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

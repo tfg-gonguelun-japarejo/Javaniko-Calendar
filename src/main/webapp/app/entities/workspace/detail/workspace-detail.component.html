@@ -26,6 +26,18 @@
         <dd>
           <span>{{ workspace.description }}</span>
         </dd>
+        <dt><span jhiTranslate="javanikoCalendarApp.workspace.usuario">Usuario</span></dt>
+        <dd>
+          <span *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById">
+            <a
+              *ngIf="hideUsuario(usuarioOption!, workspace)"
+              class="form-control-static"
+              [routerLink]="['/usuario', usuarioOption!.id, 'view']"
+            >
+              {{ usuarioOption!.username }}</a
+            >
+          </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

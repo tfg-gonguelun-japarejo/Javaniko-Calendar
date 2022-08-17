@@ -8,13 +8,14 @@ import { IWorkspace } from '../workspace.model';
 import { WorkspaceService } from '../service/workspace.service';
 import { WorkspaceDeleteDialogComponent } from '../delete/workspace-delete-dialog.component';
 
-import { Usuario } from 'app/entities/usuario/usuario.model';
+import { IUsuario, Usuario } from 'app/entities/usuario/usuario.model';
 
 import { AccountService } from '../../../core/auth/account.service';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { ProyectService } from 'app/entities/proyect/service/proyect.service';
 import { GithubModalComponent } from '../github/github.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-workspace',
@@ -27,6 +28,8 @@ export class WorkspaceComponent implements OnInit {
   faPaperPlane = faPaperPlane;
   emptyOrgs = false;
   emptyProyects = false;
+
+  usuariosSharedCollection: IUsuario[] = [];
 
   constructor(
     protected workspaceService: WorkspaceService,
@@ -54,6 +57,8 @@ export class WorkspaceComponent implements OnInit {
         this.usuarioService.findByUsername(account.login).subscribe(usuario => (this.usuario = usuario.body));
       }
     });
+
+    this.loadRelationshipsOptions();
   }
 
   ngOnInit(): void {
@@ -62,6 +67,21 @@ export class WorkspaceComponent implements OnInit {
 
   trackId(index: number, item: IWorkspace): number {
     return item.id!;
+  }
+
+  trackUsuarioById(index: number, item: IUsuario): number {
+    return item.id!;
+  }
+
+  hideUsuario(usuario: IUsuario, workspace: IWorkspace): boolean {
+    let result = false;
+    usuario.workspaces?.forEach(w => {
+      if (w.login === workspace.login) {
+        result = true;
+        return result;
+      }
+    });
+    return result;
   }
 
   delete(workspace: IWorkspace): void {
@@ -91,5 +111,13 @@ export class WorkspaceComponent implements OnInit {
     setTimeout(() => {
       window.location.reload();
     }, 5000);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.usuarioService
+      .query()
+      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios)))
+      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
   }
 }

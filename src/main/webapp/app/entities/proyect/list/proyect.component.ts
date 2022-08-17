@@ -7,7 +7,7 @@ import { ProyectService } from '../service/proyect.service';
 import { ProyectDeleteDialogComponent } from '../delete/proyect-delete-dialog.component';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { Usuario } from 'app/entities/usuario/usuario.model';
+import { IUsuario, Usuario } from 'app/entities/usuario/usuario.model';
 import { WorkspaceService } from 'app/entities/workspace/service/workspace.service';
 import { map, tap } from 'rxjs/operators';
 import dayjs from 'dayjs';
@@ -27,6 +27,8 @@ export class ProyectComponent implements OnInit {
   proyectDuplicate = false;
   faCheckCircle = faCheckCircle;
   isLoading = false;
+
+  usuariosSharedCollection: IUsuario[] = [];
 
   constructor(
     protected proyectService: ProyectService,
@@ -56,6 +58,8 @@ export class ProyectComponent implements OnInit {
         });
       }
     });
+
+    this.loadRelationshipsOptions();
   }
 
   ngOnInit(): void {
@@ -64,6 +68,21 @@ export class ProyectComponent implements OnInit {
 
   trackId(index: number, item: IProyect): number {
     return item.id!;
+  }
+
+  trackUsuarioById(index: number, item: IUsuario): number {
+    return item.id!;
+  }
+
+  hideUsuario(usuario: IUsuario, proyect: IProyect): boolean {
+    let result = false;
+    usuario.proyects?.forEach(p => {
+      if (p.name === proyect.name) {
+        result = true;
+        return result;
+      }
+    });
+    return result;
   }
 
   delete(proyect: IProyect): void {
@@ -143,5 +162,13 @@ export class ProyectComponent implements OnInit {
     setTimeout(() => {
       window.location.reload();
     }, 5000);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.usuarioService
+      .query()
+      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios)))
+      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
   }
 }

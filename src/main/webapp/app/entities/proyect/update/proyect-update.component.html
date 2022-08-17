@@ -107,6 +107,18 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label jhiTranslate="javanikoCalendarApp.proyect.usuario" for="field_usuarios">Usuario</label>
+          <select class="form-control" id="field_usuarios" data-cy="usuario" multiple name="usuarios" formControlName="usuarios">
+            <option
+              [ngValue]="getSelectedUsuario(usuarioOption, editForm.get('usuarios')!.value)"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+            >
+              {{ usuarioOption.username }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

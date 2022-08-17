@@ -18,11 +18,11 @@
         "title": "Sprint"
       },
       "id": "ID",
-      "title": "Title",
-      "createdAt": "Created At",
-      "dueOn": "Due On",
-      "status": "Status",
-      "description": "Description",
+      "title": "Título",
+      "createdAt": "Creado en",
+      "dueOn": "Fecha fin",
+      "status": "Estado",
+      "description": "Descripción",
       "proyect": "Proyect",
       "confirmGithub": "Confirmar importación de sprints"
     }

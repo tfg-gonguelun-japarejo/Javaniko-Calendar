@@ -28,8 +28,6 @@
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.birthdate">Birthdate</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.phone">Phone</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.user">User</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.workspace">Workspace</span></th>
-          <th scope="col"><span jhiTranslate="javanikoCalendarApp.usuario.proyect">Proyect</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -44,18 +42,6 @@
           <td>{{ usuario.phone }}</td>
           <td>
             {{ usuario.user?.login }}
-          </td>
-          <td>
-            <span *ngFor="let workspace of usuario.workspaces; let last = last">
-              <a class="form-control-static" [routerLink]="['/workspace', workspace.id, 'view']">{{ workspace.login }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
-          </td>
-          <td>
-            <span *ngFor="let proyect of usuario.proyects; let last = last">
-              <a class="form-control-static" [routerLink]="['/proyect', proyect.id, 'view']">{{ proyect.name }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
           </td>
           <td class="text-right">
             <div class="btn-group">

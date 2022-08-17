@@ -45,6 +45,7 @@
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.login">Login</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.repos_url">Repos Url</span></th>
           <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.description">Description</span></th>
+          <th scope="col"><span jhiTranslate="javanikoCalendarApp.workspace.usuario">Usuario</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -56,6 +57,16 @@
           <td>{{ workspace.login }}</td>
           <td>{{ workspace.repos_url }}</td>
           <td>{{ workspace.description }}</td>
+          <td>
+            <span *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById">
+              <a
+                *ngIf="hideUsuario(usuarioOption!, workspace)"
+                class="form-control-static"
+                [routerLink]="['/usuario', usuarioOption!.id, 'view']"
+                >{{ usuarioOption!.username }}</a
+              >
+            </span>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

@@ -3,10 +3,12 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { IWorkspace, Workspace } from '../workspace.model';
 import { WorkspaceService } from '../service/workspace.service';
+import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUsuario } from 'app/entities/usuario/usuario.model';
 
 @Component({
   selector: 'jhi-workspace-update',
@@ -15,18 +17,28 @@ import { WorkspaceService } from '../service/workspace.service';
 export class WorkspaceUpdateComponent implements OnInit {
   isSaving = false;
 
+  usuariosSharedCollection: IUsuario[] = [];
+
   editForm = this.fb.group({
     id: [],
     login: [null, [Validators.required]],
     repos_url: [],
     description: [null, [Validators.required]],
+    usuarios: [],
   });
 
-  constructor(protected workspaceService: WorkspaceService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected workspaceService: WorkspaceService,
+    protected usuarioService: UsuarioService,
+    protected activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ workspace }) => {
       this.updateForm(workspace);
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -42,6 +54,21 @@ export class WorkspaceUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.workspaceService.create(workspace));
     }
+  }
+
+  trackUsuarioById(index: number, item: IUsuario): number {
+    return item.id!;
+  }
+
+  getSelectedUsuario(option: IUsuario, selectedVals?: IUsuario[]): IUsuario {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IWorkspace>>): void {
@@ -69,7 +96,25 @@ export class WorkspaceUpdateComponent implements OnInit {
       login: workspace.login,
       repos_url: workspace.repos_url,
       description: workspace.description,
+      usuarios: workspace.usuarios,
     });
+
+    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(
+      this.usuariosSharedCollection,
+      ...(workspace.usuarios ?? [])
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.usuarioService
+      .query()
+      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
+      .pipe(
+        map((usuarios: IUsuario[]) =>
+          this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, ...(this.editForm.get('usuarios')!.value ?? []))
+        )
+      )
+      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
   }
 
   protected createFromForm(): IWorkspace {
@@ -79,6 +124,7 @@ export class WorkspaceUpdateComponent implements OnInit {
       login: this.editForm.get(['login'])!.value,
       repos_url: this.editForm.get(['repos_url'])!.value,
       description: this.editForm.get(['description'])!.value,
+      usuarios: this.editForm.get(['usuarios'])!.value,
     };
   }
 }
