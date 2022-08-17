@@ -24,23 +24,28 @@
       <strong>{{ account.login }}</strong
       >'s statistics
     </h2>
-    <ngx-charts-bar-vertical-2d
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="multi"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-    >
-    </ngx-charts-bar-vertical-2d>
+    <div #containerRef class="card-body">
+      <ngx-charts-bar-vertical-2d
+        [view]="[containerRef.offsetWidth, 400]"
+        [scheme]="colorScheme"
+        [results]="multi"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [legendTitle]="legendTitle"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+      >
+      </ngx-charts-bar-vertical-2d>
+    </div>
+  </div>
 
-    <p>{{ inputWeekUsuarioMode }}</p>
-    <p>{{ inputMonthUsuarioMode }}</p>
+  <div class="col-md-6 modeUsuario">
+    <div *ngIf="dateInput"><span style="color: #20c997">&#9632;</span> → {{ inputWeekUsuarioMode }}</div>
+    <div *ngIf="dateInput"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthUsuarioMode }}</div>
   </div>
 
   <div *ngIf="dateInput" class="col-md-9 proyects">
@@ -58,25 +63,30 @@
       <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
     </select>
 
-    <ngx-charts-bar-vertical-2d
-      *ngIf="proyectSelected"
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="multi2"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-    >
-    </ngx-charts-bar-vertical-2d>
-
-    <p *ngIf="proyectSelected">{{ inputWeekProyectMode }}</p>
-    <p *ngIf="proyectSelected">{{ inputMonthProyectMode }}</p>
+    <div #containerRef class="card-body">
+      <ngx-charts-bar-vertical-2d
+        *ngIf="proyectSelected"
+        [view]="[containerRef.offsetWidth, 400]"
+        [scheme]="colorScheme"
+        [results]="multi2"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+      >
+      </ngx-charts-bar-vertical-2d>
+    </div>
   </div>
+
+  <div class="col-md-6 modeProyect">
+    <div *ngIf="proyectSelected"><span style="color: #20c997">&#9632;</span> → {{ inputWeekProyectMode }}</div>
+    <div *ngIf="proyectSelected"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthProyectMode }}</div>
+  </div>
+
   <div *ngIf="proyectSelected" class="col-md-9 sprints">
     <h2
       class="sprintsTitle"
@@ -92,23 +102,27 @@
       <option *ngFor="let sprint of sprints" [ngValue]="sprint">{{ sprint.title }}</option>
     </select>
 
-    <ngx-charts-bar-vertical-2d
-      *ngIf="sprintSelected"
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="multi3"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-    >
-    </ngx-charts-bar-vertical-2d>
+    <div #containerRef class="card-body">
+      <ngx-charts-bar-vertical-2d
+        *ngIf="sprintSelected"
+        [view]="[containerRef.offsetWidth, 400]"
+        [scheme]="colorScheme"
+        [results]="multi3"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+      >
+      </ngx-charts-bar-vertical-2d>
+    </div>
+  </div>
 
-    <p *ngIf="sprintSelected">{{ inputWeekSprintMode }}</p>
-    <p *ngIf="sprintSelected">{{ inputMonthSprintMode }}</p>
+  <div class="col-md-6 modeSprint">
+    <div *ngIf="sprintSelected"><span style="color: #20c997">&#9632;</span> → {{ inputWeekSprintMode }}</div>
+    <div *ngIf="sprintSelected"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthSprintMode }}</div>
   </div>
 </div>

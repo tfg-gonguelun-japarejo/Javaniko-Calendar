@@ -22,3 +22,16 @@
 .sprintsSelect {
   margin-bottom: 1em;
 }
+
+.usuarioChart,
+.proyectChart,
+.sprintChart {
+  width: fit-content;
+}
+
+.modeUsuario,
+.modeProyect,
+.modeSprint {
+  text-align: center;
+  font-size: 1.25em;
+}

@@ -89,20 +89,20 @@ export class StatisticsComponent implements OnInit {
   inputWeekSprintMode?: string;
   inputMonthSprintMode?: string;
 
-  view: [number, number] = [1000, 500];
   width: number = 700;
   height: number = 300;
-  fitContainer: boolean = false;
+  fitContainer: boolean = true;
 
   // options for the chart
   showXAxis = true;
   showYAxis = true;
   gradient = true;
   showLegend = true;
+  legendTitle = 'Leyenda';
   showXAxisLabel = true;
-  xAxisLabel = 'Feelings';
+  xAxisLabel = 'Estados de ánimo';
   showYAxisLabel = true;
-  yAxisLabel = 'Number of appearences by each feeling';
+  yAxisLabel = 'Número de repeticiones por estado de ánimo';
 
   colorScheme = {
     domain: ['#20c997', '#9933ff', '#C7B42C', '#AAAAAA'],
@@ -125,10 +125,11 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => {
-      this.locale = this.sessionStorage.retrieve('locale');
-      if (this.locale === 'es') {
-        this.xAxisLabel = 'Estados de ánimo';
-        this.yAxisLabel = 'Número de repeticiones por estado de ánimo';
+      this.locale = this.sessionStorage.retrieve('locale') || 'es';
+      if (this.locale === 'en') {
+        this.xAxisLabel = 'Feelings';
+        this.yAxisLabel = 'Number of appearences by each feeling';
+        this.legendTitle = 'Legend';
       }
       this.account = account;
       this.usuarioService.findByUsername(account!.login).subscribe(usuario => {
@@ -360,10 +361,10 @@ export class StatisticsComponent implements OnInit {
       }
     });
 
-    if (this.locale === 'es') {
-      return `El valor más alto es ${values.join(', ')} con ${max} repeticiones`;
-    } else {
+    if (this.locale === 'en') {
       return `The highest value is ${values.join(', ')} with a count of ${max}`;
+    } else {
+      return `El valor más alto es ${values.join(', ')} con un recuento de ${max}`;
     }
   }
 }
