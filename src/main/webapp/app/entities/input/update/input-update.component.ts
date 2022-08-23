@@ -1,7 +1,7 @@
 /* eslint-disable no-empty-pattern */
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class InputUpdateComponent implements OnInit {
     id: [],
     comment: [],
     feelings: [null, [Validators.required]],
-    inputDate: [null, [Validators.required]],
+    inputDate: [null, [Validators.required, this.dateGreater]],
     usuario: [],
     sprint: [],
   });
@@ -88,6 +88,11 @@ export class InputUpdateComponent implements OnInit {
 
   hasAnyAuthority(authorities: string[] | string): boolean {
     return this.accountService.hasAnyAuthority(authorities);
+  }
+
+  dateGreater(control: AbstractControl): { [key: string]: boolean } | null {
+    const dateNow = new Date();
+    return new Date(control.value) > dateNow ? { LessThanToday: true } : null;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IInput>>): void {

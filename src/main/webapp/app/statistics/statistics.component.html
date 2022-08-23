@@ -24,7 +24,7 @@
       <strong>{{ account.login }}</strong
       >'s statistics
     </h2>
-    <div #containerRef class="card-body">
+    <div #containerRef class="card-body" *ngIf="!isEmptyUsuario">
       <ngx-charts-bar-vertical-2d
         [view]="[containerRef.offsetWidth, 400]"
         [scheme]="colorScheme"
@@ -41,9 +41,12 @@
       >
       </ngx-charts-bar-vertical-2d>
     </div>
+    <div *ngIf="isEmptyUsuario">
+      <span class="alert alert-warning" jhiTranslate="statistics.noInputsUsuario"> No entries found for usuario. </span>
+    </div>
   </div>
 
-  <div class="col-md-6 modeUsuario">
+  <div class="col-md-6 modeUsuario" *ngIf="!isEmptyUsuario">
     <div *ngIf="dateInput"><span style="color: #20c997">&#9632;</span> → {{ inputWeekUsuarioMode }}</div>
     <div *ngIf="dateInput"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthUsuarioMode }}</div>
   </div>
@@ -63,7 +66,7 @@
       <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
     </select>
 
-    <div #containerRef class="card-body">
+    <div #containerRef class="card-body" *ngIf="!isEmptyProyect">
       <ngx-charts-bar-vertical-2d
         *ngIf="proyectSelected"
         [view]="[containerRef.offsetWidth, 400]"
@@ -80,9 +83,12 @@
       >
       </ngx-charts-bar-vertical-2d>
     </div>
+    <div *ngIf="proyectSelected && isEmptyProyect">
+      <span class="alert alert-warning" jhiTranslate="statistics.noInputsProyect"> No entries found for proyect. </span>
+    </div>
   </div>
 
-  <div class="col-md-6 modeProyect">
+  <div class="col-md-6 modeProyect" *ngIf="!isEmptyProyect">
     <div *ngIf="proyectSelected"><span style="color: #20c997">&#9632;</span> → {{ inputWeekProyectMode }}</div>
     <div *ngIf="proyectSelected"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthProyectMode }}</div>
   </div>
@@ -102,7 +108,7 @@
       <option *ngFor="let sprint of sprints" [ngValue]="sprint">{{ sprint.title }}</option>
     </select>
 
-    <div #containerRef class="card-body">
+    <div #containerRef class="card-body" *ngIf="!isEmptySprint">
       <ngx-charts-bar-vertical-2d
         *ngIf="sprintSelected"
         [view]="[containerRef.offsetWidth, 400]"
@@ -119,9 +125,12 @@
       >
       </ngx-charts-bar-vertical-2d>
     </div>
+    <div *ngIf="sprintSelected && isEmptySprint">
+      <span class="alert alert-warning" jhiTranslate="statistics.noInputsSprint"> No entries found for sprint. </span>
+    </div>
   </div>
 
-  <div class="col-md-6 modeSprint">
+  <div class="col-md-6 modeSprint" *ngIf="!isEmptySprint">
     <div *ngIf="sprintSelected"><span style="color: #20c997">&#9632;</span> → {{ inputWeekSprintMode }}</div>
     <div *ngIf="sprintSelected"><span style="color: #9933ff">&#9632;</span> → {{ inputMonthSprintMode }}</div>
   </div>

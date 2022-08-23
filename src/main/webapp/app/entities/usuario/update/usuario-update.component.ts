@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export class UsuarioUpdateComponent implements OnInit {
     username: [],
     password: [],
     email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
-    birthdate: [],
+    birthdate: ['', [this.dateGreater]],
     phone: ['', [Validators.pattern('^\\d{9}$')]],
     user: [],
   });
@@ -60,6 +60,11 @@ export class UsuarioUpdateComponent implements OnInit {
 
   trackUserById(index: number, item: IUser): number {
     return item.id!;
+  }
+
+  dateGreater(control: AbstractControl): { [key: string]: boolean } | null {
+    const dateNow = new Date();
+    return new Date(control.value) > dateNow ? { LessThanToday: true } : null;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUsuario>>): void {

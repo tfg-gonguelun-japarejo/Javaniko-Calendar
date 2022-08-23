@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class ProyectUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     description: [null, [Validators.required]],
-    createdAt: [],
+    createdAt: ['', [this.dateGreater]],
     isPrivate: [null, [Validators.required]],
     milestonesUrl: [],
     workspace: [],
@@ -80,6 +80,11 @@ export class ProyectUpdateComponent implements OnInit {
       }
     }
     return option;
+  }
+
+  dateGreater(control: AbstractControl): { [key: string]: boolean } | null {
+    const dateNow = new Date();
+    return new Date(control.value) > dateNow ? { LessThanToday: true } : null;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProyect>>): void {

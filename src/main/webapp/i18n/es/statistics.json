@@ -6,6 +6,9 @@
     "proyect": "Estadísticas de <strong>{{proyectName}}</strong>",
     "sprint": "Estadísticas de <strong>{{sprintName}}</strong>",
     "weekDate": "Estadísticas por semana",
-    "monthDate": "Estadísticas por mes"
+    "monthDate": "Estadísticas por mes",
+    "noInputsUsuario": "No se han encontrado inputs para el usuario.",
+    "noInputsProyect": "No se han encontrado inputs para el proyecto.",
+    "noInputsSprint": "No se han encontrado inputs para el sprint."
   }
 }

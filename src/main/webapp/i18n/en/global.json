@@ -124,7 +124,9 @@
       "number": "This field should be a number.",
       "datetimelocal": "This field should be a date in 'YYYY-MM-dd' format.",
       "patternLogin": "This field can only contain letters, digits and e-mail addresses.",
-      "phone": "This field should be a phone of 9 digits."
+      "phone": "This field should be a phone of 9 digits.",
+      "dateGreater": "This field should not be greater than the current date.",
+      "dueOnGreater": "This field should not be greater than creation date."
     }
   },
   "error": {

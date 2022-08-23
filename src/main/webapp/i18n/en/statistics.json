@@ -6,6 +6,9 @@
     "proyect": "<strong>{{proyectName}}</strong>'s statistics",
     "sprint": "<strong>{{sprintName}}</strong>'s statistics",
     "weekDate": "Statistics per week",
-    "monthDate": "Statistics per month"
+    "monthDate": "Statistics per month",
+    "noInputsUsuario": "No entries found for usuario.",
+    "noInputsProyect": "No entries found for proyect.",
+    "noInputsSprint": "No entries found for sprint."
   }
 }

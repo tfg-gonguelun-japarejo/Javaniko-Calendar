@@ -65,6 +65,24 @@
               </button>
             </span>
           </div>
+          <div *ngIf="editForm.get('createdAt')!.invalid && (editForm.get('createdAt')!.dirty || editForm.get('createdAt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="!editForm.get('createdAt')?.errors?.datetimelocal && !dateGreater(editForm.get('createdAt')!)"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date in 'YYYY-MM-dd' format.
+            </small>
+          </div>
+          <div *ngIf="editForm.get('createdAt')!.invalid && (editForm.get('createdAt')!.dirty || editForm.get('createdAt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="dateGreater(editForm.get('createdAt')!)"
+              jhiTranslate="entity.validation.dateGreater"
+            >
+              This field should not be greater than the current date.
+            </small>
+          </div>
         </div>
 
         <div class="form-group">

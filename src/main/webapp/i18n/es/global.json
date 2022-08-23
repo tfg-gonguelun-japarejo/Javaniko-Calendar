@@ -123,7 +123,9 @@
       "pattern": "Este campo debe seguir el patrón {{pattern}}.",
       "number": "Este campo debe ser un número.",
       "datetimelocal": "Este campo debe ser una fecha con el formato 'YYYY-MM-dd'.",
-      "phone": "Este campo debe tener un número de teléfono de 9 dígitos."
+      "phone": "Este campo debe tener un número de teléfono de 9 dígitos.",
+      "dateGreater": "Este campo no debe ser mayor que la fecha actual.",
+      "dueOnGreater": "Este campo no debe ser mayor que la fecha de creación."
     }
   },
   "error": {

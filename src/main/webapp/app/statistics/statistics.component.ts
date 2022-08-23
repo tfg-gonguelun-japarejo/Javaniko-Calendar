@@ -88,6 +88,9 @@ export class StatisticsComponent implements OnInit {
   inputMonthProyectMode?: string;
   inputWeekSprintMode?: string;
   inputMonthSprintMode?: string;
+  isEmptyUsuario: boolean = true;
+  isEmptyProyect: boolean = true;
+  isEmptySprint: boolean = true;
 
   width: number = 700;
   height: number = 300;
@@ -162,13 +165,25 @@ export class StatisticsComponent implements OnInit {
             this.inputService.findInputsBySprintIdAndDate(sprint.id!, date, dueWeekDate).subscribe(inputs => {
               this.inputsWeekProyect = [...this.inputsWeekProyect!, ...inputs.body!];
               this.inputWeekProyectMode = this.getMode(this.inputsWeekProyect);
-            }),
-              this.inputService.findInputsBySprintIdAndDate(sprint.id!, date, dueMonthDate).subscribe(inputs => {
-                this.inputsMonthProyect = [...this.inputsMonthProyect!, ...inputs.body!];
-                this.inputMonthProyectMode = this.getMode(this.inputsMonthProyect);
-                this.multi2 = this.getInputsChart(this.inputsWeekProyect!, this.inputsMonthProyect);
-              });
-          }, 1000),
+              if (inputs.body!.length !== 0) {
+                this.isEmptyProyect = false;
+              } else {
+                this.isEmptyProyect = true;
+              }
+            });
+          }, 1500),
+          setTimeout(() => {
+            this.inputService.findInputsBySprintIdAndDate(sprint.id!, date, dueMonthDate).subscribe(inputs => {
+              this.inputsMonthProyect = [...this.inputsMonthProyect!, ...inputs.body!];
+              this.inputMonthProyectMode = this.getMode(this.inputsMonthProyect);
+              if (inputs.body!.length !== 0) {
+                this.isEmptyProyect = false;
+              } else {
+                this.isEmptyProyect = true;
+              }
+              this.multi2 = this.getInputsChart(this.inputsWeekProyect!, this.inputsMonthProyect);
+            });
+          }, 2000),
         ]);
       });
     });
@@ -184,12 +199,22 @@ export class StatisticsComponent implements OnInit {
         this.inputService.findInputsBySprintIdAndDate(sprint.id!, date, dueWeekDate).subscribe(inputs => {
           this.inputsWeekSprint = inputs.body;
           this.inputWeekSprintMode = this.getMode(inputs.body!);
+          if (inputs.body!.length !== 0) {
+            this.isEmptySprint = false;
+          } else {
+            this.isEmptySprint = true;
+          }
         });
       }, 500),
       setTimeout(() => {
         this.inputService.findInputsBySprintIdAndDate(sprint.id!, date, dueMonthDate).subscribe(inputs => {
           this.inputsMonthSprint = inputs.body;
           this.inputMonthSprintMode = this.getMode(inputs.body!);
+          if (inputs.body!.length !== 0) {
+            this.isEmptySprint = false;
+          } else {
+            this.isEmptySprint = true;
+          }
           this.multi3 = this.getInputsChart(this.inputsWeekSprint!, this.inputsMonthSprint!);
         });
       }, 1000),
@@ -218,13 +243,23 @@ export class StatisticsComponent implements OnInit {
         this.inputService.findInputsByUsernameAndInputDate(this.usuario!.username!, inputDate, dueWeekDate).subscribe(inputs => {
           this.inputsWeekUsuario = inputs.body;
           this.inputWeekUsuarioMode = this.getMode(inputs.body!);
+          if (inputs.body!.length !== 0) {
+            this.isEmptyUsuario = false;
+          } else {
+            this.isEmptyUsuario = true;
+          }
         }),
           this.inputService.findInputsByUsernameAndInputDate(this.usuario!.username!, inputDate, dueMonthDate).subscribe(inputs => {
             this.inputsMonthUsuario = inputs.body;
             this.inputMonthUsuarioMode = this.getMode(inputs.body!);
+            if (inputs.body!.length !== 0) {
+              this.isEmptyUsuario = false;
+            } else {
+              this.isEmptyUsuario = true;
+            }
             this.multi = this.getInputsChart(this.inputsWeekUsuario!, this.inputsMonthUsuario!);
           });
-      }, 1000),
+      }, 2000),
     ]);
   }
 
@@ -326,6 +361,7 @@ export class StatisticsComponent implements OnInit {
     }
 
     result.push(sadObject, seriousObject, happyObject);
+
     return result;
   }
 

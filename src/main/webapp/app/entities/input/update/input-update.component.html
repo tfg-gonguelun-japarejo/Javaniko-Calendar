@@ -68,10 +68,19 @@
             </small>
             <small
               class="form-text text-danger"
-              *ngIf="!editForm.get('inputDate')?.errors?.datetimelocal"
+              *ngIf="!editForm.get('inputDate')?.errors?.datetimelocal && !dateGreater(editForm.get('inputDate')!)"
               jhiTranslate="entity.validation.datetimelocal"
             >
               This field should be a date in 'YYYY-MM-dd' format.
+            </small>
+          </div>
+          <div *ngIf="editForm.get('inputDate')!.invalid && (editForm.get('inputDate')!.dirty || editForm.get('inputDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="dateGreater(editForm.get('inputDate')!)"
+              jhiTranslate="entity.validation.dateGreater"
+            >
+              This field should not be greater than the current date.
             </small>
           </div>
         </div>

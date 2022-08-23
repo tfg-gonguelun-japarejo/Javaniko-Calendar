@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
@@ -19,15 +19,18 @@ export class SprintUpdateComponent implements OnInit {
 
   proyectsSharedCollection: IProyect[] = [];
 
-  editForm = this.fb.group({
-    id: [],
-    title: [null, [Validators.required]],
-    createdAt: [],
-    dueOn: [],
-    status: [],
-    description: [null, [Validators.required]],
-    proyect: [],
-  });
+  editForm = this.fb.group(
+    {
+      id: [],
+      title: [null, [Validators.required]],
+      createdAt: ['', [this.dateGreater]],
+      dueOn: [],
+      status: [],
+      description: [null, [Validators.required]],
+      proyect: [],
+    },
+    { validator: this.dateLessThan('createdAt', 'dueOn') }
+  );
 
   constructor(
     protected sprintService: SprintService,
@@ -60,6 +63,24 @@ export class SprintUpdateComponent implements OnInit {
 
   trackProyectById(index: number, item: IProyect): number {
     return item.id!;
+  }
+
+  dateGreater(control: AbstractControl): { [key: string]: boolean } | null {
+    const dateNow = new Date();
+    return new Date(control.value) > dateNow ? { LessThanToday: true } : null;
+  }
+
+  dateLessThan(from: string, to: string) {
+    return (group: FormGroup): { [key: string]: any } | null => {
+      const f = group.controls[from];
+      const t = group.controls[to];
+      if (new Date(f.value) > new Date(t.value)) {
+        return {
+          lessThanCreatedAt: true,
+        };
+      }
+      return null;
+    };
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ISprint>>): void {
