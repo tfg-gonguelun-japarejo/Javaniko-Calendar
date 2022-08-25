@@ -224,6 +224,7 @@ export class StatisticsComponent implements OnInit {
   onChangeSelectSprint(): void {
     this.sprints = [];
     this.findSprintsByProyectId(this.proyectSelected!, this.dateInput!);
+    this.sprintSelected = undefined;
   }
 
   onChangeSprintDate(): void {
@@ -234,7 +235,7 @@ export class StatisticsComponent implements OnInit {
     delete this.proyectSelected;
     delete this.sprintSelected;
     const date = calendar.split('/');
-    const inputDate = new Date(date[2], date[1] - 1, date[0]);
+    const inputDate = new Date(date[2], date[1] - 1, parseInt(date[0], 10) + 1);
     this.dateInput = inputDate;
     const dueWeekDate = new Date(date[2], date[1] - 1, parseInt(date[0], 10) + 8);
     const dueMonthDate = new Date(date[2], date[1], parseInt(date[0], 10) + 1);
@@ -268,10 +269,19 @@ export class StatisticsComponent implements OnInit {
     let sadObject: any = {};
     let seriousObject: any = {};
     let happyObject: any = {};
+    const inputDate = new Date(
+      this.dateInput!.getFullYear(),
+      this.dateInput!.getMonth(),
+      this.dateInput!.getDate() - 1
+    ).toLocaleDateString();
     let dueDateWeek: string = '';
     let dueDateMonth: string = '';
-    dueDateWeek = new Date(this.dateInput!.getFullYear(), this.dateInput!.getMonth(), this.dateInput!.getDate() + 7).toLocaleDateString();
-    dueDateMonth = new Date(this.dateInput!.getFullYear(), this.dateInput!.getMonth() + 1, this.dateInput!.getDate()).toLocaleDateString();
+    dueDateWeek = new Date(this.dateInput!.getFullYear(), this.dateInput!.getMonth(), this.dateInput!.getDate() + 6).toLocaleDateString();
+    dueDateMonth = new Date(
+      this.dateInput!.getFullYear(),
+      this.dateInput!.getMonth() + 1,
+      this.dateInput!.getDate() - 1
+    ).toLocaleDateString();
     const sadInputsWeek = inputsWeek.filter(input => input.feelings === 0);
     const seriousInputsWeek = inputsWeek.filter(input => input.feelings === 5);
     const happyInputsWeek = inputsWeek.filter(input => input.feelings === 10);
@@ -283,11 +293,11 @@ export class StatisticsComponent implements OnInit {
         name: '☹',
         series: [
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: sadInputsWeek.length,
           },
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: sadInputsMonth.length,
           },
         ],
@@ -296,11 +306,11 @@ export class StatisticsComponent implements OnInit {
         name: '😐',
         series: [
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: seriousInputsWeek.length,
           },
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: seriousInputsMonth.length,
           },
         ],
@@ -309,11 +319,11 @@ export class StatisticsComponent implements OnInit {
         name: '😁',
         series: [
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: happyInputsWeek.length,
           },
           {
-            name: `Desde ${this.dateInput!.toLocaleDateString()} hasta ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: happyInputsMonth.length,
           },
         ],
@@ -323,11 +333,11 @@ export class StatisticsComponent implements OnInit {
         name: '☹',
         series: [
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: sadInputsWeek.length,
           },
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: sadInputsMonth.length,
           },
         ],
@@ -336,11 +346,11 @@ export class StatisticsComponent implements OnInit {
         name: '😐',
         series: [
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: seriousInputsWeek.length,
           },
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: seriousInputsMonth.length,
           },
         ],
@@ -349,11 +359,11 @@ export class StatisticsComponent implements OnInit {
         name: '😁',
         series: [
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateWeek}`,
+            name: `${inputDate} - ${dueDateWeek}`,
             value: happyInputsWeek.length,
           },
           {
-            name: `From ${this.dateInput!.toLocaleDateString()} to ${dueDateMonth}`,
+            name: `${inputDate} - ${dueDateMonth}`,
             value: happyInputsMonth.length,
           },
         ],
@@ -361,7 +371,6 @@ export class StatisticsComponent implements OnInit {
     }
 
     result.push(sadObject, seriousObject, happyObject);
-
     return result;
   }
 

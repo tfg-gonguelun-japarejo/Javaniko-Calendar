@@ -176,6 +176,7 @@ export class InputComponent implements OnInit {
   onChangeSelectSprint(): void {
     this.sprints = [];
     this.findSprintsByProyectId(this.proyectSelected!);
+    this.sprintSelected = undefined;
   }
 
   onChangeSprintDate(calendarComponent): void {
