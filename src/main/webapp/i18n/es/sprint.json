@@ -23,7 +23,7 @@
       "dueOn": "Fecha fin",
       "status": "Estado",
       "description": "Descripción",
-      "proyect": "Proyect",
+      "proyect": "Project",
       "confirmGithub": "Confirmar importación de sprints"
     }
   }

@@ -34,7 +34,7 @@
         <dd>
           <span>{{ sprint.description }}</span>
         </dd>
-        <dt><span jhiTranslate="javanikoCalendarApp.sprint.proyect">Proyect</span></dt>
+        <dt><span jhiTranslate="javanikoCalendarApp.sprint.proyect">Project</span></dt>
         <dd>
           <div *ngIf="sprint.proyect">
             <a [routerLink]="['/proyect', sprint.proyect?.id, 'view']">{{ sprint.proyect?.name }}</a>

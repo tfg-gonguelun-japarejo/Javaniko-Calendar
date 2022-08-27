@@ -36,7 +36,7 @@
           <div class="col-sm">
             <div class="d-flex justify-content-start">
               <select [(ngModel)]="proyectSelected" (change)="onChangeSelectSprint()">
-                <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.proyect.select">Select a proyect...</option>
+                <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.proyect.select">Select a project...</option>
                 <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
               </select>
               <select

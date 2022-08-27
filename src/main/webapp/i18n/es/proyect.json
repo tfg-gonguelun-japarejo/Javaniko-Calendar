@@ -2,20 +2,20 @@
   "javanikoCalendarApp": {
     "proyect": {
       "home": {
-        "title": "Proyects",
+        "title": "Projects",
         "refreshListLabel": "Refrescar lista",
-        "createLabel": "Crear nuevo Proyect",
-        "createOrEditLabel": "Crear o editar Proyect",
-        "notFound": "Ningún Proyects encontrado"
+        "createLabel": "Crear nuevo Project",
+        "createOrEditLabel": "Crear o editar Project",
+        "notFound": "Ningún Projects encontrado"
       },
-      "created": "Un nuevo Proyect ha sido creado con el identificador {{ param }}",
-      "updated": "Un Proyect ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Proyect ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Project ha sido creado con el identificador {{ param }}",
+      "updated": "Un Project ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Project ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Proyect {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Project {{ id }}?"
       },
       "detail": {
-        "title": "Proyect"
+        "title": "Project"
       },
       "id": "ID",
       "name": "Nombre",
@@ -27,7 +27,7 @@
       "workspace": "Workspace",
       "emptyProyects": "No se han encontrado proyectos para este usuario de Github",
       "usuario": "Usuario",
-      "confirmGithub": "Confirmar importación de proyects"
+      "confirmGithub": "Confirmar importación de projects"
     }
   }
 }

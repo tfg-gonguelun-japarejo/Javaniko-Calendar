@@ -1,11 +1,11 @@
 <div>
   <h2 id="page-heading" data-cy="ProyectHeading">
-    <span jhiTranslate="javanikoCalendarApp.proyect.home.title">Proyects</span>
+    <span jhiTranslate="javanikoCalendarApp.proyect.home.title">Projects</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-warning mr-2" (click)="getGithubWorkspacesByUser(usuario!)">
         <fa-icon [icon]="faCheckCircle"></fa-icon>
-        <span jhiTranslate="javanikoCalendarApp.proyect.confirmGithub">Confirm import of proyects</span>
+        <span jhiTranslate="javanikoCalendarApp.proyect.confirmGithub">Confirm import of projects</span>
       </button>
 
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
@@ -20,7 +20,7 @@
         [routerLink]="['/proyect/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="javanikoCalendarApp.proyect.home.createLabel"> Create a new Proyect </span>
+        <span jhiTranslate="javanikoCalendarApp.proyect.home.createLabel"> Create a new Project </span>
       </button>
     </div>
   </h2>
@@ -30,11 +30,11 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="proyects?.length === 0">
-    <span jhiTranslate="javanikoCalendarApp.proyect.home.notFound">No proyects found</span>
+    <span jhiTranslate="javanikoCalendarApp.proyect.home.notFound">No projects found</span>
   </div>
 
   <div class="alert alert-warning" id="empty-proyects" *ngIf="emptyProyects">
-    <span jhiTranslate="javanikoCalendarApp.workspace.emptyProyects">No proyects found</span>
+    <span jhiTranslate="javanikoCalendarApp.workspace.emptyProyects">No projects found</span>
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="proyects && proyects.length > 0">

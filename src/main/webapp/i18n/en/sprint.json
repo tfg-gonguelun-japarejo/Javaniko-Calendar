@@ -23,7 +23,7 @@
       "dueOn": "Due On",
       "status": "Status",
       "description": "Description",
-      "proyect": "Proyect",
+      "proyect": "Project",
       "confirmGithub": "Confirm import of sprints"
     }
   }

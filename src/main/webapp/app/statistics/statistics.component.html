@@ -62,7 +62,7 @@
       >'s statistics
     </h2>
     <select class="proyectsSelect" [(ngModel)]="proyectSelected" (change)="onChangeSelectSprint()">
-      <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.proyect.select">Select a proyect...</option>
+      <option [ngValue]="undefined" jhiTranslate="javanikoCalendarApp.input.proyect.select">Select a project...</option>
       <option *ngFor="let proyect of proyects" [ngValue]="proyect">{{ proyect.name }}</option>
     </select>
 
@@ -85,7 +85,7 @@
       </ngx-charts-bar-vertical-2d>
     </div>
     <div *ngIf="proyectSelected && isEmptyProyect">
-      <span class="alert alert-warning" jhiTranslate="statistics.noInputsProyect"> No entries found for proyect. </span>
+      <span class="alert alert-warning" jhiTranslate="statistics.noInputsProyect"> No entries found for project. </span>
     </div>
   </div>
 

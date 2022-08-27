@@ -9,7 +9,7 @@
         "main": "Entities",
         "usuario": "Usuario",
         "workspace": "Workspace",
-        "proyect": "Proyect",
+        "proyect": "Project",
         "sprint": "Sprint",
         "input": "Input",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
