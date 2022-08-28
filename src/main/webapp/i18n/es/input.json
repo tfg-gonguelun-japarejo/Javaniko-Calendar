@@ -20,7 +20,7 @@
       "id": "ID",
       "comment": "Comentario",
       "feelings": "Estado de ánimo",
-      "inputDate": "Fecha de inputación",
+      "inputDate": "Fecha de imputación",
       "usuario": "Usuario",
       "proyect": {
         "select": "Selecciona un proyecto..."

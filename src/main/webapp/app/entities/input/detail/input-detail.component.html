@@ -20,7 +20,9 @@
         </dd>
         <dt><span jhiTranslate="javanikoCalendarApp.input.feelings">Feelings</span></dt>
         <dd>
-          <span>{{ input.feelings }}</span>
+          <span *ngIf="input.feelings === 0">☹</span>
+          <span *ngIf="input.feelings === 5">😐</span>
+          <span *ngIf="input.feelings === 10">😁</span>
         </dd>
         <dt><span jhiTranslate="javanikoCalendarApp.input.inputDate">Input Date</span></dt>
         <dd>
