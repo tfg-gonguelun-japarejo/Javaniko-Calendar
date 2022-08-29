@@ -24,7 +24,7 @@ export class SprintComponent implements OnInit {
   usuario?: Usuario | null;
   proyects?: IProyect[] | null;
   aux?: ISprint[];
-  emptyProyects = false;
+  emptySprints = false;
   sprintDuplicate = false;
   faCheckSquare = faCheckSquare;
   isLoading = false;
@@ -81,6 +81,10 @@ export class SprintComponent implements OnInit {
   getGithubProyectsByUser(usuario: Usuario): any {
     this.proyectService.findProyectsByUsuarioId(usuario.id!).subscribe(proyects => {
       this.proyects = proyects.body;
+      if (this.proyects!.length === 0) {
+        this.emptySprints = true;
+        this.previousState();
+      }
       this.proyects!.forEach(proyect => {
         this.getGithubSprintsByProyect(proyect);
       });
@@ -93,7 +97,7 @@ export class SprintComponent implements OnInit {
       .pipe(
         tap(sprints => {
           if (sprints.length === 0) {
-            this.emptyProyects = true;
+            this.emptySprints = true;
           }
         }),
         map(sprints =>

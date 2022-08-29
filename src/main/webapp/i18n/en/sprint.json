@@ -24,7 +24,8 @@
       "status": "Status",
       "description": "Description",
       "proyect": "Project",
-      "confirmGithub": "Confirm import of sprints"
+      "confirmGithub": "Confirm import of sprints",
+      "emptySprints": "No sprints found for this Github user"
     }
   }
 }

@@ -24,7 +24,8 @@
       "status": "Estado",
       "description": "Descripción",
       "proyect": "Project",
-      "confirmGithub": "Confirmar importación de sprints"
+      "confirmGithub": "Confirmar importación de sprints",
+      "emptySprints": "No se han encontrado sprints para este usuario de Github"
     }
   }
 }

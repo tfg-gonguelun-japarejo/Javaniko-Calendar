@@ -99,6 +99,10 @@ export class ProyectComponent implements OnInit {
   getGithubWorkspacesByUser(usuario: Usuario): any {
     this.workspaceService.findWorkspacesByUsuarioId(usuario.id!).subscribe(workspaces => {
       this.workspaces = workspaces.body;
+      if (this.workspaces!.length === 0) {
+        this.emptyProyects = true;
+        this.previousState();
+      }
       this.workspaces!.forEach(workspace => {
         this.getGithubProyectsByOrg(workspace);
       });

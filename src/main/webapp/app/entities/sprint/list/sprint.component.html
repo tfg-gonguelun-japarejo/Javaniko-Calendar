@@ -33,6 +33,10 @@
     <span jhiTranslate="javanikoCalendarApp.sprint.home.notFound">No sprints found</span>
   </div>
 
+  <div class="alert alert-warning" id="empty-proyects" *ngIf="emptySprints">
+    <span jhiTranslate="javanikoCalendarApp.sprint.emptySprints">No sprints found</span>
+  </div>
+
   <div class="table-responsive" id="entities" *ngIf="sprints && sprints.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
