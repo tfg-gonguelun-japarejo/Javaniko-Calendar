@@ -26,6 +26,9 @@
       "proyect": "Project",
       "confirmGithub": "Confirmar importación de sprints",
       "emptySprints": "No se han encontrado sprints para este usuario de Github"
+    },
+    "error": {
+      "Descripción": "Error en el campo 'Descripción': el tamaño debe estar entre 20 y 2147483647"
     }
   }
 }

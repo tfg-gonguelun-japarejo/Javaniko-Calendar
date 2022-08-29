@@ -35,6 +35,7 @@ public class Sprint implements Serializable {
     private Status status;
 
     @NotNull
+    @Size(min = 20)
     @Column(name = "description", nullable = false)
     private String description;
 
