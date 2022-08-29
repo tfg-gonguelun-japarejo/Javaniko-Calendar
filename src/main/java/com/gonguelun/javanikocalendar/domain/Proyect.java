@@ -26,6 +26,7 @@ public class Proyect implements Serializable {
     private String name;
 
     @NotNull
+    @Size(min = 20)
     @Column(name = "description", nullable = false)
     private String description;
 

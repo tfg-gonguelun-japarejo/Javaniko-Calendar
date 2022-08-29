@@ -28,6 +28,9 @@
       "emptyProyects": "No projects found for this Github user",
       "usuario": "Usuario",
       "confirmGithub": "Confirm import of projects"
+    },
+    "error": {
+      "Description": "Error on field 'Description': size should be between 20 and 2147483647"
     }
   }
 }

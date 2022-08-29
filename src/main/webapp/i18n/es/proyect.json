@@ -28,6 +28,9 @@
       "emptyProyects": "No se han encontrado proyectos para este usuario de Github",
       "usuario": "Usuario",
       "confirmGithub": "Confirmar importación de projects"
+    },
+    "error": {
+      "Descripción": "Error en el campo 'Descripción': el tamaño debe estar entre 20 y 2147483647"
     }
   }
 }
